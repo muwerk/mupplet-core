@@ -18,7 +18,7 @@ use a state-machine or interrupt handlers, and give back control to the muwerk s
 world. Compose using messages and functional interfaces with light coupling that do not impose object hierarchies on the programs that use a mupplet.
 * If your mupplet exposes an API, make sure that the same functionality is accessible via pub/sub messages.
 * Mupplets compose with pub/sub messages. If a mupplet uses functionality of another
-Mupplet, they should use pub/sub messages. Example: a CO2 sensors requires the current
+Mupplet, they should use pub/sub messages. Example: a CO2 sensor-mupplet requires the current
 temperature for calibration: the CO2 mupplet would subscribe to the messages a temperature
 mupplet would publish. A major advantage of this type of light coupling via messages is
 that the temperature mupplet could run on a different hardware: an MQTT server and munet
