@@ -1,0 +1,36 @@
+{
+    "name": "mupplet-core",
+    "keywords": "hardware gpio led",
+    "description": "A collection of hardware applets for the muwerk scheduler",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/muwerk/munet.git"
+    },
+    "authors": [
+        {
+            "name": "Dominik Schlösser",
+            "email": "dsc@dosc.net",
+            "maintainer": true
+        },
+        {
+            "name": "Leo Moll",
+            "email": "leo@yeasoft.com",
+            "maintainer": true
+        }
+    ],
+    "dependencies": [
+        {
+            "name": "ustd",
+            "authors": "Dominik Schlösser, Leo Moll",
+            "frameworks": "arduino"
+        },
+        {
+            "name": "muwerk",
+            "authors": "Dominik Schlösser, Leo Moll",
+            "frameworks": "arduino"
+        }
+    ],
+    "version": "0.1.0",
+    "frameworks": "arduino",
+    "platforms": "*"
+}
