@@ -82,6 +82,13 @@ class MyMupplet {
     void loop() {
         // Implement the main functionality here.
         // Avoid blocking or polling as much as possible.
+        
+        // calculation... [state-machine]
+        
+        // We got a result, lets publish!
+        pSched->publish(name+"/state", "Some data here");
+        // Other instances that have subscribed to <name>/state will receive
+        // "Some data here"
     }
 
     // subsMsg is called by the scheduler, if a message that has been 
