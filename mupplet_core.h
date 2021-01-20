@@ -1,4 +1,4 @@
-// mupplet-core.h - muwerk mupplet core library
+// mupplet_core.h - muwerk mupplet core library
 
 #pragma once
 
