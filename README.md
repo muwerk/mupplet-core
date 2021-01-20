@@ -70,9 +70,8 @@ class MyMupplet {
 
         // Initialize the worker "thread":
         auto loopfunc = [=]() { this->loop(); };
-        tID = pSched->add(loopfunc, name, 100000);  // Scheduler will now call
-                                                    // loop() every 100ms. 
-                                                    // (100000us)
+        int tID = pSched->add(loopfunc, name, 100000);  
+        // Scheduler will now call loop() every 100ms (100000us).
 
         // Subscribe to one or more topics to expose the mupplet's 
         // functionality
