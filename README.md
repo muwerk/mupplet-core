@@ -29,13 +29,13 @@ class MyMupplet {
   public:
     String name;
     uint8_t addr;  // some hardware address that cannot change
-    Scheduler *pSched;  // pointer to muwerk scheduler object, used to start tasks
-                        // and to pub/sub messages;
-    bool bActive=false; // set to true if conditions for operation are met (e.g.
-                        // hardware found and initialized.)
+    Scheduler *pSched;  // pointer to muwerk scheduler object, used to start 
+                        // tasks and to pub/sub messages;
+    bool bActive=false; // set to true if conditions for operation are met 
+                        // (e.g. hardware found and initialized.)
     void MyMupplet(String name): name(name), addr(addr) {
-        // Minimal code in constructor, just save invariants like the mupplet's name
-        // and immutable hardware parameters.
+        // Minimal code in constructor, just save invariants like the mupplet's
+        // name and immutable hardware parameters.
     }
 
     void begin(Scheduler *_pSched) {
@@ -49,9 +49,11 @@ class MyMupplet {
         // Initialize the worker "thread":
         auto loopfunc = [=]() { this->loop(); };
         tID = pSched->add(loopfunc, name, 100000);  // Scheduler will now call
-                                                    // loop() every 100ms. (100000us)
+                                                    // loop() every 100ms. 
+                                                    // (100000us)
 
-        // Subscribe to one or more topics to expose the mupplet's functionality
+        // Subscribe to one or more topics to expose the mupplet's 
+        // functionality
         auto fnall = [=](String topic, String msg, String originator) {
             this->subsMsg(topic, msg, originator);
         };
@@ -64,11 +66,11 @@ class MyMupplet {
         // Avoid blocking or polling as much as possible.
     }
 
-    // subsMsg is called by the scheduler, if a message that has been subscribed
-    // is available
+    // subsMsg is called by the scheduler, if a message that has been 
+    // subscribed is available
     void subsMsg(String topic, String msg, String originator) {
-        // A message with topic topic and content msg has been received from
-        // muwerk process with name originator.
+        // A message with topic topic and content msg has been received
+        // from muwerk process with name originator.
     }
 
 }; // MyMupplet
