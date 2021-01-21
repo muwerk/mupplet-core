@@ -14,6 +14,35 @@ Supported modes are: on/off (mode: Passive), brightness (mode: Passive, with PWM
 wave (soft oszillation, mode: Wave), one-time pulse (mode: Pulse),
 and repeating, user-selectable patterns (mode: Pattern).
 
+## Messages
+
+Messages sent by led mupplet:
+
+### Messages sent by led mupplet:
+
+| topic | message body | comment
+| ----- | ------------ | -------
+| `<mupplet-name>/light/unitbrightness` | normalized brightness [0.0-1.0] | `0.34`: Float value
+encoded as string. Not send on automatic changes (e.g. pulse mode) | `<mupplet-name>/light/state` |
+`on` or `off` | current led state (`on` is not sent on pwm intermediate values)
+
+### Message received by led mupplet:
+
+| topic | message body | comment
+| ----- | ------------ | -------
+| `<mupplet-name>/light/set` | `on`, `off`, `true`, `false`, `pct 34`, `34%`, `0.34` | Led can be
+set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval
+[0.0, 1.0]) can be sent as either `pct 34`, or `0.34`, or `34%`. | `<mupplet-name>/light/mode/set` |
+`passive`, `pulse <duration_ms>`, `blink <intervall_ms>[,<phase-shift>]`, `pattern
+<pattern>[,<intervall>[,<phase>]]` or `wave <intervall_ms>[,<phase-shift>]` | Mode passive does no
+automatic led state changes, `pulse` switches the led on for `<duration_ms>` ms, then led goes back
+to passive mode. `blink` changes the led state very `interval_ms` on/off, `wave` uses pwm to for
+soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added
+as a phase-shift. Two leds, one with `wave 1000` and one with `wave 1000,0.5` blink inverse.
+Patterns can be specified as string containing `+`,`-`,`0`..`9` or `r`. `+` is led on during
+`<intervall>` ms, `-` is off, `0`..`9` brightness-level. An `r` at the end of the pattern repeats
+the pattern. `"pattern +-+-+-+++-+++-+++-+-+-+---r,100"` lets the board signal SOS.
+
 ## Sample Led Integration
 
 \code{cpp}
@@ -191,6 +220,8 @@ class Led {
   public:
     void set(bool state) {
         /*! Set led to a given logical state.
+
+        This sends out a <mupplet-name>/light/state
 
         @param state true=on, false=off.
         */
