@@ -12,6 +12,8 @@ mupplet-core
 
 The `mupplet-core` library consists of the following modules:
 
+<img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" align="right" width="10%" height="10%">
+
 * [`Led`](https://muwerk.github.io/mupplet-core/docs/classustd_1_1Led.html) The led mupplet allows to control a led or light's state, brightness using modes such as user-controlled, blink, soft-wave, one-time pulse and automatic pattern playback. See [Led application notes](https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md) for an example and more information.
 
 Development and Design considerations
