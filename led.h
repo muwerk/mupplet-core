@@ -5,6 +5,7 @@
 #include "mupplet_core.h"
 
 namespace ustd {
+// clang-format off
 /*! \brief mupplet-core Led class
 
 The Led class allows control of standard Leds (or lights) with
@@ -22,26 +23,15 @@ Messages sent by led mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
-| `<mupplet-name>/light/unitbrightness` | normalized brightness [0.0-1.0] | `0.34`: Float value
-encoded as string. Not send on automatic changes (e.g. pulse mode) | `<mupplet-name>/light/state` |
-`on` or `off` | current led state (`on` is not sent on pwm intermediate values)
+| `<mupplet-name>/light/unitbrightness` | normalized brightness [0.0-1.0] | `0.34`: Float value encoded as string. Not send on automatic changes (e.g. pulse mode) 
+| `<mupplet-name>/light/state` | `on` or `off` | current led state (`on` is not sent on pwm intermediate values)
 
 ### Message received by led mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
-| `<mupplet-name>/light/set` | `on`, `off`, `true`, `false`, `pct 34`, `34%`, `0.34` | Led can be
-set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval
-[0.0, 1.0]) can be sent as either `pct 34`, or `0.34`, or `34%`. | `<mupplet-name>/light/mode/set` |
-`passive`, `pulse <duration_ms>`, `blink <intervall_ms>[,<phase-shift>]`, `pattern
-<pattern>[,<intervall>[,<phase>]]` or `wave <intervall_ms>[,<phase-shift>]` | Mode passive does no
-automatic led state changes, `pulse` switches the led on for `<duration_ms>` ms, then led goes back
-to passive mode. `blink` changes the led state very `interval_ms` on/off, `wave` uses pwm to for
-soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added
-as a phase-shift. Two leds, one with `wave 1000` and one with `wave 1000,0.5` blink inverse.
-Patterns can be specified as string containing `+`,`-`,`0`..`9` or `r`. `+` is led on during
-`<intervall>` ms, `-` is off, `0`..`9` brightness-level. An `r` at the end of the pattern repeats
-the pattern. `"pattern +-+-+-+++-+++-+++-+-+-+---r,100"` lets the board signal SOS.
+| `<mupplet-name>/light/set` | `on`, `off`, `true`, `false`, `pct 34`, `34%`, `0.34` | Led can be set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval [0.0, 1.0]) can be sent as either `pct 34`, or `0.34`, or `34%`. 
+| `<mupplet-name>/light/mode/set` | `passive`, `pulse <duration_ms>`, `blink <intervall_ms>[,<phase-shift>]`, `pattern <pattern>[,<intervall>[,<phase>]]` or `wave <intervall_ms>[,<phase-shift>]` | Mode passive does no automatic led state changes, `pulse` switches the led on for `<duration_ms>` ms, then led goes back to passive mode. `blink` changes the led state very `interval_ms` on/off, `wave` uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with `wave 1000` and one with `wave 1000,0.5` blink inverse. Patterns can be specified as string containing `+`,`-`,`0`..`9` or `r`. `+` is led on during `<intervall>` ms, `-` is off, `0`..`9` brightness-level. An `r` at the end of the pattern repeats the pattern. `"pattern +-+-+-+++-+++-+++-+-+-+---r,100"` lets the board signal SOS.
 
 ## Sample Led Integration
 
@@ -61,6 +51,8 @@ More information:
 <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md">Led application
 notes</a>
 */
+// clang-format on
+
 class Led {
   public:
     const char *version = "0.1.0";
@@ -119,25 +111,15 @@ class Led {
     }
 
     void begin(Scheduler *_pSched, bool initialState = false) {
+        // clang-format off
         /*! Initialize led hardware and start operation
 
         The mupplet listens for the following messages:
 
         | topic | message body | comment
         | ----- | ------------ | -------
-        | `<mupplet-name>/light/set` | `on`, `off`, `true`, `false`, `pct 34`, `34%`, `0.34` | Led
-        can be set fully on or off with on/true and off/false. A fractional brightness of 0.34
-        (within interval [0.0, 1.0]) can be sent as either `pct 34`, or `0.34`, or `34%`. |
-        `<mupplet-name>/light/mode/set` | `passive`, `pulse <duration_ms>`, `blink
-        <intervall_ms>[,<phase-shift>]`, `pattern <pattern>[,<intervall>[,<phase>]]` or `wave
-        <intervall_ms>[,<phase-shift>]` | Mode passive does no automatic led state changes, `pulse`
-        switches the led on for `<duration_ms>` ms, then led goes back to passive mode. `blink`
-        changes the led state very `interval_ms` on/off, `wave` uses pwm to for soft changes between
-        on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a
-        phase-shift. Two leds, one with `wave 1000` and one with `wave 1000,0.5` blink inverse.
-        Patterns can be specified as string containing `+`,`-`,`0`..`9` or `r`. `+` is led on during
-        `<intervall>` ms, `-` is off, `0`..`9` brightness-level. An `r` at the end of the pattern
-        repeats the pattern. `"pattern +-+-+-+++-+++-+++-+-+-+---r,100"` lets the board signal SOS.
+        | `<mupplet-name>/light/set` | `on`, `off`, `true`, `false`, `pct 34`, `34%`, `0.34` | Led can be set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval [0.0, 1.0]) can be sent as either `pct 34`, or `0.34`, or `34%`. 
+        | `<mupplet-name>/light/mode/set` | `passive`, `pulse <duration_ms>`, `blink <intervall_ms>[,<phase-shift>]`, `pattern <pattern>[,<intervall>[,<phase>]]` or `wave <intervall_ms>[,<phase-shift>]` | Mode passive does no automatic led state changes, `pulse` switches the led on for `<duration_ms>` ms, then led goes back to passive mode. `blink` changes the led state very `interval_ms` on/off, `wave` uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with `wave 1000` and one with `wave 1000,0.5` blink inverse. Patterns can be specified as string containing `+`,`-`,`0`..`9` or `r`. `+` is led on during `<intervall>` ms, `-` is off, `0`..`9` brightness-level. An `r` at the end of the pattern repeats the pattern. `"pattern +-+-+-+++-+++-+++-+-+-+---r,100"` lets the board signal SOS.
 
         @param _pSched Pointer to a muwerk scheduler object, used to create worker
                        tasks and for message pub/sub.
@@ -147,6 +129,7 @@ class Led {
                             required to switch the led on, is defined by the constructor's
                             activeLogic parameter.
         */
+        // clang-format on
         pSched = _pSched;
 #if defined(__ESP32__)
         pinMode(port, OUTPUT);
@@ -237,19 +220,19 @@ class Led {
 
   public:
     void set(bool state) {
+        // clang-format off
         /*! Set led to a given logical state.
 
         The mupplet sends the following messages on state change:
 
         | topic | message body | comment
         | ----- | ------------ | -------
-        | `<mupplet-name>/light/unitbrightness` | normalized brightness [0.0-1.0] | `0.34`: Float
-        value encoded as string. Not send on automatic changes (e.g. pulse mode) |
-        `<mupplet-name>/light/state` | `on` or `off` | current led state (`on` is not sent on pwm
-        intermediate values)
+        | `<mupplet-name>/light/unitbrightness` | normalized brightness [0.0-1.0] | `0.34`: Float value encoded as string. Not send on automatic changes (e.g. pulse mode) 
+        | `<mupplet-name>/light/state` | `on` or `off` | current led state (`on` is not sent on pwm intermediate values)
 
         @param state true=on, false=off.
         */
+        // clang-format on
         set(state, false);
     }
 
