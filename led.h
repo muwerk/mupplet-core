@@ -214,7 +214,8 @@ class Led {
         set(state, false);
     }
 
-    void setMode(Mode _mode, unsigned int interval_ms = 1000, double phase_unit = 0.0) {
+    void setMode(Mode _mode, unsigned int interval_ms = 1000, double phase_unit = 0.0,
+                 String pattern) {
         /*! Set led mode to given \ref Mode
 
         @param _mode Led \ref Mode
@@ -224,6 +225,12 @@ class Led {
                           phase-difference is in [0.0-1.0]. A phase difference of 0.5
                           (180 degrees) between two leds would let leds blink
                           reversed.
+        @param pattern Only in Mode::Pattern: a pattern string consisting of the
+                       characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or
+                       at the end of the string 'r' for endless repeat. Intervall_ms is
+                       the time for each pattern step. Example "++-r" with intervall_ms=100
+                       lights the led for 200ms on, 100ms off and repeats. "1---------r" makes
+                       a faint 100ms flash every second. "0135797531r" simulates a PWM wave.
         */
         mode = _mode;
         if (mode == Mode::Passive)
@@ -241,6 +248,10 @@ class Led {
         startPulse = millis();
         uPhase = (unsigned long)(2.0 * (double)interval * phase);
         oPeriod = (millis() + uPhase) % interval;
+        if (mode == Mode::Pattern) {
+            Pattern = pattern;
+            patternPointer = 0;
+        }
     }
 
   private:
@@ -409,12 +420,11 @@ class Led {
             } else if (!strcmp(msgbuf, "pattern")) {
                 if (p && strlen(p) > 0) {
                     pattern = String(p);
-                    patternPointer = 0;
                     if (p2)
                         t = atoi(p2);
                     if (p3)
                         phs = atof(p3);
-                    setMode(Mode::Pattern, t, phs);
+                    setMode(Mode::Pattern, t, phs, pattern);
                 }
             }
         }
