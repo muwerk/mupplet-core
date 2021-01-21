@@ -101,8 +101,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:adad791241c467d74d69d90bfcb4e8eb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae76a09bcd774f39aa8c7f797b3a1fba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#aae76a09bcd774f39aa8c7f797b3a1fba">set</a> (bool state)</td></tr>
 <tr class="separator:aae76a09bcd774f39aa8c7f797b3a1fba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a9501bc37bc3e138883a251f24d7c7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">setMode</a> (<a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> _mode, unsigned int interval_ms=1000, double phase_unit=0.0, String pattern)</td></tr>
-<tr class="separator:a7a9501bc37bc3e138883a251f24d7c7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46086548c619f3bd2855a4c3932109cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">setMode</a> (<a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> _mode, unsigned int interval_ms=1000, double phase_unit=0.0, String _pattern=&quot;&quot;)</td></tr>
+<tr class="separator:a46086548c619f3bd2855a4c3932109cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa03d0a8606c75c63695290387743caca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#aa03d0a8606c75c63695290387743caca">brightness</a> (double bright)</td></tr>
+<tr class="separator:aa03d0a8606c75c63695290387743caca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>mupplet-core <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> class </p>
@@ -251,6 +253,39 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aa03d0a8606c75c63695290387743caca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa03d0a8606c75c63695290387743caca">&#9670;&nbsp;</a></span>brightness()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ustd::Led::brightness </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>bright</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set led brighness level using PWM</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bright</td><td>brightness level [0.0 (off) - 1.0 (on)]</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aae76a09bcd774f39aa8c7f797b3a1fba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aae76a09bcd774f39aa8c7f797b3a1fba">&#9670;&nbsp;</a></span>set()</h2>
 
@@ -284,8 +319,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a7a9501bc37bc3e138883a251f24d7c7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a9501bc37bc3e138883a251f24d7c7a">&#9670;&nbsp;</a></span>setMode()</h2>
+<a id="a46086548c619f3bd2855a4c3932109cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46086548c619f3bd2855a4c3932109cd">&#9670;&nbsp;</a></span>setMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -315,7 +350,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>pattern</em>&#160;</td>
+          <td class="paramname"><em>_pattern</em> = <code>&quot;&quot;</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -334,8 +369,8 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">_mode</td><td><a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> <a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> </td></tr>
     <tr><td class="paramname">interval_ms</td><td>Duration of blink in Mode::Blink or pulse duration. </td></tr>
-    <tr><td class="paramname">phase_unit</td><td>Phase difference used to synchronize different leds in Wave or blink mode. A phase_unit of 0 synchronizes thes given leds. phase-difference is in [0.0-1.0]. A phase difference of 0.5 (180 degrees) between two leds would let leds blink reversed. </td></tr>
-    <tr><td class="paramname">pattern</td><td>Only in Mode::Pattern: a pattern string consisting of the characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or at the end of the string 'r' for endless repeat. Intervall_ms is the time for each pattern step. Example "++-r" with intervall_ms=100 lights the led for 200ms on, 100ms off and repeats. "1---------r" makes a faint 100ms flash every second. "0135797531r" simulates a PWM wave.</td></tr>
+    <tr><td class="paramname">phase_unit</td><td>Phase difference used to synchronize different leds in Wave or blink mode. A phase_unit of 0 synchronizes the given leds. phase-difference is in [0.0-1.0]. A phase difference of 0.5 (180 degrees) between two leds would let leds blink reversed. </td></tr>
+    <tr><td class="paramname">_pattern</td><td>Only in Mode::Pattern: a pattern string consisting of the characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or at the end of the string 'r' for endless repeat. Intervall_ms is the time for each pattern step. Example "++-r" with intervall_ms=100 lights the led for 200ms on, 100ms off and repeats. "1---------r" makes a faint 100ms flash every second. "0135797531r" simulates a PWM wave.</td></tr>
   </table>
   </dd>
 </dl>

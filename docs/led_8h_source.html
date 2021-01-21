@@ -70,7 +70,7 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;scheduler.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;mup_util.h&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;mupplet_core.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">/* XXX to be clarified:</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">#include &quot;home_assistant.h&quot;</span></div>
@@ -79,7 +79,7 @@ $(function() {
 <div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="namespaceustd.html">   11</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceustd.html">ustd</a> {</div>
 <div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classustd_1_1Led.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="classustd_1_1Led.html">Led</a> {</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    String LED_VERSION = <span class="stringliteral">&quot;0.1.0&quot;</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *version = <span class="stringliteral">&quot;0.1.0&quot;</span>;</div>
 <div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">   42</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> {</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba5b2aacbd073ef57f8fac479fd324148c">Passive</a>, </div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <a class="code" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba2027274916efb784b9581171957f1a47">Blink</a>,   </div>
@@ -226,8 +226,8 @@ $(function() {
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        set(state, <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    }</div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno"><a class="line" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">  221</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">setMode</a>(<a class="code" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> _mode, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> interval_ms = 1000, <span class="keywordtype">double</span> phase_unit = 0.0,</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                 String pattern) {</div>
+<div class="line"><a name="l00221"></a><span class="lineno"><a class="line" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">  221</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">setMode</a>(<a class="code" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> _mode, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> interval_ms = 1000, <span class="keywordtype">double</span> phase_unit = 0.0,</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                 String _pattern = <span class="stringliteral">&quot;&quot;</span>) {</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        mode = _mode;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Passive)</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            <span class="keywordflow">return</span>;</div>
@@ -245,7 +245,7 @@ $(function() {
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        uPhase = (<span class="keywordtype">unsigned</span> long)(2.0 * (<span class="keywordtype">double</span>)interval * phase);</div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        oPeriod = (millis() + uPhase) % interval;</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Pattern) {</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            <a class="code" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba062b8daa1a4eb2ab00530ee6f1a52586">Pattern</a> = pattern;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            pattern = _pattern;</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            patternPointer = 0;</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        }</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    }</div>
@@ -264,7 +264,7 @@ $(function() {
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        pSched-&gt;publish(name + <span class="stringliteral">&quot;/light/unitbrightness&quot;</span>, buf);</div>
 <div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    }</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keywordtype">void</span> brightness(<span class="keywordtype">double</span> bright, <span class="keywordtype">bool</span> _automatic = <span class="keyword">false</span>) {</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keywordtype">void</span> brightness(<span class="keywordtype">double</span> bright, <span class="keywordtype">bool</span> _automatic) {</div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        uint16_t bri;</div>
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        <span class="keywordflow">if</span> (!_automatic)</div>
@@ -301,136 +301,135 @@ $(function() {
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    }</div>
 <div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160; </div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="keywordtype">void</span> brightness(<span class="keywordtype">double</span> bright) {</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        brightness(bright, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    }</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160; </div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <span class="keywordtype">void</span> loop() {</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Passive)</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> period = (millis() + uPhase) % (2 * interval);</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Pulse) {</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;            <span class="keywordflow">if</span> (millis() - startPulse &lt; interval) {</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                set(<span class="keyword">true</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                set(<span class="keyword">false</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                <a class="code" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">setMode</a>(Mode::Passive);</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;            }</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        }</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Blink) {</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            <span class="keywordflow">if</span> (period &lt; oPeriod) {</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                set(<span class="keyword">false</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                <span class="keywordflow">if</span> (period &gt; interval &amp;&amp; oPeriod &lt; interval) {</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                    set(<span class="keyword">true</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                }</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            }</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        }</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Wave) {</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> period = (millis() + uPhase) % (2 * interval);</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;            <span class="keywordtype">double</span> br = 0.0;</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;            <span class="keywordflow">if</span> (period &lt; interval) {</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                br = (double)period / (<span class="keywordtype">double</span>)interval;</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                br = (double)(2 * interval - period) / (double)interval;</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;            }</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;            brightness(br, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        }</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Pattern) {</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;            <span class="keywordflow">if</span> (period &lt; oPeriod) {</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                <span class="keywordflow">if</span> (patternPointer &lt; pattern.length()) {</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                    <span class="keywordtype">char</span> c = pattern[patternPointer];</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                    <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;r&#39;</span>) {</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                        patternPointer = 0;</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                        c = pattern[patternPointer];</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;                    }</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                    <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;+&#39;</span>) {</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                        set(<span class="keyword">true</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                    }</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                    <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;-&#39;</span>) {</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                        set(<span class="keyword">false</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                    }</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                    <span class="keywordflow">if</span> (c &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; c &lt;= <span class="charliteral">&#39;9&#39;</span>) {</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;                        <span class="keywordtype">double</span> br = (double)(c - <span class="charliteral">&#39;0&#39;</span>) * 0.1111;</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;                        brightness(br, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00312"></a><span class="lineno"><a class="line" href="classustd_1_1Led.html#aa03d0a8606c75c63695290387743caca">  312</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classustd_1_1Led.html#aa03d0a8606c75c63695290387743caca">brightness</a>(<span class="keywordtype">double</span> bright) {</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        brightness(bright, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    }</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="keywordtype">void</span> loop() {</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Passive)</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> period = (millis() + uPhase) % (2 * interval);</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Pulse) {</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            <span class="keywordflow">if</span> (millis() - startPulse &lt; interval) {</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                set(<span class="keyword">true</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                set(<span class="keyword">false</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                <a class="code" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">setMode</a>(Mode::Passive);</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            }</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        }</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Blink) {</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;            <span class="keywordflow">if</span> (period &lt; oPeriod) {</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                set(<span class="keyword">false</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                <span class="keywordflow">if</span> (period &gt; interval &amp;&amp; oPeriod &lt; interval) {</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                    set(<span class="keyword">true</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;                }</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;            }</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        }</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Wave) {</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> period = (millis() + uPhase) % (2 * interval);</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;            <span class="keywordtype">double</span> br = 0.0;</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;            <span class="keywordflow">if</span> (period &lt; interval) {</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                br = (double)period / (<span class="keywordtype">double</span>)interval;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                br = (double)(2 * interval - period) / (double)interval;</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;            }</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;            brightness(br, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        }</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="keywordflow">if</span> (mode == Mode::Pattern) {</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;            <span class="keywordflow">if</span> (period &lt; oPeriod) {</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                <span class="keywordflow">if</span> (patternPointer &lt; pattern.length()) {</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;                    <span class="keywordtype">char</span> c = pattern[patternPointer];</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                    <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;r&#39;</span>) {</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                        patternPointer = 0;</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                        c = pattern[patternPointer];</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                    }</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                    <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;+&#39;</span>) {</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                        set(<span class="keyword">true</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                    }</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;                    <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;-&#39;</span>) {</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;                        set(<span class="keyword">false</span>, <span class="keyword">true</span>);</div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;                    }</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;                    ++patternPointer;</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;                    patternPointer = 0;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;                    set(<span class="keyword">false</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                    <a class="code" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">setMode</a>(Mode::Passive);</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                }</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;            }</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        }</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        oPeriod = period;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    }</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="keywordtype">void</span> subsMsg(String topic, String msg, String originator) {</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        <span class="keywordtype">char</span> msgbuf[128];</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        memset(msgbuf, 0, 128);</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        strncpy(msgbuf, msg.c_str(), 127);</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        <span class="keywordflow">if</span> (topic == name + <span class="stringliteral">&quot;/light/set&quot;</span>) {</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            <span class="keywordtype">double</span> br;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            br = parseUnitLevel(msg);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;            brightness(br);</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        }</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="keywordflow">if</span> (topic == name + <span class="stringliteral">&quot;/light/mode/set&quot;</span>) {</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            <span class="keywordtype">char</span> *p = strchr(msgbuf, <span class="charliteral">&#39; &#39;</span>);</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            <span class="keywordtype">char</span> *p2 = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            <span class="keywordtype">char</span> *p3 = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;            <span class="keywordflow">if</span> (p) {</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;                *p = 0;</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                ++p;</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                p2 = strchr(p, <span class="charliteral">&#39;,&#39;</span>);</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                <span class="keywordflow">if</span> (p2) {</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                    *p2 = 0;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;                    ++p2;</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;                    p3 = strchr(p2, <span class="charliteral">&#39;,&#39;</span>);</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                    <span class="keywordflow">if</span> (p3) {</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                        *p3 = 0;</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                        ++p3;</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;                    }</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;                }</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            }</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;            <span class="keywordtype">int</span> t = 1000;</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            <span class="keywordtype">double</span> phs = 0.0;</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;            <span class="keywordflow">if</span> (!strcmp(msgbuf, <span class="stringliteral">&quot;passive&quot;</span>)) {</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                <a class="code" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">setMode</a>(Mode::Passive);</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(msgbuf, <span class="stringliteral">&quot;pulse&quot;</span>)) {</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                <span class="keywordflow">if</span> (p)</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                    t = atoi(p);</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                <a class="code" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">setMode</a>(Mode::Pulse, t);</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(msgbuf, <span class="stringliteral">&quot;blink&quot;</span>)) {</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;                    <span class="keywordflow">if</span> (c &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; c &lt;= <span class="charliteral">&#39;9&#39;</span>) {</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;                        <span class="keywordtype">double</span> br = (double)(c - <span class="charliteral">&#39;0&#39;</span>) * 0.1111;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;                        brightness(br, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;                    }</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                    ++patternPointer;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                    patternPointer = 0;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                    set(<span class="keyword">false</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                    <a class="code" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">setMode</a>(Mode::Passive);</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                }</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;            }</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        }</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        oPeriod = period;</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    }</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    <span class="keywordtype">void</span> subsMsg(String topic, String msg, String originator) {</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keywordtype">char</span> msgbuf[128];</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        memset(msgbuf, 0, 128);</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        strncpy(msgbuf, msg.c_str(), 127);</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        <span class="keywordflow">if</span> (topic == name + <span class="stringliteral">&quot;/light/set&quot;</span>) {</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            <span class="keywordtype">double</span> br;</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            br = parseUnitLevel(msg);</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            brightness(br);</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        }</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="keywordflow">if</span> (topic == name + <span class="stringliteral">&quot;/light/mode/set&quot;</span>) {</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            <span class="keywordtype">char</span> *p = strchr(msgbuf, <span class="charliteral">&#39; &#39;</span>);</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;            <span class="keywordtype">char</span> *p2 = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            <span class="keywordtype">char</span> *p3 = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;            <span class="keywordflow">if</span> (p) {</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                *p = 0;</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;                ++p;</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;                p2 = strchr(p, <span class="charliteral">&#39;,&#39;</span>);</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                <span class="keywordflow">if</span> (p2) {</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                    *p2 = 0;</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                    ++p2;</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;                    p3 = strchr(p2, <span class="charliteral">&#39;,&#39;</span>);</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;                    <span class="keywordflow">if</span> (p3) {</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;                        *p3 = 0;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                        ++p3;</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                    }</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                }</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;            }</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            <span class="keywordtype">int</span> t = 1000;</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;            <span class="keywordtype">double</span> phs = 0.0;</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;            <span class="keywordflow">if</span> (!strcmp(msgbuf, <span class="stringliteral">&quot;passive&quot;</span>)) {</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                <a class="code" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">setMode</a>(Mode::Passive);</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(msgbuf, <span class="stringliteral">&quot;pulse&quot;</span>)) {</div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                <span class="keywordflow">if</span> (p)</div>
 <div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                    t = atoi(p);</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                <span class="keywordflow">if</span> (p2)</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                    phs = atof(p2);</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                <a class="code" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">setMode</a>(Mode::Blink, t, phs);</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(msgbuf, <span class="stringliteral">&quot;wave&quot;</span>)) {</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                <span class="keywordflow">if</span> (p)</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                    t = atoi(p);</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                <span class="keywordflow">if</span> (p2)</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                    phs = atof(p2);</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                <a class="code" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">setMode</a>(Mode::Wave, t, phs);</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(msgbuf, <span class="stringliteral">&quot;pattern&quot;</span>)) {</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                <span class="keywordflow">if</span> (p &amp;&amp; strlen(p) &gt; 0) {</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                    pattern = String(p);</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                    <span class="keywordflow">if</span> (p2)</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                        t = atoi(p2);</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;                    <span class="keywordflow">if</span> (p3)</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;                        phs = atof(p3);</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                    <a class="code" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">setMode</a>(Mode::Pattern, t, phs, pattern);</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;                }</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            }</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        }</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;        <span class="keywordflow">if</span> (topic == name + <span class="stringliteral">&quot;/light/unitbrightness/get&quot;</span>) {</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            publishState();</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                <a class="code" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">setMode</a>(Mode::Pulse, t);</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(msgbuf, <span class="stringliteral">&quot;blink&quot;</span>)) {</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                <span class="keywordflow">if</span> (p)</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;                    t = atoi(p);</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                <span class="keywordflow">if</span> (p2)</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                    phs = atof(p2);</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                <a class="code" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">setMode</a>(Mode::Blink, t, phs);</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(msgbuf, <span class="stringliteral">&quot;wave&quot;</span>)) {</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                <span class="keywordflow">if</span> (p)</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                    t = atoi(p);</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                <span class="keywordflow">if</span> (p2)</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                    phs = atof(p2);</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                <a class="code" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">setMode</a>(Mode::Wave, t, phs);</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(msgbuf, <span class="stringliteral">&quot;pattern&quot;</span>)) {</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;                <span class="keywordflow">if</span> (p &amp;&amp; strlen(p) &gt; 0) {</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;                    <span class="keywordflow">if</span> (p2)</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                        t = atoi(p2);</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;                    <span class="keywordflow">if</span> (p3)</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;                        phs = atof(p3);</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;                    <a class="code" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">setMode</a>(Mode::Pattern, t, phs, p);</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;                }</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            }</div>
 <div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        }</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;    };</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;};  <span class="comment">// Led</span></div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160; </div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;}  <span class="comment">// namespace ustd</span></div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        <span class="keywordflow">if</span> (topic == name + <span class="stringliteral">&quot;/light/unitbrightness/get&quot;</span>) {</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;            publishState();</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        }</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;    };</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;};  <span class="comment">// Led</span></div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160; </div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;}  <span class="comment">// namespace ustd</span></div>
 <div class="ttc" id="aclassustd_1_1Led_html"><div class="ttname"><a href="classustd_1_1Led.html">ustd::Led</a></div><div class="ttdoc">mupplet-core Led class</div><div class="ttdef"><b>Definition:</b> led.h:39</div></div>
 <div class="ttc" id="aclassustd_1_1Led_html_a01eaa5fbd8dbaad7bd14e4cf329e22eb"><div class="ttname"><a href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">ustd::Led::Mode</a></div><div class="ttdeci">Mode</div><div class="ttdef"><b>Definition:</b> led.h:42</div></div>
 <div class="ttc" id="aclassustd_1_1Led_html_a01eaa5fbd8dbaad7bd14e4cf329e22eba062b8daa1a4eb2ab00530ee6f1a52586"><div class="ttname"><a href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba062b8daa1a4eb2ab00530ee6f1a52586">ustd::Led::Pattern</a></div><div class="ttdeci">@ Pattern</div><div class="ttdef"><b>Definition:</b> led.h:49</div></div>
@@ -438,7 +437,8 @@ $(function() {
 <div class="ttc" id="aclassustd_1_1Led_html_a01eaa5fbd8dbaad7bd14e4cf329e22eba332211418be9023775e1c7ab06359732"><div class="ttname"><a href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba332211418be9023775e1c7ab06359732">ustd::Led::Pulse</a></div><div class="ttdeci">@ Pulse</div><div class="ttdef"><b>Definition:</b> led.h:48</div></div>
 <div class="ttc" id="aclassustd_1_1Led_html_a01eaa5fbd8dbaad7bd14e4cf329e22eba5b2aacbd073ef57f8fac479fd324148c"><div class="ttname"><a href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba5b2aacbd073ef57f8fac479fd324148c">ustd::Led::Passive</a></div><div class="ttdeci">@ Passive</div><div class="ttdef"><b>Definition:</b> led.h:43</div></div>
 <div class="ttc" id="aclassustd_1_1Led_html_a01eaa5fbd8dbaad7bd14e4cf329e22ebae69149047470d3ce621b3c92fc9f3274"><div class="ttname"><a href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22ebae69149047470d3ce621b3c92fc9f3274">ustd::Led::Wave</a></div><div class="ttdeci">@ Wave</div><div class="ttdef"><b>Definition:</b> led.h:47</div></div>
-<div class="ttc" id="aclassustd_1_1Led_html_a7a9501bc37bc3e138883a251f24d7c7a"><div class="ttname"><a href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">ustd::Led::setMode</a></div><div class="ttdeci">void setMode(Mode _mode, unsigned int interval_ms=1000, double phase_unit=0.0, String pattern)</div><div class="ttdef"><b>Definition:</b> led.h:221</div></div>
+<div class="ttc" id="aclassustd_1_1Led_html_a46086548c619f3bd2855a4c3932109cd"><div class="ttname"><a href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">ustd::Led::setMode</a></div><div class="ttdeci">void setMode(Mode _mode, unsigned int interval_ms=1000, double phase_unit=0.0, String _pattern=&quot;&quot;)</div><div class="ttdef"><b>Definition:</b> led.h:221</div></div>
+<div class="ttc" id="aclassustd_1_1Led_html_aa03d0a8606c75c63695290387743caca"><div class="ttname"><a href="classustd_1_1Led.html#aa03d0a8606c75c63695290387743caca">ustd::Led::brightness</a></div><div class="ttdeci">void brightness(double bright)</div><div class="ttdef"><b>Definition:</b> led.h:312</div></div>
 <div class="ttc" id="aclassustd_1_1Led_html_aae76a09bcd774f39aa8c7f797b3a1fba"><div class="ttname"><a href="classustd_1_1Led.html#aae76a09bcd774f39aa8c7f797b3a1fba">ustd::Led::set</a></div><div class="ttdeci">void set(bool state)</div><div class="ttdef"><b>Definition:</b> led.h:213</div></div>
 <div class="ttc" id="aclassustd_1_1Led_html_ac050ef0d3a7409e5608854e0b2ebf971"><div class="ttname"><a href="classustd_1_1Led.html#ac050ef0d3a7409e5608854e0b2ebf971">ustd::Led::Led</a></div><div class="ttdeci">Led(String name, uint8_t port, bool activeLogic=false, uint8_t channel=0)</div><div class="ttdef"><b>Definition:</b> led.h:78</div></div>
 <div class="ttc" id="aclassustd_1_1Led_html_adad791241c467d74d69d90bfcb4e8eb0"><div class="ttname"><a href="classustd_1_1Led.html#adad791241c467d74d69d90bfcb4e8eb0">ustd::Led::begin</a></div><div class="ttdeci">void begin(Scheduler *_pSched, bool initialState=false)</div><div class="ttdef"><b>Definition:</b> led.h:101</div></div>
