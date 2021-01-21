@@ -2,7 +2,7 @@
 #pragma once
 
 #include "scheduler.h"
-#include "mup_util.h"
+#include "mupplet_core.h"
 
 /* XXX to be clarified:
 #include "home_assistant.h"
@@ -38,7 +38,7 @@ notes</a>
 */
 class Led {
   public:
-    String LED_VERSION = "0.1.0";
+    const char *version = "0.1.0";
     enum Mode {
         Passive, /*!< Led is controlled by API or external events, used for on/off and
                       brightness modes. No automatic state changes */
@@ -219,17 +219,17 @@ class Led {
     }
 
     void setMode(Mode _mode, unsigned int interval_ms = 1000, double phase_unit = 0.0,
-                 String pattern) {
+                 String _pattern = "") {
         /*! Set led mode to given \ref Mode
 
         @param _mode Led \ref Mode
         @param interval_ms Duration of blink in Mode::Blink or pulse duration.
         @param phase_unit Phase difference used to synchronize different leds in Wave
-                          or blink mode. A phase_unit of 0 synchronizes thes given leds.
+                          or blink mode. A phase_unit of 0 synchronizes the given leds.
                           phase-difference is in [0.0-1.0]. A phase difference of 0.5
                           (180 degrees) between two leds would let leds blink
                           reversed.
-        @param pattern Only in Mode::Pattern: a pattern string consisting of the
+        @param _pattern Only in Mode::Pattern: a pattern string consisting of the
                        characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or
                        at the end of the string 'r' for endless repeat. Intervall_ms is
                        the time for each pattern step. Example "++-r" with intervall_ms=100
@@ -253,7 +253,7 @@ class Led {
         uPhase = (unsigned long)(2.0 * (double)interval * phase);
         oPeriod = (millis() + uPhase) % interval;
         if (mode == Mode::Pattern) {
-            Pattern = pattern;
+            pattern = _pattern;
             patternPointer = 0;
         }
     }
@@ -272,7 +272,7 @@ class Led {
         pSched->publish(name + "/light/unitbrightness", buf);
     }
 
-    void brightness(double bright, bool _automatic = false) {
+    void brightness(double bright, bool _automatic) {
         uint16_t bri;
 
         if (!_automatic)
@@ -310,6 +310,10 @@ class Led {
 
   public:
     void brightness(double bright) {
+        /*! Set led brighness level using PWM
+
+        @param bright brightness level [0.0 (off) - 1.0 (on)]
+        */
         brightness(bright, false);
     }
 
@@ -423,12 +427,11 @@ class Led {
                 setMode(Mode::Wave, t, phs);
             } else if (!strcmp(msgbuf, "pattern")) {
                 if (p && strlen(p) > 0) {
-                    pattern = String(p);
                     if (p2)
                         t = atoi(p2);
                     if (p3)
                         phs = atof(p3);
-                    setMode(Mode::Pattern, t, phs, pattern);
+                    setMode(Mode::Pattern, t, phs, p);
                 }
             }
         }
