@@ -1,3 +1,5 @@
+[![Dev Docs](https://img.shields.io/badge/docs-dev-blue.svg)](https://muwerk.github.io/mupplet-core/docs/index.html)
+
 mupplet-core
 ============
 
