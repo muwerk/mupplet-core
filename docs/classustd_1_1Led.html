@@ -105,6 +105,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a46086548c619f3bd2855a4c3932109cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa03d0a8606c75c63695290387743caca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#aa03d0a8606c75c63695290387743caca">brightness</a> (double bright)</td></tr>
 <tr class="separator:aa03d0a8606c75c63695290387743caca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dfde5dcd83b792b1f34791de0e7d15b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#a6dfde5dcd83b792b1f34791de0e7d15b">setMinMaxWaveBrightness</a> (double minBrightness, double maxBrightness)</td></tr>
+<tr class="separator:a6dfde5dcd83b792b1f34791de0e7d15b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>mupplet-core <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> class </p>
@@ -352,6 +354,51 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">state</td><td>true=on, false=off.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6dfde5dcd83b792b1f34791de0e7d15b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dfde5dcd83b792b1f34791de0e7d15b">&#9670;&nbsp;</a></span>setMinMaxWaveBrightness()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ustd::Led::setMinMaxWaveBrightness </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>minBrightness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>maxBrightness</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set minimum and maximum brightness in wave <a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a></p>
+<p>Useful to compensate, if a led stays at similar brightness for a range of input values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">minBrightness</td><td>Minimum brightness 0-1.0 </td></tr>
+    <tr><td class="paramname">maxBrightness</td><td>Maximum brightness 0-1.0</td></tr>
   </table>
   </dd>
 </dl>
