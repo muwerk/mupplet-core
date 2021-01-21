@@ -87,7 +87,7 @@ class Led {
     String pattern;
     unsigned int patternPointer = 0;
     double minWaveBrightness = 0.0;
-    double maxWaveBrightness = 0.0;
+    double maxWaveBrightness = 1.0;
 
   public:
     Led(String name, uint8_t port, bool activeLogic = false, uint8_t channel = 0)
