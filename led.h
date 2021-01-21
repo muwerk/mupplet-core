@@ -86,6 +86,8 @@ class Led {
     unsigned long startPulse = 0;
     String pattern;
     unsigned int patternPointer = 0;
+    double minWaveBrightness = 0.0;
+    double maxWaveBrightness = 0.0;
 
   public:
     Led(String name, uint8_t port, bool activeLogic = false, uint8_t channel = 0)
@@ -277,6 +279,34 @@ class Led {
         }
     }
 
+    void brightness(double bright) {
+        /*! Set led brighness level using PWM
+
+        @param bright brightness level [0.0 (off) - 1.0 (on)]
+        */
+        brightness(bright, false);
+    }
+
+    void setMinMaxWaveBrightness(double minBrightness, double maxBrightness) {
+        /*! Set minimum and maximum brightness in wave \ref Mode
+
+        Useful to compensate, if a led stays at similar brightness for a range of input values.
+
+        @param minBrightness Minimum brightness 0-1.0
+        @param maxBrightness Maximum brightness 0-1.0
+        */
+        if (minBrightness < 0.0 || minBrightness > 1.0)
+            minBrightness = 0.0;
+        if (maxBrightness < 0.0 || maxBrightness > 1.0)
+            maxBrightness = 1.0;
+        if (minBrightness >= maxBrightness) {
+            minBrightness = 0.0;
+            maxBrightness = 1.0;
+        }
+        minWaveBrightness = minBrightness;
+        maxWaveBrightness = maxBrightness;
+    }
+
   private:
     void publishState() {
         if (brightlevel > 0.0) {
@@ -327,16 +357,6 @@ class Led {
         }
     }
 
-  public:
-    void brightness(double bright) {
-        /*! Set led brighness level using PWM
-
-        @param bright brightness level [0.0 (off) - 1.0 (on)]
-        */
-        brightness(bright, false);
-    }
-
-  private:
     void loop() {
         if (mode == Mode::Passive)
             return;
@@ -366,6 +386,7 @@ class Led {
             } else {
                 br = (double)(2 * interval - period) / (double)interval;
             }
+            br = br * (maxWaveBrightness - minWaveBrightness) + minWaveBrightness;
             brightness(br, true);
         }
         if (mode == Mode::Pattern) {
