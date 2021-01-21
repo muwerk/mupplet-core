@@ -4,10 +4,6 @@
 #include "scheduler.h"
 #include "mupplet_core.h"
 
-/* XXX to be clarified:
-#include "home_assistant.h"
-*/
-
 namespace ustd {
 /*! \brief mupplet-core Led class
 
@@ -69,11 +65,6 @@ class Led {
     String pattern;
     unsigned int patternPointer = 0;
 
-#ifdef __ESP__
-/* XXX: to be clarified
-    HomeAssistant *pHA;
-*/
-#endif
   public:
     Led(String name, uint8_t port, bool activeLogic = false, uint8_t channel = 0)
         : name(name), port(port), activeLogic(activeLogic), channel(channel) {
@@ -139,18 +130,6 @@ class Led {
         };
         pSched->subscribe(tID, name + "/light/#", fnall);
     }
-
-    /* XXX: to be clarified
-    #ifdef __ESP__
-        void registerHomeAssistant(String homeAssistantFriendlyName, String projectName = "",
-                                   String homeAssistantDiscoveryPrefix = "homeassistant") {
-            pHA = new HomeAssistant(name, tID, homeAssistantFriendlyName, projectName, LED_VERSION,
-                                    homeAssistantDiscoveryPrefix);
-            pHA->addLight();
-            pHA->begin(pSched);
-        }
-    #endif
-    */
 
   private:
     void setOn() {
