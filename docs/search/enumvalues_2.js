@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['wave_26',['Wave',['../classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22ebae69149047470d3ce621b3c92fc9f3274',1,'ustd::Led']]]
+  ['falling_44',['Falling',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea5159d7a04d8f45e91e31fc7f50921791',1,'ustd::Switch']]],
+  ['flipflop_45',['Flipflop',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea7d0bdf2e84554f7b2e8941b098a55c21',1,'ustd::Switch']]]
 ];

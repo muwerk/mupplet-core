@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['led_3',['Led',['../classustd_1_1Led.html#ac050ef0d3a7409e5608854e0b2ebf971',1,'ustd::Led::Led()'],['../classustd_1_1Led.html',1,'ustd::Led']]]
+  ['default_3',['Default',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea832c3a1910ed6b8b0477b6020119cec3',1,'ustd::Switch']]],
+  ['duration_4',['Duration',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea5ebdc9e75d572fe606fab4077e9f1b52',1,'ustd::Switch']]]
 ];
