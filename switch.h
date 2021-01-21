@@ -87,6 +87,9 @@ The Switch class allows to integrate switches and buttons in muwerk by either
 polling GPIOs or by using interrupts. Optional automatic debouncing is provided
 for both modes, but mostly important for interrupt-mode.
 
+In mode falling or rising, only a 'trigger' event is generated, there is no
+on or off state. This is useful to implement push-button events.
+
 The mupplet can automatically generate short- and long-press events and provide
 timing information about length of button presses.
 
@@ -132,9 +135,12 @@ class Switch {
     const char *version = "0.1.0";
     /*! The mode switch is operating in */
     enum Mode {
-        Default,  /*!< Standard mode */
-        Rising,   /*!< Act on level changes LOW->HIGH */
-        Falling,  /*!< Act on level changes HIGH->LOW */
+        Default,  /*!< Standard mode, changes between on-state (button pressed) and off-state
+                     (released) */
+        Rising,   /*!< Act on level changes LOW->HIGH, generates a 'trigger' message (push-button
+                     event) */
+        Falling,  /*!< Act on level changes HIGH->LOW, generates a 'trigger' message (push-button
+                     event)  */
         Flipflop, /*!< Each trigger changes state for on to off or vice-versa */
         Timer,    /*!< Each trigger generates an on-state for a given time (monostable) */
         Duration  /*!< Timing information is provided: SHORTPRESS, LONGPRESS, VERYLONGPRESS and
