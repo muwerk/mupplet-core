@@ -8,7 +8,8 @@
 
 mupplet-core implements the following classes based on the cooperative scheduler muwerk:
 
-* * \ref ustd:DigitalOut
+* * \ref ustd::Led
+* * \ref ustd::DigitalOut
 
 Libraries are header-only and should work with any c++11 compiler and
 and support platforms esp8266 and esp32.
