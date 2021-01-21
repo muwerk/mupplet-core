@@ -130,6 +130,7 @@ notes</a>
 class Switch {
   public:
     const char *version = "0.1.0";
+    /*! The mode switch is operating in */
     enum Mode {
         Default,  /*!< Standard mode */
         Rising,   /*!< Act on level changes LOW->HIGH */

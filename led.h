@@ -56,6 +56,7 @@ notes</a>
 class Led {
   public:
     const char *version = "0.1.0";
+    /*! The mode led is operating in */
     enum Mode {
         Passive, /*!< Led is controlled by API or external events, used for on/off and
                       brightness modes. No automatic state changes */
