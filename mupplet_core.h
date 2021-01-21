@@ -11,6 +11,9 @@ mupplet-core implements the following classes based on the cooperative scheduler
 * * \ref ustd::Led
 * * \ref ustd::DigitalOut
 
+For an overview, see:
+<a href="https://github.com/muwerk/mupplet-core/blob/master/README.md">mupplet-core readme</a>
+
 Libraries are header-only and should work with any c++11 compiler and
 and support platforms esp8266 and esp32.
 

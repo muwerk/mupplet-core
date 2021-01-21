@@ -31,7 +31,11 @@ void setup() {
     led.begin(&sched);
 }
 \endcode
- */
+
+More information:
+<a href="https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md">Led application
+notes</a>
+*/
 class Led {
   public:
     String LED_VERSION = "0.1.0";
