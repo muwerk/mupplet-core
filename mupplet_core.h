@@ -9,6 +9,7 @@
 mupplet-core implements the following classes based on the cooperative scheduler muwerk:
 
 * * \ref ustd::Led
+* * \ref ustd::Switch
 * * \ref ustd::DigitalOut
 
 For an overview, see:
