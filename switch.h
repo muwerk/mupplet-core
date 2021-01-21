@@ -289,7 +289,7 @@ class Switch {
 
         readState();
 
-        ft = [=]() { this->loop(); };
+        auto ft = [=]() { this->loop(); };
         tID = pSched->add(ft, name, 50000);
 
         auto fnall = [=](String topic, String msg, String originator) {
