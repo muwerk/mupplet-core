@@ -242,6 +242,7 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">name</td><td>The name of the switch mupplet, referenced in pub/sub messages </td></tr>
     <tr><td class="paramname">port</td><td>GPIO port the switch is connected to. </td></tr>
+    <tr><td class="paramname">mode</td><td>The <a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">Mode</a> of operation of the switch. </td></tr>
     <tr><td class="paramname">activeLogic</td><td>'false' indicates that signal level LOW is switch active (default), 'true' indicates that signal level HIGH is switch active. </td></tr>
     <tr><td class="paramname">customTopic</td><td>An optional topic string that is sent in addition to the standard &lt;mupplet-name&gt;/switch/state message. Useful to indicate specific usages, e.g. a movement detector connected to the switch input. </td></tr>
     <tr><td class="paramname">interruptIndex</td><td>Optional ESP interrupt index 0..15, must be unique in a given system. </td></tr>
