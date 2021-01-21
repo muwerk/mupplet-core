@@ -1,11 +1,23 @@
 [![Dev Docs](https://img.shields.io/badge/docs-dev-blue.svg)](https://muwerk.github.io/mupplet-core/docs/index.html)
 
+**Note:** This project is WIP. Functionality from [Research-mupplets](https://github.com/muwerk/Research-mupplets) is being
+refactored and ported into this project, which will be published as Arduino- and Platformio-Libraries soon.
+
 mupplet-core
 ============
 
 **mu**werk a**pplet**s; mupplets: functional units that support specific hardware or reusable applications.
 
 **mupplets** use muwerks MQTT-style messaging to pass information between each other on the same device. If connected to an MQTT-server via munet, all functionallity is externally available through an MQTT server such as Mosquitto.
+
+The `mupplet-core` library consists of the following modules:
+
+<img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" align="right" width="10%" height="10%">
+
+* [`Led`](https://muwerk.github.io/mupplet-core/docs/classustd_1_1Led.html) The led mupplet allows to control a led or light's state, brightness using modes such as user-controlled, blink, soft-wave, one-time pulse and automatic pattern playback. See [Led application notes](https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md) for an example and more information.
+
+Development and Design considerations
+-------------------------------------
 
 Some design recommendations for mupplets:
 
