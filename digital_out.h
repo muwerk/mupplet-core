@@ -82,7 +82,7 @@ class DigitalOut {
     void set(bool state) {
         /*! set assciated GPIO according to activeLogic defined in \ref begin
 
-        @param logical state (is inverse to actual GPIO level, if activeLogic=false)
+        @param state logical state (is inverse to actual GPIO level, if activeLogic=false)
         */
         if (state == this->state)
             return;
