@@ -17,6 +17,10 @@ timing information about length of button presses.
 
 Other options include flip-flop mode and monostable impulses.
 
+The physical hardware of a switch can be overriden by a software \ref set(),
+a switch stays in override-mode until the next state change of the physical
+hardware is detected.
+
 ## Messages
 
 ### Messages sent by the switch mupplet:
@@ -39,8 +43,9 @@ Other options include flip-flop mode and monostable impulses.
 | `<mupplet-name>/switch/mode/set` | `default`, `rising`, `falling`, `flipflop`, `timer <time-in-ms>`, `duration [shortpress_ms[,longpress_ms]]` | Mode `default` sends `on` when a button is pushed, `off` on release. `falling` and `rising` send `trigger` on corresponding signal change. `flipflop` changes the state of the logical switch on each change from button on to off. `timer` keeps the switch on for the specified duration (ms). `duration` mode sends messages `switch/shortpress`, if button was pressed for less than `<shortpress_ms>` (default 3000ms), `switch/longpress` if pressed less than `<longpress_ms>`, and `switch/verylongpress` for longer presses.
 | `<mupplet-name>/switch/debounce/set` | <time-in-ms> | String encoded switch debounce time in ms, [0..1000]ms. Default is 20ms. This is especially need, when switch is created in interrupt mode (see comment in [example](https://github.com/muwerk/Examples/tree/master/led)).
 
-## Sample Led Integration
+## Sample Switch Integration
 
+XXX
 
 More information:
 <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/Switch-notes.md">Switch application
@@ -130,10 +135,13 @@ class Switch {
         Default,  /*!< Standard mode */
         Rising,   /*!< Act on level changes LOW->HIGH */
         Falling,  /*!< Act on level changes HIGH->LOW */
-        Flipflop, /*!  */
-        Timer,    /*!  */
-        Duration  /*!  */
+        Flipflop, /*!< Each trigger changes state for on to off or vice-versa */
+        Timer,    /*!< Each trigger generates an on-state for a given time (monostable) */
+        Duration  /*!< Timing information is provided: SHORTPRESS, LONGPRESS, VERYLONGPRESS and
+                     absolute duration */
     };
+
+  private:
     Scheduler *pSched;
     int tID;
 
@@ -159,11 +167,24 @@ class Switch {
     unsigned long startEvent = 0;        // ms
     unsigned long durations[2] = {3000, 30000};
 
+  public:
     Switch(String name, uint8_t port, Mode mode = Mode::Default, bool activeLogic = false,
            String customTopic = "", int8_t interruptIndex = -1, unsigned long debounceTimeMs = 0)
         : name(name), port(port), mode(mode), activeLogic(activeLogic), customTopic(customTopic),
           interruptIndex(interruptIndex), debounceTimeMs(debounceTimeMs) {
-        setMode(mode);
+        /*! Instantiate a muwerk switch
+
+        @param name The name of the switch mupplet, referenced in pub/sub messages
+        @param port GPIO port the switch is connected to.
+        @param activeLogic 'false' indicates that signal level LOW is switch active (default),
+                           'true' indicates that signal level HIGH is switch active.
+        @param customTopic An optional topic string that is sent in addition to the standard
+                           <mupplet-name>/switch/state message. Useful to indicate specific usages,
+                           e.g. a movement detector connected to the switch input.
+        @param interruptIndex Optional ESP interrupt index 0..15, must be unique in a given
+        system.
+        @param debounceTimeMs Debouncing treshhold, important if used in interrupt mode.
+         */
     }
 
     ~Switch() {
@@ -172,6 +193,10 @@ class Switch {
     }
 
     void setDebounce(long ms) {
+        /*! Change debounce time
+
+        @param ms New debounce time in ms. In interrupt mode values between 5-20ms are useful.
+        */
         if (ms < 0)
             ms = 0;
         if (ms > 1000)
@@ -180,10 +205,22 @@ class Switch {
     }
 
     void setTimerDuration(unsigned long ms) {
+        /*! Set the duration of on-state in Mode::Timer
+
+        A switch in Mode::Timer stays on for the time of ms, if a trigger is received.
+
+        @param ms time in ms.
+        */
         timerDuration = ms;
     }
 
     void setMode(Mode newmode, unsigned long duration = 0) {
+        /*! Set the switch into one of the switch \ref Mode
+
+        @param newmode The new \ref Mode
+        @param duration For Mode::Timer: the length in ms the switch stays on on reception of a
+        trigger.
+        */
         if (useInterrupt)
             flipflop = false;  // This starts with 'off', since state is
                                // initially changed once.
@@ -202,16 +239,38 @@ class Switch {
     }
 
     void begin(Scheduler *_pSched) {
+        // clang-format off
+        /*! Initialize GPIOs and activate switch hardware
+
+        ### Messages sent by the switch mupplet on state changes:
+
+        | topic | message body | comment
+        | ----- | ------------ | -------
+        | `<mupplet-name>/switch/state` | `on`, `off` or `trigger` | switch state, usually `on` or `off`. In modes `falling` and `rising` only `trigger` messages are sent on rising or falling signal.
+        | `<mupplet-name>/switch/debounce` | <time-in-ms> | reply to `<mupplet-name>/switch/debounce/get`, switch debounce time in ms [0..1000]ms.
+        | `<custom-topic>` | `on`, `off` or `trigger` | If a custom-topic is given during switch init, an addtional message is publish on switch state changes with that topic, The message is identical to ../switch/state', usually `on` or `off`. In modes `falling` and `rising` only `trigger`.
+        | `<mupplet-name>/switch/shortpress` | `trigger` | Switch is in `duration` mode, and button is pressed for less than `<shortpress_ms>` (default 3000ms).
+        | `<mupplet-name>/switch/longpress` | `trigger` | Switch is in `duration` mode, and button is pressed for less than `<longpress_ms>` (default 30000ms), yet longer than shortpress.
+        | `<mupplet-name>/switch/verylongtpress` | `trigger` | Switch is in `duration` mode, and button is pressed for longer than `<longpress_ms>` (default 30000ms).
+        | `<mupplet-name>/switch/duration` | `<ms>` | Switch is in `duration` mode, message contains the duration in ms the switch was pressed.
+
+        ### The switch mupplet now listens to the following messages:
+
+        | topic | message body | comment
+        | ----- | ------------ | -------
+        | `<mupplet-name>/switch/set` | `on`, `off`, `true`, `false`, `toggle` | Override switch setting. When setting the switch state via message, the hardware port remains overridden until the hardware changes state (e.g. button is physically pressed). Sending a `switch/set` message puts the switch in override-mode: e.g. when sending `switch/set` `on`, the state of the button is signalled `on`, even so the physical button might be off. Next time the physical button is pressed (or changes state), override mode is stopped, and the state of the actual physical button is published again.  
+        | `<mupplet-name>/switch/mode/set` | `default`, `rising`, `falling`, `flipflop`, `timer <time-in-ms>`, `duration [shortpress_ms[,longpress_ms]]` | Mode `default` sends `on` when a button is pushed, `off` on release. `falling` and `rising` send `trigger` on corresponding signal change. `flipflop` changes the state of the logical switch on each change from button on to off. `timer` keeps the switch on for the specified duration (ms). `duration` mode sends messages `switch/shortpress`, if button was pressed for less than `<shortpress_ms>` (default 3000ms), `switch/longpress` if pressed less than `<longpress_ms>`, and `switch/verylongpress` for longer presses.
+        | `<mupplet-name>/switch/debounce/set` | <time-in-ms> | String encoded switch debounce time in ms, [0..1000]ms. Default is 20ms. This is especially need, when switch is created in interrupt mode (see comment in [example](https://github.com/muwerk/Examples/tree/master/led)).
+
+        */
+        // clang-format on
         pSched = _pSched;
 
         pinMode(port, INPUT_PULLUP);
+        setMode(mode);
 
         if (interruptIndex >= 0 && interruptIndex < USTD_MAX_IRQS) {
-#ifdef __ESP32__
             ipin = digitalPinToInterrupt(port);
-#else
-            ipin = digitalPinToInterrupt(port);
-#endif
             switch (mode) {
             case Mode::Falling:
                 attachInterrupt(ipin, ustd_irq_table[interruptIndex], FALLING);
@@ -229,12 +288,9 @@ class Switch {
 
         readState();
 
-        // give a c++11 lambda as callback scheduler task registration of
-        // this.loop():
-        /* std::function<void()> */ auto ft = [=]() { this->loop(); };
+        ft = [=]() { this->loop(); };
         tID = pSched->add(ft, name, 50000);
 
-        /* std::function<void(String, String, String)> */
         auto fnall = [=](String topic, String msg, String originator) {
             this->subsMsg(topic, msg, originator);
         };
@@ -242,6 +298,40 @@ class Switch {
         pSched->subscribe(tID, "mqtt/state", fnall);
     }
 
+    void setLogicalState(bool newLogicalState) {
+        /*! Temporarily override the physical state of the switch with a software-induced state
+
+        The new logical state (which might not reflect the actual hardware) remains in effect
+        until a state-change of the actual hardware is detected.
+
+        @param newLogicalState true: switch is simulated on, false, switch is simulated off.
+        */
+        if (logicalState != newLogicalState) {
+            logicalState = newLogicalState;
+            publishLogicalState(logicalState);
+        }
+    }
+
+    void setToggle() {
+        /*! Temporarily override the physical state of the switch by toggling the current state.
+
+        The new logical state (which might not reflect the actual hardware) remains in effect
+        until a state-change of the actual hardware is detected.
+        */
+        setPhysicalState(!physicalState, true);
+    }
+
+    void setPulse() {
+        /*! Temporarily override the physical state of the switch by simulating a pulse.
+
+        The new logical state (which might not reflect the actual hardware) remains in effect
+        until a state-change of the actual hardware is detected.
+        */
+        setPhysicalState(true, true);
+        setPhysicalState(false, true);
+    }
+
+  private:
     void publishLogicalState(bool lState) {
         String textState;
         if (lState == true)
@@ -289,13 +379,6 @@ class Switch {
                 }
             }
             break;
-        }
-    }
-
-    void setLogicalState(bool newLogicalState) {
-        if (logicalState != newLogicalState) {
-            logicalState = newLogicalState;
-            publishLogicalState(logicalState);
         }
     }
 
@@ -494,11 +577,10 @@ class Switch {
                 setLogicalState(false);
             }
             if (!strcmp(buf, "toggle")) {
-                setPhysicalState(!physicalState, true);
+                setToggle();
             }
             if (!strcmp(buf, "pulse")) {
-                setPhysicalState(true, true);
-                setPhysicalState(false, true);
+                setPulse();
             }
         }
         if (topic == name + "/switch/debounce/get") {
