@@ -47,4 +47,5 @@ void setup() {
             // soft pwm pulsing in 1000ms intervals
             // same can be accomplished by publishing
             // topic myLed/light/setmode  msg "wave 1000"
+}
 ```
