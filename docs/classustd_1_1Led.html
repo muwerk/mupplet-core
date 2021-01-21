@@ -110,6 +110,24 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>mupplet-core <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> class </p>
 <p>The <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> class allows control of standard Leds (or lights) with digital and PWM control.</p>
 <p>Supported modes are: on/off (mode: Passive), brightness (mode: Passive, with PWM), wave (soft oszillation, mode: Wave), one-time pulse (mode: Pulse), and repeating, user-selectable patterns (mode: Pattern).</p>
+<h2>Messages</h2>
+<p>Messages sent by led mupplet:</p>
+<h3>Messages sent by led mupplet:</h3>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">topic   </th><th class="markdownTableHeadNone">message body   </th><th class="markdownTableHeadNone">comment    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/unitbrightness</code>   </td><td class="markdownTableBodyNone">normalized brightness [0.0-1.0]   </td><td class="markdownTableBodyNone"><code>0.34</code>: Float value   </td></tr>
+</table>
+<p>encoded as string. Not send on automatic changes (e.g. pulse mode) | <code>&lt;mupplet-name&gt;/light/state</code> | <code>on</code> or <code>off</code> | current led state (<code>on</code> is not sent on pwm intermediate values)</p>
+<h3>Message received by led mupplet:</h3>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">topic   </th><th class="markdownTableHeadNone">message body   </th><th class="markdownTableHeadNone">comment    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/set</code>   </td><td class="markdownTableBodyNone"><code>on</code>, <code>off</code>, <code>true</code>, <code>false</code>, <code>pct 34</code>, <code>34%</code>, <code>0.34</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> can be   </td></tr>
+</table>
+<p>set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval [0.0, 1.0]) can be sent as either <code>pct 34</code>, or <code>0.34</code>, or <code>34%</code>. | <code>&lt;mupplet-name&gt;/light/mode/set</code> | <code>passive</code>, <code>pulse &lt;duration_ms&gt;</code>, <code>blink &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code>, <code>pattern &lt;pattern&gt;[,&lt;intervall&gt;[,&lt;phase&gt;]]</code> or <code>wave &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code> | Mode passive does no automatic led state changes, <code>pulse</code> switches the led on for <code>&lt;duration_ms&gt;</code> ms, then led goes back to passive mode. <code>blink</code> changes the led state very <code>interval_ms</code> on/off, <code>wave</code> uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with <code>wave 1000</code> and one with <code>wave 1000,0.5</code> blink inverse. Patterns can be specified as string containing <code>+</code>,<code>-</code>,<code>0</code>..<code>9</code> or <code>r</code>. <code>+</code> is led on during <code>&lt;intervall&gt;</code> ms, <code>-</code> is off, <code>0</code>..<code>9</code> brightness-level. An <code>r</code> at the end of the pattern repeats the pattern. <code>"pattern +-+-+-+++-+++-+++-+-+-+---r,100"</code> lets the board signal SOS.</p>
 <h2>Sample <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> Integration</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#define __ESP__ 1   </span><span class="comment">// Platform defines required, see ustd library doc, mainpage.</span></div>
 <div class="line"><span class="preprocessor">#include &quot;scheduler.h&quot;</span></div>
@@ -310,6 +328,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Set led to a given logical state.</p>
+<p>This sends out a &lt;mupplet-name&gt;/light/state</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">state</td><td>true=on, false=off.</td></tr>
