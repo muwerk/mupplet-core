@@ -101,8 +101,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:adad791241c467d74d69d90bfcb4e8eb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae76a09bcd774f39aa8c7f797b3a1fba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#aae76a09bcd774f39aa8c7f797b3a1fba">set</a> (bool state)</td></tr>
 <tr class="separator:aae76a09bcd774f39aa8c7f797b3a1fba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad33c89336b3632e7e3d49014993d4b7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#ad33c89336b3632e7e3d49014993d4b7b">setMode</a> (<a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> _mode, unsigned int interval_ms=1000, double phase_unit=0.0)</td></tr>
-<tr class="separator:ad33c89336b3632e7e3d49014993d4b7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a9501bc37bc3e138883a251f24d7c7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#a7a9501bc37bc3e138883a251f24d7c7a">setMode</a> (<a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> _mode, unsigned int interval_ms=1000, double phase_unit=0.0, String pattern)</td></tr>
+<tr class="separator:a7a9501bc37bc3e138883a251f24d7c7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>mupplet-core <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> class </p>
@@ -118,7 +118,8 @@ Public Member Functions</h2></td></tr>
 <div class="line"><span class="keywordtype">void</span> setup() {</div>
 <div class="line">    led.begin(&amp;sched);</div>
 <div class="line">}</div>
-</div><!-- fragment --> </div><h2 class="groupheader">Member Enumeration Documentation</h2>
+</div><!-- fragment --><p>More information: <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md">Led application notes</a> </p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a01eaa5fbd8dbaad7bd14e4cf329e22eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a01eaa5fbd8dbaad7bd14e4cf329e22eb">&#9670;&nbsp;</a></span>Mode</h2>
 
@@ -283,8 +284,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad33c89336b3632e7e3d49014993d4b7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad33c89336b3632e7e3d49014993d4b7b">&#9670;&nbsp;</a></span>setMode()</h2>
+<a id="a7a9501bc37bc3e138883a251f24d7c7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a9501bc37bc3e138883a251f24d7c7a">&#9670;&nbsp;</a></span>setMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -308,7 +309,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>phase_unit</em> = <code>0.0</code>&#160;</td>
+          <td class="paramname"><em>phase_unit</em> = <code>0.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>pattern</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -327,7 +334,8 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">_mode</td><td><a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> <a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> </td></tr>
     <tr><td class="paramname">interval_ms</td><td>Duration of blink in Mode::Blink or pulse duration. </td></tr>
-    <tr><td class="paramname">phase_unit</td><td>Phase difference used to synchronize different leds in Wave or blink mode. A phase_unit of 0 synchronizes thes given leds. phase-difference is in [0.0-1.0]. A phase difference of 0.5 (180 degrees) between two leds would let leds blink reversed.</td></tr>
+    <tr><td class="paramname">phase_unit</td><td>Phase difference used to synchronize different leds in Wave or blink mode. A phase_unit of 0 synchronizes thes given leds. phase-difference is in [0.0-1.0]. A phase difference of 0.5 (180 degrees) between two leds would let leds blink reversed. </td></tr>
+    <tr><td class="paramname">pattern</td><td>Only in Mode::Pattern: a pattern string consisting of the characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or at the end of the string 'r' for endless repeat. Intervall_ms is the time for each pattern step. Example "++-r" with intervall_ms=100 lights the led for 200ms on, 100ms off and repeats. "1---------r" makes a faint 100ms flash every second. "0135797531r" simulates a PWM wave.</td></tr>
   </table>
   </dd>
 </dl>

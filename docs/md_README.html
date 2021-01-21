@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>muwerk ustd Library: mupplet-core</title>
+<title>muwerk ustd Library: README</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,11 +63,20 @@ $(function() {
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">mupplet-core </div>  </div>
+<div class="title">README </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>**mu**werk a**pplet**s; mupplets: functional units that support specific hardware or reusable applications.</p>
+<div class="textblock"><p><a href="https://muwerk.github.io/mupplet-core/docs/index.html"><img src="https://img.shields.io/badge/docs-dev-blue.svg" alt="Dev Docs" style="pointer-events: none;" class="inline"/></a></p>
+<p><b>Note:</b> This project is WIP. Functionality from <a href="https://github.com/muwerk/Research-mupplets">Research-mupplets</a> is being refactored and ported into this project, which will be published as Arduino- and Platformio-Libraries soon.</p>
+<h1>mupplet-core </h1>
+<p>**mu**werk a**pplet**s; mupplets: functional units that support specific hardware or reusable applications.</p>
 <p><b>mupplets</b> use muwerks MQTT-style messaging to pass information between each other on the same device. If connected to an MQTT-server via munet, all functionallity is externally available through an MQTT server such as Mosquitto.</p>
+<p>The <code>mupplet-core</code> library consists of the following modules:</p>
+<p><img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" alt="" align="right" width="10%" height="10%" class="inline"/></p>
+<ul>
+<li><a href="https://muwerk.github.io/mupplet-core/docs/classustd_1_1Led.html"><code>Led</code></a> The led mupplet allows to control a led or light's state, brightness using modes such as user-controlled, blink, soft-wave, one-time pulse and automatic pattern playback. See <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md">Led application notes</a> for an example and more information.</li>
+</ul>
+<h2>Development and Design considerations </h2>
 <p>Some design recommendations for mupplets:</p>
 <ul>
 <li>mupplets use asynchronous design. Since muwerk uses cooperative scheduling, any muwerk task can block the muwerk system. It's therefore imperative to use asychronous programming techniques with mupplets. Do not use long-running code with delays. Many third-party sensor libraries are not designed for asynchronous operation, and thus will block the muwerk system more than necessary.</li>
@@ -76,14 +85,14 @@ $(function() {
 <li>If your mupplet exposes an API, make sure that the same functionality is accessible via pub/sub messages.</li>
 <li>Mupplets compose with pub/sub messages. If a mupplet uses functionality of another Mupplet, they should use pub/sub messages. Example: a CO2 sensor-mupplet requires the current temperature for calibration: the CO2 mupplet would subscribe to the messages a temperature mupplet would publish. A major advantage of this type of light coupling via messages is that the temperature mupplet could run on a different hardware: an MQTT server and munet make sure that there is absolutely no difference between remote and local communication partners: the implementation of both mupplets in both cases is simply the same.</li>
 </ul>
-<h2>Examples</h2>
+<h3>Examples</h3>
 <ul>
 <li>A mupplet can implement a driver for a hardware sensor (e.g. temperature sensor)</li>
 <li>If a hardware is for a very specific purpose, even application-style logic can be part of a mupplet. E.g. a 4-digit 7-segment clock display with a colon between 2nd and 3rd digit is basically suited to display time. In additional to implement the basic hardware the mupplet could implement the functions of a basic clock</li>
 <li>The clock mupplet could (optionally) subscribe to the messages a button publishes to implement functions like "stop alarm".</li>
 <li>munet's network stacks are basically mupplets themselves.</li>
 </ul>
-<h1>Structure </h1>
+<h2>Structure </h2>
 <p>An example framework for a mupplet:</p>
 <div class="fragment"><div class="line"> {c++}</div>
 <div class="line">#define __ESP__         // Platform define, see ustd library</div>
@@ -148,11 +157,11 @@ $(function() {
 <div class="line">}; // MyMupplet</div>
 <div class="line"> </div>
 <div class="line">} // ustd</div>
-</div><!-- fragment --><h1>History </h1>
+</div><!-- fragment --><h2>History </h2>
 <ul>
 <li>0.1.0 (2021-01-XX) [not yet released] Base Framework</li>
 </ul>
-<h1>References </h1>
+<h2>References </h2>
 <ul>
 <li><a href="https://github.com/muwerk/ustd">ustd</a> microWerk standard library</li>
 <li><a href="https://github.com/muwerk/muwerk">muwerk</a> microWerk scheduler</li>
