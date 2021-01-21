@@ -1,32 +1,10 @@
-# Prerequisites
-*.d
+# Apple junk
+.DS_Store
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# IDE stuff
+.vs_code/
+lsp.log
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
+# binaries
 *.a
 *.lib
-
-# Executables
-*.exe
-*.out
-*.app
