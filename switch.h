@@ -92,7 +92,7 @@ timing information about length of button presses.
 
 Other options include flip-flop mode and monostable impulses.
 
-The physical hardware of a switch can be overriden by a software \ref set(),
+The physical hardware of a switch can be overriden by a software \ref setLogicalState,
 a switch stays in override-mode until the next state change of the physical
 hardware is detected.
 
