@@ -175,6 +175,7 @@ class Switch {
 
         @param name The name of the switch mupplet, referenced in pub/sub messages
         @param port GPIO port the switch is connected to.
+        @param mode The \ref Mode of operation of the switch.
         @param activeLogic 'false' indicates that signal level LOW is switch active (default),
                            'true' indicates that signal level HIGH is switch active.
         @param customTopic An optional topic string that is sent in addition to the standard
