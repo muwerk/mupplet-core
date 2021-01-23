@@ -32,6 +32,7 @@ third-party sensor libraries are not designed for asynchronous operation, and th
 will block the muwerk system more than necessary.
 * If you interact with hardware or software that requires waiting for events, either
 use a state-machine or interrupt handlers, and give back control to the muwerk scheduler as soon as possible. Avoid polling for events in a delay-loop.
+* As a rule of thumb: avoid blocking operations > 10ms.
 * Use muwerks pub/sub mechanism to interface between other mupplets and the outside
 world. Compose using messages and functional interfaces with light coupling that do not impose object hierarchies on the programs that use a mupplet.
 * If your mupplet exposes an API, make sure that the same functionality is accessible via pub/sub messages.
