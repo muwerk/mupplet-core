@@ -12,9 +12,13 @@ mupplet-core
 
 The `mupplet-core` library consists of the following modules:
 
-<img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" align="right" width="10%" height="10%">
+<img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" align="right" width="7%" height="7%">
 
 * [`Led`](https://muwerk.github.io/mupplet-core/docs/classustd_1_1Led.html) The led mupplet allows to control a led or light's state, brightness using modes such as user-controlled, blink, soft-wave, one-time pulse and automatic pattern playback. See [Led application notes](https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md) for an example and more information. Complete example [muBlink](https://github.com/muwerk/examples/tree/master/muBlink).
+
+<img src="https://github.com/muwerk/mupplet-core/blob/master/extras/switch.png" align="right" width="10%" height="10%">
+
+* [`Switch`](https://muwerk.github.io/mupplet-core/docs/classustd_1_1Switch.html) The switch mupplet allows to use hardware buttons and switches connected to a GPIO. Switch supports debouncing, flip-flop mode and push-button event. See [Switch application notes]( https://github.com/muwerk/mupplet-core/blob/master/extras/switch-notes.md) for an example-code and more information. Complete example [SwitchAndLed](https://github.com/muwerk/examples/tree/master/SwitchAndLed).
 
 Development and Design considerations
 -------------------------------------
@@ -28,6 +32,7 @@ third-party sensor libraries are not designed for asynchronous operation, and th
 will block the muwerk system more than necessary.
 * If you interact with hardware or software that requires waiting for events, either
 use a state-machine or interrupt handlers, and give back control to the muwerk scheduler as soon as possible. Avoid polling for events in a delay-loop.
+* As a rule of thumb: avoid blocking operations > 10ms.
 * Use muwerks pub/sub mechanism to interface between other mupplets and the outside
 world. Compose using messages and functional interfaces with light coupling that do not impose object hierarchies on the programs that use a mupplet.
 * If your mupplet exposes an API, make sure that the same functionality is accessible via pub/sub messages.
@@ -57,7 +62,7 @@ An example framework for a mupplet:
 
 ```c++
 #define __ESP__         // Platform define, see ustd library
-#include <platform.h>   // ustd library
+#include <ustd_platform.h>   // ustd library
 #include <muwerk.h>     // muwerk library
 
 namespace ustd {

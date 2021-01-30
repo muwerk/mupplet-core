@@ -37,7 +37,9 @@ notes</a>
 // clang-format on
 class DigitalOut {
   public:
+#if USTD_FEATURE_MEMORY > USTD_FEATURE_MEM_512B
     const char *version = "0.1.0";
+#endif
 
   private:
     Scheduler *pSched;
@@ -71,28 +73,35 @@ class DigitalOut {
         pinMode(port, OUTPUT);
 
         setOff();
+#if USTD_FEATURE_MEMORY > USTD_FEATURE_MEM_512B
         auto ft = [=]() { this->loop(); };
         tID = pSched->add(ft, name, 50000);
         auto fnall = [=](String topic, String msg, String originator) {
             this->subsMsg(topic, msg, originator);
         };
         pSched->subscribe(tID, name + "/switch/#", fnall);
+#endif
     }
 
-    void set(bool state) {
+    void set(bool _state) {
         /*! set assciated GPIO according to activeLogic defined in \ref begin
 
         @param state logical state (is inverse to actual GPIO level, if activeLogic=false)
         */
-        if (state == this->state)
+        if (state == _state)
             return;
-        this->state = state;
+        if (_state)
+            setOn();
+        else
+            setOff();
+#if USTD_FEATURE_MEMORY > USTD_FEATURE_MEM_512B
         publishState();
+#endif
     }
 
   private:
     void setOn() {
-        this->state = true;
+        state = true;
         if (activeLogic) {
             digitalWrite(port, true);
         } else {
@@ -100,36 +109,40 @@ class DigitalOut {
         }
     }
     void setOff() {
-        this->state = false;
-        if (!activeLogic) {
-            digitalWrite(port, true);
-        } else {
+        state = false;
+        if (activeLogic) {
             digitalWrite(port, false);
+        } else {
+            digitalWrite(port, true);
         }
     }
 
+#if USTD_FEATURE_MEMORY > USTD_FEATURE_MEM_512B
     void publishState() {
         if (state) {
             pSched->publish(name + "/switch/state", "on");
-            this->state = true;
         } else {
             pSched->publish(name + "/switch/state", "off");
-            this->state = false;
         }
     }
+#endif
 
+#if USTD_FEATURE_MEMORY > USTD_FEATURE_MEM_512B
     void loop() {
     }
+#endif
 
+#if USTD_FEATURE_MEMORY > USTD_FEATURE_MEM_512B
     void subsMsg(String topic, String msg, String originator) {
         char msgbuf[128];
         memset(msgbuf, 0, 128);
         strncpy(msgbuf, msg.c_str(), 127);
         msg.toLowerCase();
         if (topic == name + "/switch/set") {
-            set((msg == "on" || msg == "ON" || msg == "On" || msg == "1"));
+            set((msg == "on" || msg == "1"));
         }
-    };
+    }
+#endif
 };  // DigitalOut
 
 }  // namespace ustd
