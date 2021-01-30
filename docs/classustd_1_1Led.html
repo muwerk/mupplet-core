@@ -78,7 +78,7 @@ $(function() {
 <p>mupplet-core <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> class  
  <a href="classustd_1_1Led.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="led_8h_source.html">led.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="mup__led_8h_source.html">mup_led.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -273,7 +273,7 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/set</code>   </td><td class="markdownTableBodyNone"><code>on</code>, <code>off</code>, <code>true</code>, <code>false</code>, <code>pct 34</code>, <code>34%</code>, <code>0.34</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> can be set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval [0.0, 1.0]) can be sent as either <code>pct 34</code>, or <code>0.34</code>, or <code>34%</code>.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/mode/set</code>   </td><td class="markdownTableBodyNone"><code>passive</code>, <code>pulse &lt;duration_ms&gt;</code>, <code>blink &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code>, <code>pattern &lt;pattern&gt;[,&lt;intervall&gt;[,&lt;phase&gt;]]</code> or <code>wave &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code>   </td><td class="markdownTableBodyNone">Mode passive does no automatic led state changes, <code>pulse</code> switches the led on for <code>&lt;duration_ms&gt;</code> ms, then led goes back to passive mode. <code>blink</code> changes the led state very <code>interval_ms</code> on/off, <code>wave</code> uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with <code>wave 1000</code> and one with <code>wave 1000,0.5</code> blink inverse. Patterns can be specified as string containing <code>+</code>,<code>-</code>,<code>0</code>..<code>9</code> or <code>r</code>. <code>+</code> is led on during <code>&lt;intervall&gt;</code> ms, <code>-</code> is off, <code>0</code>..<code>9</code> brightness-level. An <code>r</code> at the end of the pattern repeats the pattern. <code>"pattern +-+-+-+++-+++-+++-+-+-+---r,100"</code> lets the board signal SOS.   </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/mode/set</code>   </td><td class="markdownTableBodyNone"><code>passive</code>, <code>pulse &lt;duration_ms&gt;</code>, <code>blink &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code>, <code>wave &lt;intervall_ms&gt;[,&lt;phase-shif&gt;],</code>pattern &lt;pattern&gt;[,&lt;intervall&gt;[,&lt;phase&gt;]]<code>or</code>wave &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]<code>\ilinebr &lt;/td&gt; &lt;td class="markdownTableBodyNone"&gt; Mode passive does no automatic led state changes,</code>pulse<code>switches the led on for</code>&lt;duration_ms&gt;<code>ms, then led goes back to passive mode.</code>blink<code>changes the led state very</code>interval_ms<code>on/off,</code>wave<code>uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with</code>wave 1000<code>and one with</code>wave 1000,0.5<code>blink inverse. Patterns can be specified as string containing</code>+<code>,</code>-<code>,</code>0<code>..</code>9<code>or</code>r<code>.</code>+<code>is led on during</code>&lt;intervall&gt;<code>ms,</code>-<code>is off,</code>0<code>..</code>9<code>brightness-level. An</code>r<code>at the end of the pattern repeats the pattern.</code>"pattern +-+-+-+++-+++-+++-+-+-+---r,100"` lets the board signal SOS.   </td></tr>
 </table>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -464,7 +464,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="led_8h_source.html">led.h</a></li>
+<li><a class="el" href="mup__led_8h_source.html">mup_led.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -72,15 +72,20 @@ $(function() {
 <p>**mu**werk a**pplet**s; mupplets: functional units that support specific hardware or reusable applications.</p>
 <p><b>mupplets</b> use muwerks MQTT-style messaging to pass information between each other on the same device. If connected to an MQTT-server via munet, all functionallity is externally available through an MQTT server such as Mosquitto.</p>
 <p>The <code>mupplet-core</code> library consists of the following modules:</p>
-<p><img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" alt="" align="right" width="10%" height="10%" class="inline"/></p>
+<p><img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" alt="" align="right" width="7%" height="7%" class="inline"/></p>
 <ul>
 <li><a href="https://muwerk.github.io/mupplet-core/docs/classustd_1_1Led.html"><code>Led</code></a> The led mupplet allows to control a led or light's state, brightness using modes such as user-controlled, blink, soft-wave, one-time pulse and automatic pattern playback. See <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md">Led application notes</a> for an example and more information. Complete example <a href="https://github.com/muwerk/examples/tree/master/muBlink">muBlink</a>.</li>
+</ul>
+<p><img src="https://github.com/muwerk/mupplet-core/blob/master/extras/switch.png" alt="" align="right" width="10%" height="10%" class="inline"/></p>
+<ul>
+<li><a href="https://muwerk.github.io/mupplet-core/docs/classustd_1_1Switch.html"><code>Switch</code></a> The switch mupplet allows to use hardware buttons and switches connected to a GPIO. Switch supports debouncing, flip-flop mode and push-button event. See <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/switch-notes.md">Switch application notes</a> for an example-code and more information. Complete example <a href="https://github.com/muwerk/examples/tree/master/SwitchAndLed">SwitchAndLed</a>.</li>
 </ul>
 <h2>Development and Design considerations </h2>
 <p>Some design recommendations for mupplets:</p>
 <ul>
 <li>mupplets use asynchronous design. Since muwerk uses cooperative scheduling, any muwerk task can block the muwerk system. It's therefore imperative to use asychronous programming techniques with mupplets. Do not use long-running code with delays. Many third-party sensor libraries are not designed for asynchronous operation, and thus will block the muwerk system more than necessary.</li>
 <li>If you interact with hardware or software that requires waiting for events, either use a state-machine or interrupt handlers, and give back control to the muwerk scheduler as soon as possible. Avoid polling for events in a delay-loop.</li>
+<li>As a rule of thumb: avoid blocking operations &gt; 10ms.</li>
 <li>Use muwerks pub/sub mechanism to interface between other mupplets and the outside world. Compose using messages and functional interfaces with light coupling that do not impose object hierarchies on the programs that use a mupplet.</li>
 <li>If your mupplet exposes an API, make sure that the same functionality is accessible via pub/sub messages.</li>
 <li>Mupplets compose with pub/sub messages. If a mupplet uses functionality of another Mupplet, they should use pub/sub messages. Example: a CO2 sensor-mupplet requires the current temperature for calibration: the CO2 mupplet would subscribe to the messages a temperature mupplet would publish. A major advantage of this type of light coupling via messages is that the temperature mupplet could run on a different hardware: an MQTT server and munet make sure that there is absolutely no difference between remote and local communication partners: the implementation of both mupplets in both cases is simply the same.</li>
@@ -96,7 +101,7 @@ $(function() {
 <p>An example framework for a mupplet:</p>
 <div class="fragment"><div class="line"> {c++}</div>
 <div class="line">#define __ESP__         // Platform define, see ustd library</div>
-<div class="line">#include &lt;platform.h&gt;   // ustd library</div>
+<div class="line">#include &lt;ustd_platform.h&gt;   // ustd library</div>
 <div class="line">#include &lt;muwerk.h&gt;     // muwerk library</div>
 <div class="line"> </div>
 <div class="line">namespace ustd {</div>
