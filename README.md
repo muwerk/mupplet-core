@@ -62,7 +62,7 @@ An example framework for a mupplet:
 
 ```c++
 #define __ESP__         // Platform define, see ustd library
-#include <platform.h>   // ustd library
+#include <ustd_platform.h>   // ustd library
 #include <muwerk.h>     // muwerk library
 
 namespace ustd {
