@@ -1,5 +1,5 @@
-light_gpio.h
-============
+LightGPIO Mupplet
+=================
 
 Allows to control LEDs or generic lights via digital logic or PWM brightness.
 
@@ -7,14 +7,14 @@ Allows to control LEDs or generic lights via digital logic or PWM brightness.
 
 Hardware: 330Ω resistor, led.
 
-#### Messages sent by led mupplet:
+#### Messages sent by LightGPIO mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
 | `<mupplet-name>/light/unitbrightness` | normalized brightness [0.0-1.0] | `0.34`: Float value encoded as string. Not send on automatic changes (e.g. pulse mode)
 | `<mupplet-name>/light/state` | `on` or `off` | current led state (`on` is not sent on pwm intermediate values)
 
-#### Message received by led mupplet:
+#### Message received by LightGPIO mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
