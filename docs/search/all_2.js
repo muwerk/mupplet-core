@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['falling_6',['Falling',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea5159d7a04d8f45e91e31fc7f50921791',1,'ustd::Switch']]],
-  ['flipflop_7',['Flipflop',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea7d0bdf2e84554f7b2e8941b098a55c21',1,'ustd::Switch']]]
+  ['default_4',['Default',['../classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2aa5fd606d7173334f47117355cedd94d3',1,'ustd::SwitchGPIO']]],
+  ['digitalout_5',['DigitalOut',['../classustd_1_1DigitalOut.html#a83151c753e2e52122d76f7ce53e18cf9',1,'ustd::DigitalOut::DigitalOut()'],['../classustd_1_1DigitalOut.html',1,'ustd::DigitalOut']]],
+  ['duration_6',['Duration',['../classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2acc355080f672d2c1f91eb837a7b4877f',1,'ustd::SwitchGPIO']]]
 ];

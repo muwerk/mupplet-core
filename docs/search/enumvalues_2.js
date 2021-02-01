@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['falling_49',['Falling',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea5159d7a04d8f45e91e31fc7f50921791',1,'ustd::Switch']]],
-  ['flipflop_50',['Flipflop',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea7d0bdf2e84554f7b2e8941b098a55c21',1,'ustd::Switch']]]
+  ['falling_59',['Falling',['../classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2a7925d13fe881f08310f23dd98be61981',1,'ustd::SwitchGPIO']]],
+  ['flipflop_60',['Flipflop',['../classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2a37a2caecebfe7cad6e8a3a797b790213',1,'ustd::SwitchGPIO']]]
 ];

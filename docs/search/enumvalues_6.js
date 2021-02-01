@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wave_56',['Wave',['../classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22ebae69149047470d3ce621b3c92fc9f3274',1,'ustd::Led']]]
+  ['wave_65',['Wave',['../classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245af153509004141a8067dea2f06626357a',1,'ustd::LightController']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['passive_51',['Passive',['../classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba5b2aacbd073ef57f8fac479fd324148c',1,'ustd::Led']]],
-  ['pattern_52',['Pattern',['../classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba062b8daa1a4eb2ab00530ee6f1a52586',1,'ustd::Led']]],
-  ['pulse_53',['Pulse',['../classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba332211418be9023775e1c7ab06359732',1,'ustd::Led']]]
+  ['pattern_61',['Pattern',['../classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245a1a24d57dbedb027a0e8043681fa04481',1,'ustd::LightController']]],
+  ['pulse_62',['Pulse',['../classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245ac678c6d1fd15a12ae02d0c1cd17208c2',1,'ustd::LightController']]]
 ];

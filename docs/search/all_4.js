@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['mode_9',['Mode',['../classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb',1,'ustd::Led::Mode()'],['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce',1,'ustd::Switch::Mode()']]],
-  ['mupplet_2dcore_20is_20a_20collection_20of_20hardware_20applets_20for_20the_20muwerk_20scheduler_10',['mupplet-core is a collection of hardware applets for the muwerk scheduler',['../index.html',1,'']]]
+  ['lightcontroller_10',['LightController',['../classustd_1_1LightController.html#afc7f2973714a1a9d4b1d8bfab6ff8147',1,'ustd::LightController::LightController()'],['../classustd_1_1LightController.html',1,'ustd::LightController']]],
+  ['lightgpio_11',['LightGPIO',['../classustd_1_1LightGPIO.html#a59362e62ef4b980de1d64cb7724775a4',1,'ustd::LightGPIO::LightGPIO()'],['../classustd_1_1LightGPIO.html',1,'ustd::LightGPIO']]],
+  ['loop_12',['loop',['../classustd_1_1LightController.html#aa3a2efb3484a6764c33bf29f7232d201',1,'ustd::LightController']]]
 ];

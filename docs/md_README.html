@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>muwerk mupplet-core Library: README</title>
+<title>muwerk mupplet Core Library: README</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">muwerk mupplet-core Library
+   <div id="projectname">muwerk mupplet Core Library
    </div>
    <div id="projectbrief">muwerk applets; mupplets: functional units that support specific hardware or reusable applications</div>
   </td>
@@ -74,11 +74,11 @@ $(function() {
 <p>The <code>mupplet-core</code> library consists of the following modules:</p>
 <p><img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" alt="" align="right" width="7%" height="7%" class="inline"/></p>
 <ul>
-<li><a href="https://muwerk.github.io/mupplet-core/docs/classustd_1_1Led.html"><code>Led</code></a> The led mupplet allows to control a led or light's state, brightness using modes such as user-controlled, blink, soft-wave, one-time pulse and automatic pattern playback. See <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md">Led application notes</a> for an example and more information. Complete example <a href="https://github.com/muwerk/examples/tree/master/muBlink">muBlink</a>.</li>
+<li><a href="https://muwerk.github.io/mupplet-core/docs/classustd_1_1LightGPIO.html"><code>LightGPIO</code></a> The Light GPIO mupplet allows to control a led or light's state, brightness using modes such as user-controlled, blink, soft-wave, one-time pulse and automatic pattern playback. See <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md">Led application notes</a> for an example and more information. Complete example <a href="https://github.com/muwerk/examples/tree/master/muBlink">muBlink</a>.</li>
 </ul>
 <p><img src="https://github.com/muwerk/mupplet-core/blob/master/extras/switch.png" alt="" align="right" width="10%" height="10%" class="inline"/></p>
 <ul>
-<li><a href="https://muwerk.github.io/mupplet-core/docs/classustd_1_1Switch.html"><code>Switch</code></a> The switch mupplet allows to use hardware buttons and switches connected to a GPIO. Switch supports debouncing, flip-flop mode and push-button event. See <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/switch-notes.md">Switch application notes</a> for an example-code and more information. Complete example <a href="https://github.com/muwerk/examples/tree/master/SwitchAndLed">SwitchAndLed</a>.</li>
+<li><a href="https://muwerk.github.io/mupplet-core/docs/classustd_1_1SwitchGPIO.html"><code>SwitchGPIO</code></a> The Switch GPIO mupplet allows to use hardware buttons and switches connected to a GPIO. Switch supports debouncing, flip-flop mode and push-button event. See <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/switch-notes.md">Switch application notes</a> for an example-code and more information. Complete example <a href="https://github.com/muwerk/examples/tree/master/SwitchAndLed">SwitchAndLed</a>.</li>
 </ul>
 <h2>Development and Design considerations </h2>
 <p>Some design recommendations for mupplets:</p>
@@ -109,9 +109,9 @@ $(function() {
 <div class="line">  public:</div>
 <div class="line">    String name;</div>
 <div class="line">    uint8_t addr;  // some hardware address that cannot change</div>
-<div class="line">    Scheduler *pSched;  // pointer to muwerk scheduler object, used to start </div>
+<div class="line">    Scheduler *pSched;  // pointer to muwerk scheduler object, used to start</div>
 <div class="line">                        // tasks and to pub/sub messages;</div>
-<div class="line">    bool bActive=false; // set to true if conditions for operation are met </div>
+<div class="line">    bool bActive=false; // set to true if conditions for operation are met</div>
 <div class="line">                        // (e.g. hardware found and initialized.)</div>
 <div class="line">    void MyMupplet(String name): name(name), addr(addr) {</div>
 <div class="line">        // Minimal code in constructor, just save invariants like the mupplet&#39;s</div>
@@ -122,16 +122,16 @@ $(function() {
 <div class="line">        pSched=_pSched;  // save muwerk pointer</div>
 <div class="line"> </div>
 <div class="line">        // now intialize hard- and software that is used with this mupplet,</div>
-<div class="line">        // e.g. initialize a sensor. </div>
+<div class="line">        // e.g. initialize a sensor.</div>
 <div class="line">        // If things go ok:</div>
 <div class="line">        bActive=true;</div>
 <div class="line"> </div>
 <div class="line">        // Initialize the worker &quot;thread&quot;:</div>
 <div class="line">        auto loopfunc = [=]() { this-&gt;loop(); };</div>
-<div class="line">        int tID = pSched-&gt;add(loopfunc, name, 100000);  </div>
+<div class="line">        int tID = pSched-&gt;add(loopfunc, name, 100000);</div>
 <div class="line">        // Scheduler will now call loop() every 100ms (100000us).</div>
 <div class="line"> </div>
-<div class="line">        // Subscribe to one or more topics to expose the mupplet&#39;s </div>
+<div class="line">        // Subscribe to one or more topics to expose the mupplet&#39;s</div>
 <div class="line">        // functionality</div>
 <div class="line">        auto fnall = [=](String topic, String msg, String originator) {</div>
 <div class="line">            this-&gt;subsMsg(topic, msg, originator);</div>
@@ -142,7 +142,7 @@ $(function() {
 <div class="line">    // loop is called by the scheduler according to the setting in begin()</div>
 <div class="line">    void loop() {</div>
 <div class="line">        // Implement the main functionality here.</div>
-<div class="line">        // Avoid blocking or polling as much as possible </div>
+<div class="line">        // Avoid blocking or polling as much as possible</div>
 <div class="line">        if (bActive) { // Initialization in setup() was successful</div>
 <div class="line">            // calculation... [state-machine]</div>
 <div class="line">            // We got a result, lets publish!</div>
@@ -152,7 +152,7 @@ $(function() {
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line"> </div>
-<div class="line">    // subsMsg is called by the scheduler, if a message that has been </div>
+<div class="line">    // subsMsg is called by the scheduler, if a message that has been</div>
 <div class="line">    // subscribed is available</div>
 <div class="line">    void subsMsg(String topic, String msg, String originator) {</div>
 <div class="line">        // A message with topic topic and content msg has been received</div>

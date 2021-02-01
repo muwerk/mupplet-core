@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['blink_46',['Blink',['../classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba2027274916efb784b9581171957f1a47',1,'ustd::Led']]]
+  ['blink_56',['Blink',['../classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245ac09edcdf890cd65289a29ecb8e6239a6',1,'ustd::LightController']]]
 ];

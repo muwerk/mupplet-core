@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>muwerk mupplet-core Library: ustd::Led Class Reference</title>
+<title>muwerk mupplet Core Library: ustd::LightGPIO Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">muwerk mupplet-core Library
+   <div id="projectname">muwerk mupplet Core Library
    </div>
    <div id="projectbrief">muwerk applets; mupplets: functional units that support specific hardware or reusable applications</div>
   </td>
@@ -62,55 +62,39 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespaceustd.html">ustd</a></li><li class="navelem"><a class="el" href="classustd_1_1Led.html">Led</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceustd.html">ustd</a></li><li class="navelem"><a class="el" href="classustd_1_1LightGPIO.html">LightGPIO</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classustd_1_1Led-members.html">List of all members</a>  </div>
+<a href="classustd_1_1LightGPIO-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ustd::Led Class Reference</div>  </div>
+<div class="title">ustd::LightGPIO Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>mupplet-core <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> class  
- <a href="classustd_1_1Led.html#details">More...</a></p>
+<p>mupplet-core GPIO Light class  
+ <a href="classustd_1_1LightGPIO.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="mup__led_8h_source.html">mup_led.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="light__gpio_8h_source.html">light_gpio.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a01eaa5fbd8dbaad7bd14e4cf329e22eb"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> { <br />
-&#160;&#160;<a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba5b2aacbd073ef57f8fac479fd324148c">Passive</a>
-, <a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba2027274916efb784b9581171957f1a47">Blink</a>
-, <a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22ebae69149047470d3ce621b3c92fc9f3274">Wave</a>
-, <a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba332211418be9023775e1c7ab06359732">Pulse</a>
-, <br />
-&#160;&#160;<a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eba062b8daa1a4eb2ab00530ee6f1a52586">Pattern</a>
-<br />
- }</td></tr>
-<tr class="separator:a01eaa5fbd8dbaad7bd14e4cf329e22eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac050ef0d3a7409e5608854e0b2ebf971"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#ac050ef0d3a7409e5608854e0b2ebf971">Led</a> (String name, uint8_t port, bool activeLogic=false, uint8_t channel=0)</td></tr>
-<tr class="separator:ac050ef0d3a7409e5608854e0b2ebf971"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adad791241c467d74d69d90bfcb4e8eb0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#adad791241c467d74d69d90bfcb4e8eb0">begin</a> (Scheduler *_pSched, bool initialState=false)</td></tr>
-<tr class="separator:adad791241c467d74d69d90bfcb4e8eb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae76a09bcd774f39aa8c7f797b3a1fba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#aae76a09bcd774f39aa8c7f797b3a1fba">set</a> (bool state)</td></tr>
-<tr class="separator:aae76a09bcd774f39aa8c7f797b3a1fba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46086548c619f3bd2855a4c3932109cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#a46086548c619f3bd2855a4c3932109cd">setMode</a> (<a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> _mode, unsigned int interval_ms=1000, double phase_unit=0.0, String _pattern=&quot;&quot;)</td></tr>
-<tr class="separator:a46086548c619f3bd2855a4c3932109cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa03d0a8606c75c63695290387743caca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#aa03d0a8606c75c63695290387743caca">brightness</a> (double bright)</td></tr>
-<tr class="separator:aa03d0a8606c75c63695290387743caca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dfde5dcd83b792b1f34791de0e7d15b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Led.html#a6dfde5dcd83b792b1f34791de0e7d15b">setMinMaxWaveBrightness</a> (double minBrightness, double maxBrightness)</td></tr>
-<tr class="separator:a6dfde5dcd83b792b1f34791de0e7d15b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59362e62ef4b980de1d64cb7724775a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1LightGPIO.html#a59362e62ef4b980de1d64cb7724775a4">LightGPIO</a> (String name, uint8_t port, bool activeLogic=false, uint8_t channel=0)</td></tr>
+<tr class="separator:a59362e62ef4b980de1d64cb7724775a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38b91067a15d2e44da4c62e5f8abed1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1LightGPIO.html#a38b91067a15d2e44da4c62e5f8abed1a">begin</a> (Scheduler *_pSched, bool initialState=false)</td></tr>
+<tr class="separator:a38b91067a15d2e44da4c62e5f8abed1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1a9167eac25a9dd8125545eeebd22a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1LightGPIO.html#ae1a9167eac25a9dd8125545eeebd22a2">set</a> (bool state)</td></tr>
+<tr class="separator:ae1a9167eac25a9dd8125545eeebd22a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86d0456f2b547f5e8815a458b3f0480a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1LightGPIO.html#a86d0456f2b547f5e8815a458b3f0480a">setMode</a> (<a class="el" href="classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245">LightController::Mode</a> mode, unsigned int interval_ms=1000, double phase_unit=0.0, String pattern=&quot;&quot;)</td></tr>
+<tr class="separator:a86d0456f2b547f5e8815a458b3f0480a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3c7b528a18f6827e1cf724e909cbd50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1LightGPIO.html#af3c7b528a18f6827e1cf724e909cbd50">setMinMaxWaveBrightness</a> (double minBrightness, double maxBrightness)</td></tr>
+<tr class="separator:af3c7b528a18f6827e1cf724e909cbd50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>mupplet-core <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> class </p>
-<p>The <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> class allows control of standard Leds (or lights) with digital and PWM control.</p>
+<div class="textblock"><p>mupplet-core GPIO Light class </p>
+<p>The GPIO Light class allows control of standard Leds (or lights) with digital and PWM control.</p>
 <p>Supported modes are: on/off (mode: Passive), brightness (mode: Passive, with PWM), wave (soft oszillation, mode: Wave), one-time pulse (mode: Pulse), and repeating, user-selectable patterns (mode: Pattern).</p>
 <h2>Messages</h2>
 <p>Messages sent by led mupplet:</p>
@@ -128,52 +112,24 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">topic   </th><th class="markdownTableHeadNone">message body   </th><th class="markdownTableHeadNone">comment    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/set</code>   </td><td class="markdownTableBodyNone"><code>on</code>, <code>off</code>, <code>true</code>, <code>false</code>, <code>pct 34</code>, <code>34%</code>, <code>0.34</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> can be set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval [0.0, 1.0]) can be sent as either <code>pct 34</code>, or <code>0.34</code>, or <code>34%</code>.    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/set</code>   </td><td class="markdownTableBodyNone"><code>on</code>, <code>off</code>, <code>true</code>, <code>false</code>, <code>pct 34</code>, <code>34%</code>, <code>0.34</code>   </td><td class="markdownTableBodyNone">Led can be set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval [0.0, 1.0]) can be sent as either <code>pct 34</code>, or <code>0.34</code>, or <code>34%</code>.    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/mode/set</code>   </td><td class="markdownTableBodyNone"><code>passive</code>, <code>pulse &lt;duration_ms&gt;</code>, <code>blink &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code>, <code>pattern &lt;pattern&gt;[,&lt;intervall&gt;[,&lt;phase&gt;]]</code> or <code>wave &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code>   </td><td class="markdownTableBodyNone">Mode passive does no automatic led state changes, <code>pulse</code> switches the led on for <code>&lt;duration_ms&gt;</code> ms, then led goes back to passive mode. <code>blink</code> changes the led state very <code>interval_ms</code> on/off, <code>wave</code> uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with <code>wave 1000</code> and one with <code>wave 1000,0.5</code> blink inverse. Patterns can be specified as string containing <code>+</code>,<code>-</code>,<code>0</code>..<code>9</code> or <code>r</code>. <code>+</code> is led on during <code>&lt;intervall&gt;</code> ms, <code>-</code> is off, <code>0</code>..<code>9</code> brightness-level. An <code>r</code> at the end of the pattern repeats the pattern. <code>"pattern +-+-+-+++-+++-+++-+-+-+---r,100"</code> lets the board signal SOS.   </td></tr>
 </table>
-<h2>Sample <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> Integration</h2>
+<h2>Sample Led Integration</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#define __ESP__ 1   </span><span class="comment">// Platform defines required, see ustd library doc, mainpage.</span></div>
 <div class="line"><span class="preprocessor">#include &quot;scheduler.h&quot;</span></div>
 <div class="line"> </div>
 <div class="line">ustd::Scheduler sched;</div>
-<div class="line">ust::Led led(<span class="stringliteral">&quot;myled&quot;</span>,13);</div>
+<div class="line">ust::LightLedGPIO led(<span class="stringliteral">&quot;myled&quot;</span>,13);</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">void</span> setup() {</div>
 <div class="line">    led.begin(&amp;sched);</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>More information: <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md">Led application notes</a> </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a01eaa5fbd8dbaad7bd14e4cf329e22eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01eaa5fbd8dbaad7bd14e4cf329e22eb">&#9670;&nbsp;</a></span>Mode</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">ustd::Led::Mode</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The mode led is operating in </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a01eaa5fbd8dbaad7bd14e4cf329e22eba5b2aacbd073ef57f8fac479fd324148c"></a>Passive&#160;</td><td class="fielddoc"><p><a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> is controlled by API or external events, used for on/off and brightness modes. No automatic state changes </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a01eaa5fbd8dbaad7bd14e4cf329e22eba2027274916efb784b9581171957f1a47"></a>Blink&#160;</td><td class="fielddoc"><p>Blink the led with a given frequency. The led is automatically controlled by the mupplet until a manual state override is given. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a01eaa5fbd8dbaad7bd14e4cf329e22ebae69149047470d3ce621b3c92fc9f3274"></a>Wave&#160;</td><td class="fielddoc"><p>This uses PWM to make a soft pulsing wave effect, automatic mode. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a01eaa5fbd8dbaad7bd14e4cf329e22eba332211418be9023775e1c7ab06359732"></a>Pulse&#160;</td><td class="fielddoc"><p>One-time pulse for a given length, automatic mode while pulse is active. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a01eaa5fbd8dbaad7bd14e4cf329e22eba062b8daa1a4eb2ab00530ee6f1a52586"></a>Pattern&#160;</td><td class="fielddoc"><p>Plays an (optionally) repeating pattern, e.g. to signal a system state. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac050ef0d3a7409e5608854e0b2ebf971"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac050ef0d3a7409e5608854e0b2ebf971">&#9670;&nbsp;</a></span>Led()</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a59362e62ef4b980de1d64cb7724775a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59362e62ef4b980de1d64cb7724775a4">&#9670;&nbsp;</a></span>LightGPIO()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +138,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ustd::Led::Led </td>
+          <td class="memname">ustd::LightGPIO::LightGPIO </td>
           <td>(</td>
           <td class="paramtype">String&#160;</td>
           <td class="paramname"><em>name</em>, </td>
@@ -217,8 +173,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Instantiate a <a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> object at a given hardware port.</p>
-<p>No hardware interaction is performed, until <a class="el" href="classustd_1_1Led.html#adad791241c467d74d69d90bfcb4e8eb0">begin()</a> is called.</p>
+<p>Instantiate a GPIO Led object at a given hardware port.</p>
+<p>No hardware interaction is performed, until <a class="el" href="classustd_1_1LightGPIO.html#a38b91067a15d2e44da4c62e5f8abed1a">begin()</a> is called.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>Name of the led, used to reference it by pub/sub messages </td></tr>
@@ -232,8 +188,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="adad791241c467d74d69d90bfcb4e8eb0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adad791241c467d74d69d90bfcb4e8eb0">&#9670;&nbsp;</a></span>begin()</h2>
+<a id="a38b91067a15d2e44da4c62e5f8abed1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38b91067a15d2e44da4c62e5f8abed1a">&#9670;&nbsp;</a></span>begin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -242,7 +198,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::Led::begin </td>
+          <td class="memname">void ustd::LightGPIO::begin </td>
           <td>(</td>
           <td class="paramtype">Scheduler *&#160;</td>
           <td class="paramname"><em>_pSched</em>, </td>
@@ -271,9 +227,9 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">topic   </th><th class="markdownTableHeadNone">message body   </th><th class="markdownTableHeadNone">comment    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/set</code>   </td><td class="markdownTableBodyNone"><code>on</code>, <code>off</code>, <code>true</code>, <code>false</code>, <code>pct 34</code>, <code>34%</code>, <code>0.34</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> can be set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval [0.0, 1.0]) can be sent as either <code>pct 34</code>, or <code>0.34</code>, or <code>34%</code>.    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/set</code>   </td><td class="markdownTableBodyNone"><code>on</code>, <code>off</code>, <code>true</code>, <code>false</code>, <code>pct 34</code>, <code>34%</code>, <code>0.34</code>   </td><td class="markdownTableBodyNone">Led can be set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval [0.0, 1.0]) can be sent as either <code>pct 34</code>, or <code>0.34</code>, or <code>34%</code>.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/mode/set</code>   </td><td class="markdownTableBodyNone"><code>passive</code>, <code>pulse &lt;duration_ms&gt;</code>, <code>blink &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code>, <code>wave &lt;intervall_ms&gt;[,&lt;phase-shif&gt;],</code>pattern &lt;pattern&gt;[,&lt;intervall&gt;[,&lt;phase&gt;]]<code>or</code>wave &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]<code>\ilinebr &lt;/td&gt; &lt;td class="markdownTableBodyNone"&gt; Mode passive does no automatic led state changes,</code>pulse<code>switches the led on for</code>&lt;duration_ms&gt;<code>ms, then led goes back to passive mode.</code>blink<code>changes the led state very</code>interval_ms<code>on/off,</code>wave<code>uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with</code>wave 1000<code>and one with</code>wave 1000,0.5<code>blink inverse. Patterns can be specified as string containing</code>+<code>,</code>-<code>,</code>0<code>..</code>9<code>or</code>r<code>.</code>+<code>is led on during</code>&lt;intervall&gt;<code>ms,</code>-<code>is off,</code>0<code>..</code>9<code>brightness-level. An</code>r<code>at the end of the pattern repeats the pattern.</code>"pattern +-+-+-+++-+++-+++-+-+-+---r,100"` lets the board signal SOS.   </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/light/mode/set</code>   </td><td class="markdownTableBodyNone"><code>passive</code>, <code>pulse &lt;duration_ms&gt;</code>, <code>blink &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code>, <code>wave &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code>, <code>pattern &lt;pattern&gt;[,&lt;intervall&gt;[,&lt;phase&gt;]]</code> or <code>wave &lt;intervall_ms&gt;[,&lt;phase-shift&gt;]</code>   </td><td class="markdownTableBodyNone">Mode passive does no automatic led state changes, <code>pulse</code> switches the led on for <code>&lt;duration_ms&gt;</code> ms, then led goes back to passive mode. <code>blink</code> changes the led state very <code>interval_ms</code> on/off, <code>wave</code> uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with <code>wave 1000</code> and one with <code>wave 1000,0.5</code> blink inverse. Patterns can be specified as string containing <code>+</code>,<code>-</code>,<code>0</code>..<code>9</code> or <code>r</code>. <code>+</code> is led on during <code>&lt;intervall&gt;</code> ms, <code>-</code> is off, <code>0</code>..<code>9</code> brightness-level. An <code>r</code> at the end of the pattern repeats the pattern. <code>"pattern +-+-+-+++-+++-+++-+-+-+---r,100"</code> lets the board signal SOS.   </td></tr>
 </table>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -285,8 +241,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aa03d0a8606c75c63695290387743caca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa03d0a8606c75c63695290387743caca">&#9670;&nbsp;</a></span>brightness()</h2>
+<a id="ae1a9167eac25a9dd8125545eeebd22a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1a9167eac25a9dd8125545eeebd22a2">&#9670;&nbsp;</a></span>set()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -295,40 +251,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::Led::brightness </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>bright</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Set led brighness level using PWM</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">bright</td><td>brightness level [0.0 (off) - 1.0 (on)]</td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="aae76a09bcd774f39aa8c7f797b3a1fba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae76a09bcd774f39aa8c7f797b3a1fba">&#9670;&nbsp;</a></span>set()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ustd::Led::set </td>
+          <td class="memname">void ustd::LightGPIO::set </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>state</em></td><td>)</td>
@@ -360,8 +283,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6dfde5dcd83b792b1f34791de0e7d15b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6dfde5dcd83b792b1f34791de0e7d15b">&#9670;&nbsp;</a></span>setMinMaxWaveBrightness()</h2>
+<a id="af3c7b528a18f6827e1cf724e909cbd50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3c7b528a18f6827e1cf724e909cbd50">&#9670;&nbsp;</a></span>setMinMaxWaveBrightness()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -370,7 +293,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::Led::setMinMaxWaveBrightness </td>
+          <td class="memname">void ustd::LightGPIO::setMinMaxWaveBrightness </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>minBrightness</em>, </td>
@@ -393,7 +316,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Set minimum and maximum brightness in wave <a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a></p>
+<p>Set minimum and maximum brightness in wave <a class="el" href="classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245">LightController::Mode</a></p>
 <p>Useful to compensate, if a led stays at similar brightness for a range of input values.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -405,8 +328,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a46086548c619f3bd2855a4c3932109cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46086548c619f3bd2855a4c3932109cd">&#9670;&nbsp;</a></span>setMode()</h2>
+<a id="a86d0456f2b547f5e8815a458b3f0480a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86d0456f2b547f5e8815a458b3f0480a">&#9670;&nbsp;</a></span>setMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -415,10 +338,10 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::Led::setMode </td>
+          <td class="memname">void ustd::LightGPIO::setMode </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a>&#160;</td>
-          <td class="paramname"><em>_mode</em>, </td>
+          <td class="paramtype"><a class="el" href="classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245">LightController::Mode</a>&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -436,7 +359,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>_pattern</em> = <code>&quot;&quot;</code>&#160;</td>
+          <td class="paramname"><em>pattern</em> = <code>&quot;&quot;</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -450,13 +373,13 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Set led mode to given <a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a></p>
+<p>Set led mode to given <a class="el" href="classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245">LightController::Mode</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_mode</td><td><a class="el" href="classustd_1_1Led.html" title="mupplet-core Led class">Led</a> <a class="el" href="classustd_1_1Led.html#a01eaa5fbd8dbaad7bd14e4cf329e22eb">Mode</a> </td></tr>
+    <tr><td class="paramname">mode</td><td>Led <a class="el" href="classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245">LightController::Mode</a> </td></tr>
     <tr><td class="paramname">interval_ms</td><td>Duration of blink in Mode::Blink or pulse duration. </td></tr>
     <tr><td class="paramname">phase_unit</td><td>Phase difference used to synchronize different leds in Wave or blink mode. A phase_unit of 0 synchronizes the given leds. phase-difference is in [0.0-1.0]. A phase difference of 0.5 (180 degrees) between two leds would let leds blink reversed. </td></tr>
-    <tr><td class="paramname">_pattern</td><td>Only in Mode::Pattern: a pattern string consisting of the characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or at the end of the string 'r' for endless repeat. Intervall_ms is the time for each pattern step. Example "++-r" with intervall_ms=100 lights the led for 200ms on, 100ms off and repeats. "1---------r" makes a faint 100ms flash every second. "0135797531r" simulates a PWM wave.</td></tr>
+    <tr><td class="paramname">pattern</td><td>Only in Mode::Pattern: a pattern string consisting of the characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or at the end of the string 'r' for endless repeat. Intervall_ms is the time for each pattern step. Example "++-r" with intervall_ms=100 lights the led for 200ms on, 100ms off and repeats. "1---------r" makes a faint 100ms flash every second. "0135797531r" simulates a PWM wave.</td></tr>
   </table>
   </dd>
 </dl>
@@ -464,7 +387,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="mup__led_8h_source.html">mup_led.h</a></li>
+<li><a class="el" href="light__gpio_8h_source.html">light_gpio.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

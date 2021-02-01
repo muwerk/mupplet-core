@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['readme_14',['README',['../md_README.html',1,'']]],
-  ['rising_15',['Rising',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea8974bef573ec5776dbb58a34a44110d6',1,'ustd::Switch']]]
+  ['pattern_15',['Pattern',['../classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245a1a24d57dbedb027a0e8043681fa04481',1,'ustd::LightController']]],
+  ['pulse_16',['Pulse',['../classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245ac678c6d1fd15a12ae02d0c1cd17208c2',1,'ustd::LightController']]]
 ];
