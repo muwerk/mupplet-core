@@ -1,7 +1,7 @@
-led.h
-=====
+light_gpio.h
+============
 
-Allows to set LEDs via digital logic or PWM brightness.
+Allows to control LEDs or generic lights via digital logic or PWM brightness.
 
 <img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" width="30%" height="30%">
 
@@ -30,10 +30,10 @@ Multiple leds are time and phase synchronized.
 ```cpp
 #define __ESP__   // or other ustd library platform define
 #include "muwerk.h"
-#include "light_led_gpio.h"
+#include "light_gpio.h"
 
 uint8_t channel=0; // only ESP32, 0..15
-ustd::LightLedGPIO led("myLed", 13, false, channel);
+ustd::LightGPIO led("myLed", 13, false, channel);
             // Led connected to pin D5,
             // false: led is on when D5 low
             // (inverted logic)
@@ -43,7 +43,7 @@ ustd::LightLedGPIO led("myLed", 13, false, channel);
 
 void setup() {
     led.begin(&sched);
-    led.setmode(led.Mode::WAVE, 1000);
+    led.setmode(LightController::Mode::Wave, 1000);
             // soft pwm pulsing in 1000ms intervals
             // same can be accomplished by publishing
             // topic myLed/light/setmode  msg "wave 1000"
