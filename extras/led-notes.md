@@ -30,11 +30,11 @@ Multiple leds are time and phase synchronized.
 ```cpp
 #define __ESP__   // or other ustd library platform define
 #include "muwerk.h"
-#include "led.h"
+#include "light_led_gpio.h"
 
 uint8_t channel=0; // only ESP32, 0..15
-ustd::Led led("myLed", 13, false, channel); 
-            // Led connected to pin D5, 
+ustd::LightLedGPIO led("myLed", 13, false, channel);
+            // Led connected to pin D5,
             // false: led is on when D5 low
             // (inverted logic)
             // Each led for ESP32 needs a unique PWM channel 0..15.
