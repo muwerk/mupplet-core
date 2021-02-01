@@ -7,9 +7,9 @@
 
 namespace ustd {
 // clang-format off
-/*! \brief mupplet-core GPIO Led class
+/*! \brief mupplet-core GPIO Light class
 
-The GPIO Led class allows control of standard Leds (or lights) with digital and PWM control.
+The GPIO Light class allows control of standard Leds (or lights) with digital and PWM control.
 
 Supported modes are: on/off (mode: Passive), brightness (mode: Passive, with PWM), wave (soft
 oszillation, mode: Wave), one-time pulse (mode: Pulse), and repeating, user-selectable patterns
@@ -53,7 +53,7 @@ notes</a>
 */
 // clang-format on
 
-class LightLedGPIO {
+class LightGPIO {
   public:
     const char *version = "0.1.0";
 
@@ -73,7 +73,7 @@ class LightLedGPIO {
     LightController light;
 
   public:
-    LightLedGPIO(String name, uint8_t port, bool activeLogic = false, uint8_t channel = 0)
+    LightGPIO(String name, uint8_t port, bool activeLogic = false, uint8_t channel = 0)
         : name(name), port(port), activeLogic(activeLogic), channel(channel) {
         /*! Instantiate a GPIO Led object at a given hardware port.
 
