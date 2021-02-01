@@ -24,7 +24,7 @@ that can be switched on or off.
 
 | topic | message body | comment
 | ----- | ------------ | -------
-| `<mupplet-name>/switch/set` | `on`, `off` | Switches the GPIO output accordingly.  
+| `<mupplet-name>/switch/set` | `on`, `off` | Switches the GPIO output accordingly.
 
 ## Sample digital out Integration
 
@@ -83,14 +83,14 @@ class DigitalOut {
 #endif
     }
 
-    void set(bool _state) {
+    void set(bool state) {
         /*! set assciated GPIO according to activeLogic defined in \ref begin
 
         @param state logical state (is inverse to actual GPIO level, if activeLogic=false)
         */
-        if (state == _state)
+        if (this->state == state)
             return;
-        if (_state)
+        if (state)
             setOn();
         else
             setOff();
