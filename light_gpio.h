@@ -102,7 +102,7 @@ class LightGPIO {
         | topic | message body | comment
         | ----- | ------------ | -------
         | `<mupplet-name>/light/set`      | `on`, `off`, `true`, `false`, `pct 34`, `34%`, `0.34` | Led can be set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval [0.0, 1.0]) can be sent as either `pct 34`, or `0.34`, or `34%`.
-        | `<mupplet-name>/light/mode/set` | `passive`, `pulse <duration_ms>`, `blink <intervall_ms>[,<phase-shift>]`, `wave <intervall_ms>[,<phase-shif>], `pattern <pattern>[,<intervall>[,<phase>]]` or `wave <intervall_ms>[,<phase-shift>]` | Mode passive does no automatic led state changes, `pulse` switches the led on for `<duration_ms>` ms, then led goes back to passive mode. `blink` changes the led state very `interval_ms` on/off, `wave` uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with `wave 1000` and one with `wave 1000,0.5` blink inverse. Patterns can be specified as string containing `+`,`-`,`0`..`9` or `r`. `+` is led on during `<intervall>` ms, `-` is off, `0`..`9` brightness-level. An `r` at the end of the pattern repeats the pattern. `"pattern +-+-+-+++-+++-+++-+-+-+---r,100"` lets the board signal SOS.
+        | `<mupplet-name>/light/mode/set` | `passive`, `pulse <duration_ms>`, `blink <intervall_ms>[,<phase-shift>]`, `wave <intervall_ms>[,<phase-shift>]`, `pattern <pattern>[,<intervall>[,<phase>]]` or `wave <intervall_ms>[,<phase-shift>]` | Mode passive does no automatic led state changes, `pulse` switches the led on for `<duration_ms>` ms, then led goes back to passive mode. `blink` changes the led state very `interval_ms` on/off, `wave` uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with `wave 1000` and one with `wave 1000,0.5` blink inverse. Patterns can be specified as string containing `+`,`-`,`0`..`9` or `r`. `+` is led on during `<intervall>` ms, `-` is off, `0`..`9` brightness-level. An `r` at the end of the pattern repeats the pattern. `"pattern +-+-+-+++-+++-+++-+-+-+---r,100"` lets the board signal SOS.
 
         @param _pSched Pointer to a muwerk scheduler object, used to create worker
                        tasks and for message pub/sub.
@@ -163,9 +163,9 @@ class LightGPIO {
 
     void setMode(LightController::Mode mode, unsigned int interval_ms = 1000,
                  double phase_unit = 0.0, String pattern = "") {
-        /*! Set led mode to given \ref Mode
+        /*! Set led mode to given \ref LightController::Mode
 
-        @param mode Led \ref Mode
+        @param mode Led \ref LightController::Mode
         @param interval_ms Duration of blink in Mode::Blink or pulse duration.
         @param phase_unit Phase difference used to synchronize different leds in Wave
                           or blink mode. A phase_unit of 0 synchronizes the given leds.
@@ -183,7 +183,7 @@ class LightGPIO {
     }
 
     void setMinMaxWaveBrightness(double minBrightness, double maxBrightness) {
-        /*! Set minimum and maximum brightness in wave \ref Mode
+        /*! Set minimum and maximum brightness in wave \ref LightController::Mode
 
         Useful to compensate, if a led stays at similar brightness for a range of input values.
 

@@ -77,7 +77,7 @@ class LightController {
          *
          * @param controller The controller function that controls the hardware and publishes state
          *                   messages.
-         * @param initialState Initial logical state of the llight.
+         * @param initialState Initial logical state of the light.
          */
         this->controller = controller;
         mode = Passive;
@@ -158,16 +158,16 @@ class LightController {
         last part of the topic. The most efficient method for processing commands from message
         subscriptions would be:
 
-        ~~~{.cpp}
+        \code{.cpp}
         pSched->subscribe(tID, name + "/light/#", [this](String topic, String msg, String orig) {
             this->light.commandParser(topic.substring(name.length() + 7), msg);
         });
-        ~~~
+        \endcode
 
         If the topic `<muppletname>/light/` shoudl support additonal commands, a typical
         implementation would be like:
 
-        ~~~{.cpp}
+        \code{.cpp}
         pSched->subscribe(tID, name + "/light/#", [this](String topic, String msg, String orig) {
             topic = topic.substring(name.length() + 7);
 
@@ -182,15 +182,16 @@ class LightController {
                 // do my other stuff
             }
         });
-        ~~~
+        \endcode
 
-        The followinf commands are supported:
+        The following commands are supported:
 
         * `set` - set the light on/off or to a specific intensity
         * `mode/set` - change the mode - see \ref setMode for details
         * `unitbrightness/get` - notify the current status
 
-        @param command The command
+        @param command The command to parse
+        @param args The arguments to the command
         */
         if (command == "set") {
             double br;
@@ -343,7 +344,7 @@ class LightController {
          brightness will result in the PWM value 0 -> the led is switched off. The implementation
          will than force the state to `false, 0.0`:
 
-         ~~~(.cpp)
+        \code{.cpp}
             ...
             } else if (state && level > 0.0) {
                 // led is dimmed
@@ -358,10 +359,10 @@ class LightController {
                 }
             } else {
             ...
-         ~~~
+        \endcode
 
          @param state Logical state of the light: true=on, false=off.
-         @param brightLevel Brightness level of the light [0.0 (off) - 1.0 (on)]
+         @param brightlevel Brightness level of the light [0.0 (off) - 1.0 (on)]
          */
         this->state = state;
         this->brightlevel = brightlevel < 0.0 ? 0.0 : brightlevel > 1.0 ? 1.0 : brightlevel;
