@@ -140,7 +140,7 @@ class max72xx : public Adafruit_GFX {
 
     void getCharBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny,
                        int16_t *maxx, int16_t *maxy) {
-        return charBounds(c, x, y, minx, miny, maxx, maxy);
+        charBounds(c, x, y, minx, miny, maxx, maxy);
     }
 
   public:
