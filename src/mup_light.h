@@ -38,9 +38,10 @@ Messages sent by led mupplet:
 \code{cpp}
 #define __ESP__ 1   // Platform defines required, see ustd library doc, mainpage.
 #include "scheduler.h"
+#include "mup_light.h"
 
 ustd::Scheduler sched;
-ust::LightLedGPIO led("myled",13);
+ust::Light led("myled",13);
 
 void setup() {
     led.begin(&sched);
@@ -53,9 +54,9 @@ notes</a>
 */
 // clang-format on
 
-class LightGPIO {
+class Light {
   public:
-    const char *version = "0.1.0";
+    static const char *version;  // = "0.1.0";
 
   private:
     // muwerk task management
@@ -73,7 +74,7 @@ class LightGPIO {
     LightController light;
 
   public:
-    LightGPIO(String name, uint8_t port, bool activeLogic = false, uint8_t channel = 0)
+    Light(String name, uint8_t port, bool activeLogic = false, uint8_t channel = 0)
         : name(name), port(port), activeLogic(activeLogic), channel(channel) {
         /*! Instantiate a GPIO Led object at a given hardware port.
 
@@ -239,5 +240,7 @@ class LightGPIO {
         }
     }
 };
+
+const char *Light::version = "0.1.0";
 
 }  // namespace ustd

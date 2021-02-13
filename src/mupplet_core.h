@@ -8,8 +8,8 @@
 
 mupplet-core implements the following classes based on the cooperative scheduler muwerk:
 
-* * \ref ustd::LightGPIO
-* * \ref ustd::SwitchGPIO
+* * \ref ustd::Light
+* * \ref ustd::Switch
 * * \ref ustd::DigitalOut
 
 Additionally there are implementation for the following helper classes:

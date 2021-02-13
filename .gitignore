@@ -2,7 +2,7 @@
 .DS_Store
 
 # IDE stuff
-.vs_code/
+/.vscode
 lsp.log
 
 # binaries

@@ -130,9 +130,9 @@ More information:
 notes</a>
 */
 // clang-format on
-class SwitchGPIO {
+class Switch {
   public:
-    const char *version = "0.1.0";
+    static const char *version;  // = "0.1.0";
     /*! The mode switch is operating in */
     enum Mode {
         Default,  /*!< Standard mode, changes between on-state (button pressed) and off-state
@@ -174,9 +174,8 @@ class SwitchGPIO {
     unsigned long durations[2] = {3000, 30000};
 
   public:
-    SwitchGPIO(String name, uint8_t port, Mode mode = Mode::Default, bool activeLogic = false,
-               String customTopic = "", int8_t interruptIndex = -1,
-               unsigned long debounceTimeMs = 0)
+    Switch(String name, uint8_t port, Mode mode = Mode::Default, bool activeLogic = false,
+           String customTopic = "", int8_t interruptIndex = -1, unsigned long debounceTimeMs = 0)
         : name(name), port(port), mode(mode), activeLogic(activeLogic), customTopic(customTopic),
           interruptIndex(interruptIndex), debounceTimeMs(debounceTimeMs) {
         /*! Instantiate a muwerk switch
@@ -195,7 +194,7 @@ class SwitchGPIO {
          */
     }
 
-    virtual ~SwitchGPIO() {
+    virtual ~Switch() {
         if (useInterrupt)
             detachInterrupt(ipin);
     }
@@ -609,5 +608,7 @@ class SwitchGPIO {
         }
     };
 };  // Switch
+
+const char *Switch::version = "0.1.0";
 
 }  // namespace ustd
