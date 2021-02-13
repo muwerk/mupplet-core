@@ -1,20 +1,20 @@
-led.h
-=====
+LightGPIO Mupplet
+=================
 
-Allows to set LEDs via digital logic or PWM brightness.
+Allows to control LEDs or generic lights via digital logic or PWM brightness.
 
 <img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" width="30%" height="30%">
 
 Hardware: 330Ω resistor, led.
 
-#### Messages sent by led mupplet:
+#### Messages sent by LightGPIO mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
 | `<mupplet-name>/light/unitbrightness` | normalized brightness [0.0-1.0] | `0.34`: Float value encoded as string. Not send on automatic changes (e.g. pulse mode)
 | `<mupplet-name>/light/state` | `on` or `off` | current led state (`on` is not sent on pwm intermediate values)
 
-#### Message received by led mupplet:
+#### Message received by LightGPIO mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
@@ -27,13 +27,15 @@ Multiple leds are time and phase synchronized.
 
 ### Sample code
 
+Please update the [ustd library platform define](https://github.com/muwerk/ustd#platform-defines) for your hardware.
+
 ```cpp
 #define __ESP__   // or other ustd library platform define
-#include "muwerk.h"
-#include "light_led_gpio.h"
+#include "scheduler.h"
+#include "light_gpio.h"
 
 uint8_t channel=0; // only ESP32, 0..15
-ustd::LightLedGPIO led("myLed", 13, false, channel);
+ustd::LightGPIO led("myLed", 13, false, channel);
             // Led connected to pin D5,
             // false: led is on when D5 low
             // (inverted logic)
@@ -43,9 +45,11 @@ ustd::LightLedGPIO led("myLed", 13, false, channel);
 
 void setup() {
     led.begin(&sched);
-    led.setmode(led.Mode::WAVE, 1000);
+    led.setMode(ustd::LightController::Mode::Wave, 1000);
             // soft pwm pulsing in 1000ms intervals
             // same can be accomplished by publishing
             // topic myLed/light/setmode  msg "wave 1000"
 }
 ```
+
+For a complete example, see [switchLed](https://github.com/muwerk/mupplet-core/blob/master/examples/switchLed/switchLed.ino)
