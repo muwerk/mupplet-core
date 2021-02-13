@@ -13,7 +13,7 @@ ustd::Light led("myLed", D5, false, channel);
 // Each led for ESP32 needs a unique PWM channel 0..15.
 // messages are sent/received to myLed/light/...
 // channel is ignored for all other platforms.
-ustd::Switch flipFlop("mySwitch1", D6, ustd::SwitchGPIO::Mode::Flipflop);
+ustd::Switch flipFlop("mySwitch1", D6, ustd::Switch::Mode::Flipflop);
 // Switch is set to flipflop-mode.
 
 void appLoop() {
