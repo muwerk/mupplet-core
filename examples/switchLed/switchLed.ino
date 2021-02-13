@@ -1,19 +1,19 @@
 #define __ESP__  // or other ustd library platform define
 #include "scheduler.h"
-#include "light_gpio.h"
-#include "switch_gpio.h"
+#include "mup_light.h"
+#include "mup_switch.h"
 
 ustd::Scheduler sched;
 
 uint8_t channel = 0;  // only ESP32, 0..15
-ustd::LightGPIO led("myLed", D5, false, channel);
+ustd::Light led("myLed", D5, false, channel);
 // Led connected to pin D5,
 // false: led is on when D5 low
 // (inverted logic)
 // Each led for ESP32 needs a unique PWM channel 0..15.
 // messages are sent/received to myLed/light/...
 // channel is ignored for all other platforms.
-ustd::SwitchGPIO flipFlop("mySwitch1", D6, ustd::SwitchGPIO::Mode::Flipflop);
+ustd::Switch flipFlop("mySwitch1", D6, ustd::SwitchGPIO::Mode::Flipflop);
 // Switch is set to flipflop-mode.
 
 void appLoop() {

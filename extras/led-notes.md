@@ -1,5 +1,5 @@
-LightGPIO Mupplet
-=================
+Light Mupplet
+=============
 
 Allows to control LEDs or generic lights via digital logic or PWM brightness.
 
@@ -7,14 +7,14 @@ Allows to control LEDs or generic lights via digital logic or PWM brightness.
 
 Hardware: 330Ω resistor, led.
 
-#### Messages sent by LightGPIO mupplet:
+#### Messages sent by Light mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
 | `<mupplet-name>/light/unitbrightness` | normalized brightness [0.0-1.0] | `0.34`: Float value encoded as string. Not send on automatic changes (e.g. pulse mode)
 | `<mupplet-name>/light/state` | `on` or `off` | current led state (`on` is not sent on pwm intermediate values)
 
-#### Message received by LightGPIO mupplet:
+#### Message received by Light mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
@@ -32,10 +32,10 @@ Please update the [ustd library platform define](https://github.com/muwerk/ustd#
 ```cpp
 #define __ESP__   // or other ustd library platform define
 #include "scheduler.h"
-#include "light_gpio.h"
+#include "mup_light.h"
 
 uint8_t channel=0; // only ESP32, 0..15
-ustd::LightGPIO led("myLed", 13, false, channel);
+ustd::Light led("myLed", 13, false, channel);
             // Led connected to pin D5,
             // false: led is on when D5 low
             // (inverted logic)

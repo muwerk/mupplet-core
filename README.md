@@ -17,7 +17,7 @@ The `mupplet-core` library consists of the following modules:
 
 <img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" align="right" width="7%" height="7%">
 
-* [`LightGPIO`](https://muwerk.github.io/mupplet-core/docs/classustd_1_1LightGPIO.html) The Light
+* [`Light`](https://muwerk.github.io/mupplet-core/docs/classustd_1_1Light.html) The Light
   GPIO mupplet allows to control a led or light's state, brightness using modes such as
   user-controlled, blink, soft-wave, one-time pulse and automatic pattern playback.
   See [Led application notes](https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md)
@@ -25,7 +25,7 @@ The `mupplet-core` library consists of the following modules:
 
 <img src="https://github.com/muwerk/mupplet-core/blob/master/extras/switch.png" align="right" width="10%" height="10%">
 
-* [`SwitchGPIO`](https://muwerk.github.io/mupplet-core/docs/classustd_1_1SwitchGPIO.html) The Switch
+* [`Switch`](https://muwerk.github.io/mupplet-core/docs/classustd_1_1Switch.html) The Switch
   GPIO mupplet allows to use hardware buttons and switches connected to a GPIO. Switch supports debouncing,
   flip-flop mode and push-button event. See [Switch application notes]( https://github.com/muwerk/mupplet-core/blob/master/extras/switch-notes.md)
   for an example-code and more information. Complete example [SwitchAndLed](https://github.com/muwerk/examples/tree/master/SwitchAndLed).
@@ -141,6 +141,7 @@ class MyMupplet {
 
 History
 -------
+- 0.2.0 (2021-02-13) Consistent naming, documentation fixes, configurable topic in `DigitalOut`.
 - 0.1.1 (2021-02-13) Broken repository-url fixed for `library.json`.
 - 0.1.0 (2021-02-13) Mupplets for basic I/O, leds and switches.
 

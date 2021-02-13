@@ -18,17 +18,28 @@ that can be switched on or off.
 
 | topic | message body | comment
 | ----- | ------------ | -------
-| `<mupplet-name>/switch/state` | `on`, `off` | switch state, `on` or `off`.
+| `<mupplet-name>/<topic>/state` | `on`, `off` | switch state, `on` or `off`.
 
 ### Message received by the switch mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
-| `<mupplet-name>/switch/set` | `on`, `off` | Switches the GPIO output accordingly.
+| `<mupplet-name>/<topic>/set` | `on`, `off` | Switches the GPIO output accordingly.
 
 ## Sample digital out Integration
 
-XXX
+\code{cpp}
+#define __ESP__ 1   // Platform defines required, see ustd library doc, mainpage.
+#include "scheduler.h"
+#include "mup_digital_out.h"
+
+ustd::Scheduler sched;
+ust::DigitalOut relay("myRelay",13);
+
+void setup() {
+    relay.begin(&sched);
+}
+\endcode
 
 More information:
 <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/digital_out-notes.md">Digital out application
@@ -38,7 +49,7 @@ notes</a>
 class DigitalOut {
   public:
 #if USTD_FEATURE_MEMORY > USTD_FEATURE_MEM_512B
-    const char *version = "0.1.0";
+    static const char *version;  // = "0.2.0";
 #endif
 
   private:
@@ -47,17 +58,19 @@ class DigitalOut {
     String name;
     uint8_t port;
     bool activeLogic = false;
+    const char *topic;
     bool state;
 
   public:
-    DigitalOut(String name, uint8_t port, bool activeLogic = false)
-        : name(name), port(port), activeLogic(activeLogic) {
+    DigitalOut(String name, uint8_t port, bool activeLogic = false, const char *topic = "relay")
+        : name(name), port(port), activeLogic(activeLogic), topic(topic) {
         /*! Instantiate a DigitalOut object
 
         @param name Unique name of this mupplet, appears in pub/sub messages
         @param port GPIO port number
         @param activeLogic true: calling \ref set with true generate HIGH level (active high),
                            false: calling \ref set with true generates LOW level (active low)
+        @param topic Topic name of the device, default value is "relay"
          */
     }
 
@@ -79,7 +92,7 @@ class DigitalOut {
         auto fnall = [=](String topic, String msg, String originator) {
             this->subsMsg(topic, msg, originator);
         };
-        pSched->subscribe(tID, name + "/switch/#", fnall);
+        pSched->subscribe(tID, name + "/" + topic + "/#", fnall);
 #endif
     }
 
@@ -120,9 +133,9 @@ class DigitalOut {
 #if USTD_FEATURE_MEMORY > USTD_FEATURE_MEM_512B
     void publishState() {
         if (state) {
-            pSched->publish(name + "/switch/state", "on");
+            pSched->publish(name + "/" + topic + "/state", "on");
         } else {
-            pSched->publish(name + "/switch/state", "off");
+            pSched->publish(name + "/" + topic + "/state", "off");
         }
     }
 #endif
@@ -138,11 +151,16 @@ class DigitalOut {
         memset(msgbuf, 0, 128);
         strncpy(msgbuf, msg.c_str(), 127);
         msg.toLowerCase();
-        if (topic == name + "/switch/set") {
+        if (topic == name + "/" + topic + "/set") {
             set((msg == "on" || msg == "1"));
         }
     }
 #endif
 };  // DigitalOut
+
+// version
+#if USTD_FEATURE_MEMORY > USTD_FEATURE_MEM_512B
+const char *DigitalOut::version = "0.2.0";
+#endif
 
 }  // namespace ustd
