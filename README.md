@@ -141,6 +141,7 @@ class MyMupplet {
 
 History
 -------
+- 0.1.1 (2021-02-13) Broken repository-url fixed for `library.json`.
 - 0.1.0 (2021-02-13) Mupplets for basic I/O, leds and switches.
 
 More mupplet libraries
