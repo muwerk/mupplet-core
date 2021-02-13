@@ -132,7 +132,7 @@ notes</a>
 // clang-format on
 class Switch {
   public:
-    const char *version = "0.1.0";
+    static const char *version;  // = "0.1.0";
     /*! The mode switch is operating in */
     enum Mode {
         Default,  /*!< Standard mode, changes between on-state (button pressed) and off-state
@@ -608,5 +608,7 @@ class Switch {
         }
     };
 };  // Switch
+
+const char *Switch::version = "0.1.0";
 
 }  // namespace ustd

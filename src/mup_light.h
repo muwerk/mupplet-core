@@ -56,7 +56,7 @@ notes</a>
 
 class Light {
   public:
-    const char *version = "0.1.0";
+    static const char *version;  // = "0.1.0";
 
   private:
     // muwerk task management
@@ -240,5 +240,7 @@ class Light {
         }
     }
 };
+
+const char *Light::version = "0.1.0";
 
 }  // namespace ustd
