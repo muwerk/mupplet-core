@@ -1,7 +1,7 @@
 [![PlatformIO CI](https://github.com/muwerk/mupplet-core/workflows/PlatformIO%20CI/badge.svg)](https://github.com/muwerk/mupplet-core/actions) [![Dev Docs](https://img.shields.io/badge/docs-dev-blue.svg)](https://muwerk.github.io/mupplet-core/docs/index.html)
 
 **Note:** This project, while being released, is still WIP. Additional functionality from [Research-mupplets](https://github.com/muwerk/Research-mupplets)
-is being refactored and ported into this project, which will be published as Arduino- and Platformio-Libraries soon.
+is being refactored and ported into this project.
 
 mupplet-core
 ============
@@ -141,6 +141,7 @@ class MyMupplet {
 
 History
 -------
+- 0.1.1 (2021-02-13) Broken repository-url fixed for `library.json`.
 - 0.1.0 (2021-02-13) Mupplets for basic I/O, leds and switches.
 
 More mupplet libraries
