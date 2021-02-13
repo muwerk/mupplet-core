@@ -38,7 +38,8 @@ void setup() {
 
     int tid = sched.add(appLoop, "main",
                         1000000);  // call appLoop every 1sec (1000000us, change as you wish.)
-    sched.subscribe("mySwitch1/switch/state", switchMsg);
+    // Subscribe to switch state changes:
+    sched.subscribe(tid, "mySwitch1/switch/state", switchMsg);
 }
 
 // Never add code to this loop, use appLoop() instead.
