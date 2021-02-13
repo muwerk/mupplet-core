@@ -27,9 +27,11 @@ Multiple leds are time and phase synchronized.
 
 ### Sample code
 
+Please update the [ustd library platform define](https://github.com/muwerk/ustd#platform-defines) for your hardware.
+
 ```cpp
 #define __ESP__   // or other ustd library platform define
-#include "muwerk.h"
+#include "scheduler.h"
 #include "light_gpio.h"
 
 uint8_t channel=0; // only ESP32, 0..15
