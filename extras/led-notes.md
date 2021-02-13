@@ -27,6 +27,8 @@ Multiple leds are time and phase synchronized.
 
 ### Sample code
 
+Please update the [ustd library platform define](https://github.com/muwerk/ustd#platform-defines) for your hardware.
+
 ```cpp
 #define __ESP__   // or other ustd library platform define
 #include "muwerk.h"
