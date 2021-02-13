@@ -2,7 +2,7 @@
 
 Support switches with automatic debouncing.
 
-<img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" width="30%" height="30%">
+<img src="https://github.com/muwerk/mupplet-core/blob/master/extras/switch.png" width="50%">
 Hardware: 330Ω resistor, led, switch.
 
 #### Messages sent by switch mupplet:
