@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['t_5fcontrol_28',['T_CONTROL',['../classustd_1_1LightController.html#a6bd1b4413389ed4d83be84288b4aed42',1,'ustd::LightController']]],
-  ['timer_29',['Timer',['../classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2aafb716daf8ada32323faa3e32d5e03d2',1,'ustd::SwitchGPIO']]]
+  ['t_5fcontrol_27',['T_CONTROL',['../classustd_1_1LightController.html#a6bd1b4413389ed4d83be84288b4aed42',1,'ustd::LightController']]],
+  ['timer_28',['Timer',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ceace20a73b93915582663f39bcd0e509d6',1,'ustd::Switch']]]
 ];

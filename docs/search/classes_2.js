@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['switchgpio_35',['SwitchGPIO',['../classustd_1_1SwitchGPIO.html',1,'ustd']]]
+  ['switch_34',['Switch',['../classustd_1_1Switch.html',1,'ustd']]]
 ];

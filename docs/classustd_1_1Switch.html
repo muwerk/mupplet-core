@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>muwerk mupplet Core Library: ustd::SwitchGPIO Class Reference</title>
+<title>muwerk mupplet Core Library: ustd::Switch Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,64 +62,64 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespaceustd.html">ustd</a></li><li class="navelem"><a class="el" href="classustd_1_1SwitchGPIO.html">SwitchGPIO</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceustd.html">ustd</a></li><li class="navelem"><a class="el" href="classustd_1_1Switch.html">Switch</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classustd_1_1SwitchGPIO-members.html">List of all members</a>  </div>
+<a href="classustd_1_1Switch-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ustd::SwitchGPIO Class Reference</div>  </div>
+<div class="title">ustd::Switch Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>mupplet-core GPIO Switch class  
- <a href="classustd_1_1SwitchGPIO.html#details">More...</a></p>
+<p>mupplet-core GPIO <a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> class  
+ <a href="classustd_1_1Switch.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="switch__gpio_8h_source.html">switch_gpio.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="mup__switch_8h_source.html">mup_switch.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:aac5cfabca58d80cdb6cabaa2ed8fd0a2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2">Mode</a> { <br />
-&#160;&#160;<a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2aa5fd606d7173334f47117355cedd94d3">Default</a>
-, <a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2a631ea6635258fb37b95ce7e33b54f22d">Rising</a>
-, <a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2a7925d13fe881f08310f23dd98be61981">Falling</a>
-, <a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2a37a2caecebfe7cad6e8a3a797b790213">Flipflop</a>
+<tr class="memitem:a0ed10c5f6a0eb673520e0a76e05f22ce"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">Mode</a> { <br />
+&#160;&#160;<a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea832c3a1910ed6b8b0477b6020119cec3">Default</a>
+, <a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea8974bef573ec5776dbb58a34a44110d6">Rising</a>
+, <a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea5159d7a04d8f45e91e31fc7f50921791">Falling</a>
+, <a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea7d0bdf2e84554f7b2e8941b098a55c21">Flipflop</a>
 , <br />
-&#160;&#160;<a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2aafb716daf8ada32323faa3e32d5e03d2">Timer</a>
-, <a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2acc355080f672d2c1f91eb837a7b4877f">Duration</a>
+&#160;&#160;<a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ceace20a73b93915582663f39bcd0e509d6">Timer</a>
+, <a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea5ebdc9e75d572fe606fab4077e9f1b52">Duration</a>
 <br />
  }</td></tr>
-<tr class="separator:aac5cfabca58d80cdb6cabaa2ed8fd0a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a0ed10c5f6a0eb673520e0a76e05f22ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adf4d56ae17a199f86aca4472b827c66c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1SwitchGPIO.html#adf4d56ae17a199f86aca4472b827c66c">SwitchGPIO</a> (String name, uint8_t port, <a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2">Mode</a> mode=Mode::Default, bool activeLogic=false, String customTopic=&quot;&quot;, int8_t interruptIndex=-1, unsigned long debounceTimeMs=0)</td></tr>
-<tr class="separator:adf4d56ae17a199f86aca4472b827c66c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63eead25b5bc5f3b62e5d6779f4333d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1SwitchGPIO.html#a63eead25b5bc5f3b62e5d6779f4333d0">setDebounce</a> (long ms)</td></tr>
-<tr class="separator:a63eead25b5bc5f3b62e5d6779f4333d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09ab59422d91cf7eccae7e0408eacd8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1SwitchGPIO.html#a09ab59422d91cf7eccae7e0408eacd8d">setTimerDuration</a> (unsigned long ms)</td></tr>
-<tr class="separator:a09ab59422d91cf7eccae7e0408eacd8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a194439b9fbc6bfa2f8096225f31101b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1SwitchGPIO.html#a194439b9fbc6bfa2f8096225f31101b7">setMode</a> (<a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2">Mode</a> newmode, unsigned long duration=0)</td></tr>
-<tr class="separator:a194439b9fbc6bfa2f8096225f31101b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3763b06ec7406bca9b11f1483378766"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1SwitchGPIO.html#ad3763b06ec7406bca9b11f1483378766">begin</a> (Scheduler *_pSched)</td></tr>
-<tr class="separator:ad3763b06ec7406bca9b11f1483378766"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad26819f99ae1fe609c14cfd73e2f27d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1SwitchGPIO.html#ad26819f99ae1fe609c14cfd73e2f27d9">setLogicalState</a> (bool newLogicalState)</td></tr>
-<tr class="separator:ad26819f99ae1fe609c14cfd73e2f27d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17851b734647d83e6d1189a4ec780e74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1SwitchGPIO.html#a17851b734647d83e6d1189a4ec780e74">setToggle</a> ()</td></tr>
-<tr class="separator:a17851b734647d83e6d1189a4ec780e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2dc12cade81c348e791e7e80ffde4e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1SwitchGPIO.html#aa2dc12cade81c348e791e7e80ffde4e6">setPulse</a> ()</td></tr>
-<tr class="separator:aa2dc12cade81c348e791e7e80ffde4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af225a908143d4efb3985d73aafa7c93d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#af225a908143d4efb3985d73aafa7c93d">Switch</a> (String name, uint8_t port, <a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">Mode</a> mode=Mode::Default, bool activeLogic=false, String customTopic=&quot;&quot;, int8_t interruptIndex=-1, unsigned long debounceTimeMs=0)</td></tr>
+<tr class="separator:af225a908143d4efb3985d73aafa7c93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a966f541283b4f3ee3b01122df7e70bb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a966f541283b4f3ee3b01122df7e70bb2">setDebounce</a> (long ms)</td></tr>
+<tr class="separator:a966f541283b4f3ee3b01122df7e70bb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24be58ff677f2e20a5139602f3464e63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a24be58ff677f2e20a5139602f3464e63">setTimerDuration</a> (unsigned long ms)</td></tr>
+<tr class="separator:a24be58ff677f2e20a5139602f3464e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f49577e878f6f761b2dba6e5e9025e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a9f49577e878f6f761b2dba6e5e9025e9">setMode</a> (<a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">Mode</a> newmode, unsigned long duration=0)</td></tr>
+<tr class="separator:a9f49577e878f6f761b2dba6e5e9025e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaadab22dd85f9c20bd46782e8b6cc153"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#aaadab22dd85f9c20bd46782e8b6cc153">begin</a> (Scheduler *_pSched)</td></tr>
+<tr class="separator:aaadab22dd85f9c20bd46782e8b6cc153"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a765c9c2a6e62068c4d83e1711004a075"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a765c9c2a6e62068c4d83e1711004a075">setLogicalState</a> (bool newLogicalState)</td></tr>
+<tr class="separator:a765c9c2a6e62068c4d83e1711004a075"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2082bfe5de0628080b23fff90c6cccf9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a2082bfe5de0628080b23fff90c6cccf9">setToggle</a> ()</td></tr>
+<tr class="separator:a2082bfe5de0628080b23fff90c6cccf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87e88ea9cd712323b19f6c2ce223769b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a87e88ea9cd712323b19f6c2ce223769b">setPulse</a> ()</td></tr>
+<tr class="separator:a87e88ea9cd712323b19f6c2ce223769b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>mupplet-core GPIO Switch class </p>
-<p>The Switch class allows to integrate switches and buttons in muwerk by either polling GPIOs or by using interrupts. Optional automatic debouncing is provided for both modes, but mostly important for interrupt-mode.</p>
+<div class="textblock"><p>mupplet-core GPIO <a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> class </p>
+<p>The <a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> class allows to integrate switches and buttons in muwerk by either polling GPIOs or by using interrupts. Optional automatic debouncing is provided for both modes, but mostly important for interrupt-mode.</p>
 <p>In mode falling or rising, only a 'trigger' event is generated, there is no on or off state. This is useful to implement push-button events.</p>
 <p>The mupplet can automatically generate short- and long-press events and provide timing information about length of button presses.</p>
 <p>Other options include flip-flop mode and monostable impulses.</p>
-<p>The physical hardware of a switch can be overriden by a software <a class="el" href="classustd_1_1SwitchGPIO.html#ad26819f99ae1fe609c14cfd73e2f27d9">setLogicalState</a>, a switch stays in override-mode until the next state change of the physical hardware is detected.</p>
+<p>The physical hardware of a switch can be overriden by a software <a class="el" href="classustd_1_1Switch.html#a765c9c2a6e62068c4d83e1711004a075">setLogicalState</a>, a switch stays in override-mode until the next state change of the physical hardware is detected.</p>
 <h2>Messages</h2>
 <h3>Messages sent by the switch mupplet:</h3>
 <table class="markdownTable">
@@ -132,13 +132,13 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>&lt;custom-topic&gt;</code>   </td><td class="markdownTableBodyNone"><code>on</code>, <code>off</code> or <code>trigger</code>   </td><td class="markdownTableBodyNone">If a custom-topic is given during switch init, an addtional message is publish on switch state changes with that topic, The message is identical to ../switch/state', usually <code>on</code> or <code>off</code>. In modes <code>falling</code> and <code>rising</code> only <code>trigger</code>.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/shortpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone">Switch is in <code>duration</code> mode, and button is pressed for less than <code>&lt;shortpress_ms&gt;</code> (default 3000ms).    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/shortpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, and button is pressed for less than <code>&lt;shortpress_ms&gt;</code> (default 3000ms).    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/longpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone">Switch is in <code>duration</code> mode, and button is pressed for less than <code>&lt;longpress_ms&gt;</code> (default 30000ms), yet longer than shortpress.    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/longpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, and button is pressed for less than <code>&lt;longpress_ms&gt;</code> (default 30000ms), yet longer than shortpress.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/verylongtpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone">Switch is in <code>duration</code> mode, and button is pressed for longer than <code>&lt;longpress_ms&gt;</code> (default 30000ms).    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/verylongtpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, and button is pressed for longer than <code>&lt;longpress_ms&gt;</code> (default 30000ms).    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/duration</code>   </td><td class="markdownTableBodyNone"><code>&lt;ms&gt;</code>   </td><td class="markdownTableBodyNone">Switch is in <code>duration</code> mode, message contains the duration in ms the switch was pressed.   </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/duration</code>   </td><td class="markdownTableBodyNone"><code>&lt;ms&gt;</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, message contains the duration in ms the switch was pressed.   </td></tr>
 </table>
 <h3>Message received by the switch mupplet:</h3>
 <table class="markdownTable">
@@ -151,43 +151,43 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/debounce/set</code>   </td><td class="markdownTableBodyNone">&lt;time-in-ms&gt;   </td><td class="markdownTableBodyNone">String encoded switch debounce time in ms, [0..1000]ms. Default is 20ms. This is especially need, when switch is created in interrupt mode (see comment in <a href="https://github.com/muwerk/Examples/tree/master/led">example</a>).   </td></tr>
 </table>
-<h2>Sample Switch Integration</h2>
+<h2>Sample <a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> Integration</h2>
 <p>XXX</p>
 <p>More information: <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/Switch-notes.md">Switch application notes</a> </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="aac5cfabca58d80cdb6cabaa2ed8fd0a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac5cfabca58d80cdb6cabaa2ed8fd0a2">&#9670;&nbsp;</a></span>Mode</h2>
+<a id="a0ed10c5f6a0eb673520e0a76e05f22ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ed10c5f6a0eb673520e0a76e05f22ce">&#9670;&nbsp;</a></span>Mode</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2">ustd::SwitchGPIO::Mode</a></td>
+          <td class="memname">enum <a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">ustd::Switch::Mode</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>The mode switch is operating in </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aac5cfabca58d80cdb6cabaa2ed8fd0a2aa5fd606d7173334f47117355cedd94d3"></a>Default&#160;</td><td class="fielddoc"><p>Standard mode, changes between on-state (button pressed) and off-state (released) </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0ed10c5f6a0eb673520e0a76e05f22cea832c3a1910ed6b8b0477b6020119cec3"></a>Default&#160;</td><td class="fielddoc"><p>Standard mode, changes between on-state (button pressed) and off-state (released) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aac5cfabca58d80cdb6cabaa2ed8fd0a2a631ea6635258fb37b95ce7e33b54f22d"></a>Rising&#160;</td><td class="fielddoc"><p>Act on level changes LOW-&gt;HIGH, generates a 'trigger' message (push-button event) </p>
+<tr><td class="fieldname"><a id="a0ed10c5f6a0eb673520e0a76e05f22cea8974bef573ec5776dbb58a34a44110d6"></a>Rising&#160;</td><td class="fielddoc"><p>Act on level changes LOW-&gt;HIGH, generates a 'trigger' message (push-button event) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aac5cfabca58d80cdb6cabaa2ed8fd0a2a7925d13fe881f08310f23dd98be61981"></a>Falling&#160;</td><td class="fielddoc"><p>Act on level changes HIGH-&gt;LOW, generates a 'trigger' message (push-button event) <br  />
+<tr><td class="fieldname"><a id="a0ed10c5f6a0eb673520e0a76e05f22cea5159d7a04d8f45e91e31fc7f50921791"></a>Falling&#160;</td><td class="fielddoc"><p>Act on level changes HIGH-&gt;LOW, generates a 'trigger' message (push-button event) <br  />
  </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aac5cfabca58d80cdb6cabaa2ed8fd0a2a37a2caecebfe7cad6e8a3a797b790213"></a>Flipflop&#160;</td><td class="fielddoc"><p>Each trigger changes state for on to off or vice-versa </p>
+<tr><td class="fieldname"><a id="a0ed10c5f6a0eb673520e0a76e05f22cea7d0bdf2e84554f7b2e8941b098a55c21"></a>Flipflop&#160;</td><td class="fielddoc"><p>Each trigger changes state for on to off or vice-versa </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aac5cfabca58d80cdb6cabaa2ed8fd0a2aafb716daf8ada32323faa3e32d5e03d2"></a>Timer&#160;</td><td class="fielddoc"><p>Each trigger generates an on-state for a given time (monostable) </p>
+<tr><td class="fieldname"><a id="a0ed10c5f6a0eb673520e0a76e05f22ceace20a73b93915582663f39bcd0e509d6"></a>Timer&#160;</td><td class="fielddoc"><p>Each trigger generates an on-state for a given time (monostable) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aac5cfabca58d80cdb6cabaa2ed8fd0a2acc355080f672d2c1f91eb837a7b4877f"></a>Duration&#160;</td><td class="fielddoc"><p>Timing information is provided: SHORTPRESS, LONGPRESS, VERYLONGPRESS and absolute duration </p>
+<tr><td class="fieldname"><a id="a0ed10c5f6a0eb673520e0a76e05f22cea5ebdc9e75d572fe606fab4077e9f1b52"></a>Duration&#160;</td><td class="fielddoc"><p>Timing information is provided: SHORTPRESS, LONGPRESS, VERYLONGPRESS and absolute duration </p>
 </td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="adf4d56ae17a199f86aca4472b827c66c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf4d56ae17a199f86aca4472b827c66c">&#9670;&nbsp;</a></span>SwitchGPIO()</h2>
+<a id="af225a908143d4efb3985d73aafa7c93d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af225a908143d4efb3985d73aafa7c93d">&#9670;&nbsp;</a></span>Switch()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -196,7 +196,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ustd::SwitchGPIO::SwitchGPIO </td>
+          <td class="memname">ustd::Switch::Switch </td>
           <td>(</td>
           <td class="paramtype">String&#160;</td>
           <td class="paramname"><em>name</em>, </td>
@@ -210,7 +210,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2">Mode</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">Mode</a>&#160;</td>
           <td class="paramname"><em>mode</em> = <code>Mode::Default</code>, </td>
         </tr>
         <tr>
@@ -254,7 +254,7 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">name</td><td>The name of the switch mupplet, referenced in pub/sub messages </td></tr>
     <tr><td class="paramname">port</td><td>GPIO port the switch is connected to. </td></tr>
-    <tr><td class="paramname">mode</td><td>The <a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2">Mode</a> of operation of the switch. </td></tr>
+    <tr><td class="paramname">mode</td><td>The <a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">Mode</a> of operation of the switch. </td></tr>
     <tr><td class="paramname">activeLogic</td><td>'false' indicates that signal level LOW is switch active (default), 'true' indicates that signal level HIGH is switch active. </td></tr>
     <tr><td class="paramname">customTopic</td><td>An optional topic string that is sent in addition to the standard &lt;mupplet-name&gt;/switch/state message. Useful to indicate specific usages, e.g. a movement detector connected to the switch input. </td></tr>
     <tr><td class="paramname">interruptIndex</td><td>Optional ESP interrupt index 0..15, must be unique in a given system. </td></tr>
@@ -266,8 +266,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad3763b06ec7406bca9b11f1483378766"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3763b06ec7406bca9b11f1483378766">&#9670;&nbsp;</a></span>begin()</h2>
+<a id="aaadab22dd85f9c20bd46782e8b6cc153"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaadab22dd85f9c20bd46782e8b6cc153">&#9670;&nbsp;</a></span>begin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -276,7 +276,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::SwitchGPIO::begin </td>
+          <td class="memname">void ustd::Switch::begin </td>
           <td>(</td>
           <td class="paramtype">Scheduler *&#160;</td>
           <td class="paramname"><em>_pSched</em></td><td>)</td>
@@ -301,13 +301,13 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>&lt;custom-topic&gt;</code>   </td><td class="markdownTableBodyNone"><code>on</code>, <code>off</code> or <code>trigger</code>   </td><td class="markdownTableBodyNone">If a custom-topic is given during switch init, an addtional message is publish on switch state changes with that topic, The message is identical to ../switch/state', usually <code>on</code> or <code>off</code>. In modes <code>falling</code> and <code>rising</code> only <code>trigger</code>.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/shortpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone">Switch is in <code>duration</code> mode, and button is pressed for less than <code>&lt;shortpress_ms&gt;</code> (default 3000ms).    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/shortpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, and button is pressed for less than <code>&lt;shortpress_ms&gt;</code> (default 3000ms).    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/longpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone">Switch is in <code>duration</code> mode, and button is pressed for less than <code>&lt;longpress_ms&gt;</code> (default 30000ms), yet longer than shortpress.    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/longpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, and button is pressed for less than <code>&lt;longpress_ms&gt;</code> (default 30000ms), yet longer than shortpress.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/verylongtpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone">Switch is in <code>duration</code> mode, and button is pressed for longer than <code>&lt;longpress_ms&gt;</code> (default 30000ms).    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/verylongtpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, and button is pressed for longer than <code>&lt;longpress_ms&gt;</code> (default 30000ms).    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/duration</code>   </td><td class="markdownTableBodyNone"><code>&lt;ms&gt;</code>   </td><td class="markdownTableBodyNone">Switch is in <code>duration</code> mode, message contains the duration in ms the switch was pressed.   </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/duration</code>   </td><td class="markdownTableBodyNone"><code>&lt;ms&gt;</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, message contains the duration in ms the switch was pressed.   </td></tr>
 </table>
 <h3>The switch mupplet now listens to the following messages:</h3>
 <table class="markdownTable">
@@ -323,8 +323,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a63eead25b5bc5f3b62e5d6779f4333d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63eead25b5bc5f3b62e5d6779f4333d0">&#9670;&nbsp;</a></span>setDebounce()</h2>
+<a id="a966f541283b4f3ee3b01122df7e70bb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a966f541283b4f3ee3b01122df7e70bb2">&#9670;&nbsp;</a></span>setDebounce()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -333,7 +333,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::SwitchGPIO::setDebounce </td>
+          <td class="memname">void ustd::Switch::setDebounce </td>
           <td>(</td>
           <td class="paramtype">long&#160;</td>
           <td class="paramname"><em>ms</em></td><td>)</td>
@@ -356,8 +356,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad26819f99ae1fe609c14cfd73e2f27d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad26819f99ae1fe609c14cfd73e2f27d9">&#9670;&nbsp;</a></span>setLogicalState()</h2>
+<a id="a765c9c2a6e62068c4d83e1711004a075"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a765c9c2a6e62068c4d83e1711004a075">&#9670;&nbsp;</a></span>setLogicalState()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -366,7 +366,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::SwitchGPIO::setLogicalState </td>
+          <td class="memname">void ustd::Switch::setLogicalState </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>newLogicalState</em></td><td>)</td>
@@ -390,8 +390,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a194439b9fbc6bfa2f8096225f31101b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a194439b9fbc6bfa2f8096225f31101b7">&#9670;&nbsp;</a></span>setMode()</h2>
+<a id="a9f49577e878f6f761b2dba6e5e9025e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f49577e878f6f761b2dba6e5e9025e9">&#9670;&nbsp;</a></span>setMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -400,9 +400,9 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::SwitchGPIO::setMode </td>
+          <td class="memname">void ustd::Switch::setMode </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2">Mode</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">Mode</a>&#160;</td>
           <td class="paramname"><em>newmode</em>, </td>
         </tr>
         <tr>
@@ -423,10 +423,10 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Set the switch into one of the switch <a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2">Mode</a></p>
+<p>Set the switch into one of the switch <a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">Mode</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newmode</td><td>The new <a class="el" href="classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2">Mode</a> </td></tr>
+    <tr><td class="paramname">newmode</td><td>The new <a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">Mode</a> </td></tr>
     <tr><td class="paramname">duration</td><td>For Mode::Timer: the length in ms the switch stays on on reception of a trigger.</td></tr>
   </table>
   </dd>
@@ -434,8 +434,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aa2dc12cade81c348e791e7e80ffde4e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2dc12cade81c348e791e7e80ffde4e6">&#9670;&nbsp;</a></span>setPulse()</h2>
+<a id="a87e88ea9cd712323b19f6c2ce223769b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87e88ea9cd712323b19f6c2ce223769b">&#9670;&nbsp;</a></span>setPulse()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -444,7 +444,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::SwitchGPIO::setPulse </td>
+          <td class="memname">void ustd::Switch::setPulse </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -461,8 +461,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a09ab59422d91cf7eccae7e0408eacd8d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09ab59422d91cf7eccae7e0408eacd8d">&#9670;&nbsp;</a></span>setTimerDuration()</h2>
+<a id="a24be58ff677f2e20a5139602f3464e63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24be58ff677f2e20a5139602f3464e63">&#9670;&nbsp;</a></span>setTimerDuration()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -471,7 +471,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::SwitchGPIO::setTimerDuration </td>
+          <td class="memname">void ustd::Switch::setTimerDuration </td>
           <td>(</td>
           <td class="paramtype">unsigned long&#160;</td>
           <td class="paramname"><em>ms</em></td><td>)</td>
@@ -495,8 +495,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a17851b734647d83e6d1189a4ec780e74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17851b734647d83e6d1189a4ec780e74">&#9670;&nbsp;</a></span>setToggle()</h2>
+<a id="a2082bfe5de0628080b23fff90c6cccf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2082bfe5de0628080b23fff90c6cccf9">&#9670;&nbsp;</a></span>setToggle()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -505,7 +505,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ustd::SwitchGPIO::setToggle </td>
+          <td class="memname">void ustd::Switch::setToggle </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -523,7 +523,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="switch__gpio_8h_source.html">switch_gpio.h</a></li>
+<li>src/<a class="el" href="mup__switch_8h_source.html">mup_switch.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['default_57',['Default',['../classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2aa5fd606d7173334f47117355cedd94d3',1,'ustd::SwitchGPIO']]],
-  ['duration_58',['Duration',['../classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2acc355080f672d2c1f91eb837a7b4877f',1,'ustd::SwitchGPIO']]]
+  ['default_56',['Default',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea832c3a1910ed6b8b0477b6020119cec3',1,'ustd::Switch']]],
+  ['duration_57',['Duration',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea5ebdc9e75d572fe606fab4077e9f1b52',1,'ustd::Switch']]]
 ];

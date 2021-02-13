@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['default_4',['Default',['../classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2aa5fd606d7173334f47117355cedd94d3',1,'ustd::SwitchGPIO']]],
-  ['digitalout_5',['DigitalOut',['../classustd_1_1DigitalOut.html#a83151c753e2e52122d76f7ce53e18cf9',1,'ustd::DigitalOut::DigitalOut()'],['../classustd_1_1DigitalOut.html',1,'ustd::DigitalOut']]],
-  ['duration_6',['Duration',['../classustd_1_1SwitchGPIO.html#aac5cfabca58d80cdb6cabaa2ed8fd0a2acc355080f672d2c1f91eb837a7b4877f',1,'ustd::SwitchGPIO']]]
+  ['default_4',['Default',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea832c3a1910ed6b8b0477b6020119cec3',1,'ustd::Switch']]],
+  ['digitalout_5',['DigitalOut',['../classustd_1_1DigitalOut.html#a3f76d4bcd47dc7c305e3f48374158c21',1,'ustd::DigitalOut::DigitalOut()'],['../classustd_1_1DigitalOut.html',1,'ustd::DigitalOut']]],
+  ['duration_6',['Duration',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea5ebdc9e75d572fe606fab4077e9f1b52',1,'ustd::Switch']]]
 ];

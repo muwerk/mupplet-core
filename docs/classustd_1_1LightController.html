@@ -75,7 +75,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>The Light Controller Class.  
+<p>The <a class="el" href="classustd_1_1Light.html" title="mupplet-core GPIO Light class">Light</a> Controller Class.  
  <a href="classustd_1_1LightController.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="light__controller_8h_source.html">light_controller.h</a>&gt;</code></p>
@@ -110,7 +110,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a770339a53f86c60b74ec56e9712e6aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The Light Controller Class. </p>
+<div class="textblock"><p>The <a class="el" href="classustd_1_1Light.html" title="mupplet-core GPIO Light class">Light</a> Controller Class. </p>
 <p>This class is useful to implement mupplets for things that behave like a light. It supports switching the unit on and off and setting the light intensity. Addionally automatic light effects are supported (see <a class="el" href="classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245">Mode</a> and <a class="el" href="classustd_1_1LightController.html#aeccc32fa82ca3895ecae0e7c2a41be7f">setMode</a>) </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a6bd1b4413389ed4d83be84288b4aed42"></a>
@@ -153,7 +153,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The light operation mode </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="abc85697ec510ff1488f56ffcdb974245ac09edcdf890cd65289a29ecb8e6239a6"></a>Blink&#160;</td><td class="fielddoc"><p>Light is controlled by API or external events, used for on/off and brightness modes. No automatic state changes </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="abc85697ec510ff1488f56ffcdb974245ac09edcdf890cd65289a29ecb8e6239a6"></a>Blink&#160;</td><td class="fielddoc"><p><a class="el" href="classustd_1_1Light.html" title="mupplet-core GPIO Light class">Light</a> is controlled by API or external events, used for on/off and brightness modes. No automatic state changes </p>
 </td></tr>
 <tr><td class="fieldname"><a id="abc85697ec510ff1488f56ffcdb974245af153509004141a8067dea2f06626357a"></a>Wave&#160;</td><td class="fielddoc"><p>Blink the light with a given frequency. The light is automatically controlled by the mupplet until a manual state override is given. </p>
 </td></tr>
@@ -550,7 +550,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Set light mode to given <a class="el" href="classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245">Mode</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mode</td><td>Light <a class="el" href="classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245">Mode</a> </td></tr>
+    <tr><td class="paramname">mode</td><td><a class="el" href="classustd_1_1Light.html" title="mupplet-core GPIO Light class">Light</a> <a class="el" href="classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245">Mode</a> </td></tr>
     <tr><td class="paramname">interval_ms</td><td>Duration of blink in Mode::Blink or pulse duration. </td></tr>
     <tr><td class="paramname">phase_unit</td><td>Phase difference used to synchronize different lights in Wave or blink mode. A phase_unit of 0 synchronizes the given lights. phase-difference is in [0.0-1.0]. A phase difference of 0.5 (180 degrees) between two leds would let leds blink reversed. </td></tr>
     <tr><td class="paramname">pattern</td><td>Only in Mode::Pattern: a pattern string consisting of the characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or at the end of the string 'r' for endless repeat. Intervall_ms is the time for each pattern step. Example "++-r" with intervall_ms=100 lights the led for 200ms on, 100ms off and repeats. "1---------r" makes a faint 100ms flash every second. "0135797531r" simulates a wave.</td></tr>
@@ -561,7 +561,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>helper/<a class="el" href="light__controller_8h_source.html">light_controller.h</a></li>
+<li>src/helper/<a class="el" href="light__controller_8h_source.html">light_controller.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

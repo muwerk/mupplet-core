@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['set_19',['set',['../classustd_1_1DigitalOut.html#aa9bf4539f05297f6628a6d6453c7e826',1,'ustd::DigitalOut::set()'],['../classustd_1_1LightGPIO.html#ae1a9167eac25a9dd8125545eeebd22a2',1,'ustd::LightGPIO::set()'],['../classustd_1_1LightController.html#a36f4de0cd5fcc3b34c564f728f259b3a',1,'ustd::LightController::set()']]],
-  ['setdebounce_20',['setDebounce',['../classustd_1_1SwitchGPIO.html#a63eead25b5bc5f3b62e5d6779f4333d0',1,'ustd::SwitchGPIO']]],
-  ['setlogicalstate_21',['setLogicalState',['../classustd_1_1SwitchGPIO.html#ad26819f99ae1fe609c14cfd73e2f27d9',1,'ustd::SwitchGPIO']]],
-  ['setminmaxwavebrightness_22',['setMinMaxWaveBrightness',['../classustd_1_1LightGPIO.html#af3c7b528a18f6827e1cf724e909cbd50',1,'ustd::LightGPIO::setMinMaxWaveBrightness()'],['../classustd_1_1LightController.html#a1feaccf15e4df739c24cfbed0b918310',1,'ustd::LightController::setMinMaxWaveBrightness()']]],
-  ['setmode_23',['setMode',['../classustd_1_1LightGPIO.html#a86d0456f2b547f5e8815a458b3f0480a',1,'ustd::LightGPIO::setMode()'],['../classustd_1_1SwitchGPIO.html#a194439b9fbc6bfa2f8096225f31101b7',1,'ustd::SwitchGPIO::setMode()'],['../classustd_1_1LightController.html#aeccc32fa82ca3895ecae0e7c2a41be7f',1,'ustd::LightController::setMode()']]],
-  ['setpulse_24',['setPulse',['../classustd_1_1SwitchGPIO.html#aa2dc12cade81c348e791e7e80ffde4e6',1,'ustd::SwitchGPIO']]],
-  ['settimerduration_25',['setTimerDuration',['../classustd_1_1SwitchGPIO.html#a09ab59422d91cf7eccae7e0408eacd8d',1,'ustd::SwitchGPIO']]],
-  ['settoggle_26',['setToggle',['../classustd_1_1SwitchGPIO.html#a17851b734647d83e6d1189a4ec780e74',1,'ustd::SwitchGPIO']]],
-  ['switchgpio_27',['SwitchGPIO',['../classustd_1_1SwitchGPIO.html#adf4d56ae17a199f86aca4472b827c66c',1,'ustd::SwitchGPIO::SwitchGPIO()'],['../classustd_1_1SwitchGPIO.html',1,'ustd::SwitchGPIO']]]
+  ['set_18',['set',['../classustd_1_1DigitalOut.html#aa9bf4539f05297f6628a6d6453c7e826',1,'ustd::DigitalOut::set()'],['../classustd_1_1Light.html#a52180c7d7504d92b99dcd6289258fab1',1,'ustd::Light::set()'],['../classustd_1_1LightController.html#a36f4de0cd5fcc3b34c564f728f259b3a',1,'ustd::LightController::set()']]],
+  ['setdebounce_19',['setDebounce',['../classustd_1_1Switch.html#a966f541283b4f3ee3b01122df7e70bb2',1,'ustd::Switch']]],
+  ['setlogicalstate_20',['setLogicalState',['../classustd_1_1Switch.html#a765c9c2a6e62068c4d83e1711004a075',1,'ustd::Switch']]],
+  ['setminmaxwavebrightness_21',['setMinMaxWaveBrightness',['../classustd_1_1Light.html#a2548999ecfeffa8a893df7251c5c440f',1,'ustd::Light::setMinMaxWaveBrightness()'],['../classustd_1_1LightController.html#a1feaccf15e4df739c24cfbed0b918310',1,'ustd::LightController::setMinMaxWaveBrightness()']]],
+  ['setmode_22',['setMode',['../classustd_1_1Light.html#ace56172fd4aca81201f7ecbce17e9940',1,'ustd::Light::setMode()'],['../classustd_1_1Switch.html#a9f49577e878f6f761b2dba6e5e9025e9',1,'ustd::Switch::setMode()'],['../classustd_1_1LightController.html#aeccc32fa82ca3895ecae0e7c2a41be7f',1,'ustd::LightController::setMode()']]],
+  ['setpulse_23',['setPulse',['../classustd_1_1Switch.html#a87e88ea9cd712323b19f6c2ce223769b',1,'ustd::Switch']]],
+  ['settimerduration_24',['setTimerDuration',['../classustd_1_1Switch.html#a24be58ff677f2e20a5139602f3464e63',1,'ustd::Switch']]],
+  ['settoggle_25',['setToggle',['../classustd_1_1Switch.html#a2082bfe5de0628080b23fff90c6cccf9',1,'ustd::Switch']]],
+  ['switch_26',['Switch',['../classustd_1_1Switch.html#af225a908143d4efb3985d73aafa7c93d',1,'ustd::Switch::Switch()'],['../classustd_1_1Switch.html',1,'ustd::Switch']]]
 ];
