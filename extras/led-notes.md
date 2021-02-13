@@ -45,9 +45,11 @@ ustd::LightGPIO led("myLed", 13, false, channel);
 
 void setup() {
     led.begin(&sched);
-    led.setmode(LightController::Mode::Wave, 1000);
+    led.setMode(ustd::LightController::Mode::Wave, 1000);
             // soft pwm pulsing in 1000ms intervals
             // same can be accomplished by publishing
             // topic myLed/light/setmode  msg "wave 1000"
 }
 ```
+
+For a complete example, see [switchLed](https://github.com/muwerk/mupplet-core/blob/master/examples/switchLed/switchLed.ino)
