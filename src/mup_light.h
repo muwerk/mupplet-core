@@ -1,4 +1,4 @@
-// light_led_gpio.h -
+// mup_light.h - muwerk light applet
 
 #pragma once
 

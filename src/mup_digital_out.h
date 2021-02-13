@@ -1,4 +1,4 @@
-// led.h
+// mup_digital_out.h - muwerk digital out applet
 #pragma once
 
 #include "scheduler.h"
