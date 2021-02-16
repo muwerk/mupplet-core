@@ -40,6 +40,80 @@ depends on:
 //! \brief The muwerk namespace
 namespace ustd {
 
+bool parseBoolean(String arg) {
+    /*! Parses a string argument for a boolean value
+     *
+     * The parser is not case sensistive. The words `on` and
+     * `true` are interpreted as `true`, all other words as `false`.
+     * If the argument contains a numeric value, 0 is considered
+     * as `false`, all other values as `true`
+
+     * @param arg The argument ot parse
+     * @return The parsed value
+     */
+    arg.trim();
+    arg.toLowerCase();
+    if (arg == "on" || arg == "true") {
+        return true;
+    } else if (arg == "0") {
+        return false;
+    } else if (atoi(arg.c_str())) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+int16_t parseToken(String arg, const char **tokenList) {
+    /*! Parses a string argument against a token list
+     *
+     * The parser is not case sensistive and returns
+     * the index of the detected token. If no token matches
+     * the parser returns -1
+     *
+     * @param arg The argument to parse
+     * @param tokenList An array of constant zero terminated char string pointers contining the
+     *                  tokens. The tokens *must* be lowercase. The last token in the list *must*
+     *                  be an empty string.
+     * @return The index of the found token, or -1 if no token matches.
+     */
+    arg.trim();
+    arg.toLowerCase();
+    for (const char **pToken = tokenList; **pToken; *pToken++) {
+        if (!strcmp(arg.c_str(), *pToken)) {
+            return pToken - tokenList;
+        }
+    }
+    return -1;
+}
+
+long parseRangedLong(String arg, long minVal, long maxVal, long minDefaultVal, long maxDefaultVal) {
+    /*! Parses a string argument for a valid integer value
+     *
+     * The parser checks if the parsed value stays between the defined boundaries and returns either
+     * the entered value or one the defaults depending upon the entered value beeing lower than the
+     * minimum value or higher than the maximum value.
+     *
+     * @param arg The argument to parse
+     * @param minVal The minimum acceptable value
+     * @param maxVal The maximum acceptable value
+     * @param minDefaultVal The default value to return in case the enetered value is lower than
+     *                      `minVal`
+     * @param maxDefaultVal The default value to return in case the enetered value is higher than
+     *                      `maxVal`
+     * @return The parsed value
+     */
+    arg.trim();
+    long val = atol(arg.c_str());
+    if (val < minVal) {
+        return minDefaultVal;
+    } else if (val > maxVal) {
+        return maxDefaultVal;
+    } else {
+        return val;
+    }
+}
+
 double parseUnitLevel(String msg) {
     char buff[32];
     int l;
