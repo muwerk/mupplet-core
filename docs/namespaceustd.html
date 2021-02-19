@@ -63,7 +63,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">ustd Namespace Reference</div>  </div>
 </div><!--header-->
@@ -86,10 +87,173 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1LightController.html">LightController</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classustd_1_1Light.html" title="mupplet-core GPIO Light class">Light</a> Controller Class.  <a href="classustd_1_1LightController.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a30c1178851254a1fa0184cb7376bab29"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#a30c1178851254a1fa0184cb7376bab29">parseBoolean</a> (String arg)</td></tr>
+<tr class="separator:a30c1178851254a1fa0184cb7376bab29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad649bdcdc2ebc7317cb2e7fecd3a7e2d"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#ad649bdcdc2ebc7317cb2e7fecd3a7e2d">parseToken</a> (String arg, const char **tokenList)</td></tr>
+<tr class="separator:ad649bdcdc2ebc7317cb2e7fecd3a7e2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21a1acc15a645aa4dde7d3cea06e7e57"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#a21a1acc15a645aa4dde7d3cea06e7e57">parseRangedLong</a> (String arg, long minVal, long maxVal, long minDefaultVal, long maxDefaultVal)</td></tr>
+<tr class="separator:a21a1acc15a645aa4dde7d3cea06e7e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97e0fc5390e0fe632b7aa6ff362ab211"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#a97e0fc5390e0fe632b7aa6ff362ab211">parseUnitLevel</a> (String arg)</td></tr>
+<tr class="separator:a97e0fc5390e0fe632b7aa6ff362ab211"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The muwerk namespace. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a30c1178851254a1fa0184cb7376bab29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30c1178851254a1fa0184cb7376bab29">&#9670;&nbsp;</a></span>parseBoolean()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int8_t ustd::parseBoolean </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>arg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parses a string argument for a boolean value</p>
+<p>The parser is not case sensistive. The words <code>on</code> and <code>true</code> are interpreted as <code>true</code>, <code>off</code> and <code>false</code>as <code>false</code>. If the argument contains a numeric value, 0 is considered as <code>false</code>, all other values as <code>true</code> If the argument contains anything different, -1 is returned.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>The argument to parse </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>0</code> if <code>false</code>, <code>1</code> if <code>true</code>, <code>-1</code> if invalid</dd></dl>
+
+</div>
+</div>
+<a id="a21a1acc15a645aa4dde7d3cea06e7e57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21a1acc15a645aa4dde7d3cea06e7e57">&#9670;&nbsp;</a></span>parseRangedLong()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long ustd::parseRangedLong </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>arg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>minVal</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>maxVal</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>minDefaultVal</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>maxDefaultVal</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parses a string argument for a valid integer value</p>
+<p>The parser checks if the parsed value stays between the defined boundaries and returns either the entered value or one the defaults depending upon the entered value beeing lower than the minimum value or higher than the maximum value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>The argument to parse </td></tr>
+    <tr><td class="paramname">minVal</td><td>The minimum acceptable value </td></tr>
+    <tr><td class="paramname">maxVal</td><td>The maximum acceptable value </td></tr>
+    <tr><td class="paramname">minDefaultVal</td><td>The default value to return in case the enetered value is lower than <code>minVal</code> </td></tr>
+    <tr><td class="paramname">maxDefaultVal</td><td>The default value to return in case the enetered value is higher than <code>maxVal</code> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The parsed value</dd></dl>
+
+</div>
+</div>
+<a id="ad649bdcdc2ebc7317cb2e7fecd3a7e2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad649bdcdc2ebc7317cb2e7fecd3a7e2d">&#9670;&nbsp;</a></span>parseToken()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t ustd::parseToken </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>arg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char **&#160;</td>
+          <td class="paramname"><em>tokenList</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parses a string argument against a token list</p>
+<p>The parser is not case sensistive and returns the index of the detected token. If no token matches the parser returns -1</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>The argument to parse </td></tr>
+    <tr><td class="paramname">tokenList</td><td>An array of constant zero terminated char string pointers containing the tokens. The tokens <em>must</em> be lowercase. The last token in the list <em>must</em> be null pointer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The index of the found token, or -1 if no token matches.</dd></dl>
+
+</div>
+</div>
+<a id="a97e0fc5390e0fe632b7aa6ff362ab211"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97e0fc5390e0fe632b7aa6ff362ab211">&#9670;&nbsp;</a></span>parseUnitLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ustd::parseUnitLevel </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>arg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parses a string argument for a valid unit level</p>
+<p>A unit level (like a light) can be set fully on or off with <code>on</code> or <code>true</code> and <code>off</code> or <code>false</code>. A fractional brightness of <code>0.34</code> (within interval [0.0, 1.0]) can be sent as either as <code>pct 34</code>, or <code>0.34</code>, or <code>34%</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>The argument to parse </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The parsed value (double between 0.00 and 1.00)</dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
