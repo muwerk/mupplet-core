@@ -141,13 +141,16 @@ class MyMupplet {
 
 History
 -------
+- 0.3.0 (2021-02-19) New helpful parser functions
 - 0.2.0 (2021-02-13) Consistent naming, documentation fixes, configurable topic in `DigitalOut`.
 - 0.1.1 (2021-02-13) Broken repository-url fixed for `library.json`.
 - 0.1.0 (2021-02-13) Mupplets for basic I/O, leds and switches.
 
 More mupplet libraries
 ----------------------
-* T.B.D.
+
+- [mupplet-sensor](https://github.com/muwerk/mupplet-sensor) microWerk Sensor mupplets
+- [mupplet-display](https://github.com/muwerk/mupplet-display) microWerk Display mupplets
 
 References
 ----------
