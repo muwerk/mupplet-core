@@ -20,7 +20,7 @@
         },
         {
             "name": "Leo Moll",
-            "email": "leo@yeasoft.com",
+            "email": "leo.moll@yeasoft.com",
             "maintainer": true
         }
     ],
@@ -43,7 +43,7 @@
             ".gitignore"
         ]
     },
-    "version": "0.2.0",
+    "version": "0.3.0",
     "frameworks": "arduino",
     "platforms": "*"
 }

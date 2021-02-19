@@ -40,45 +40,111 @@ depends on:
 //! \brief The muwerk namespace
 namespace ustd {
 
-double parseUnitLevel(String msg) {
-    char buff[32];
-    int l;
-    int len = msg.length();
-    double br = 0.0;
-    memset(buff, 0, 32);
-    if (len > 31)
-        l = 31;
-    else
-        l = len;
-    strncpy(buff, (const char *)msg.c_str(), l);
+int8_t parseBoolean(String arg) {
+    /*! Parses a string argument for a boolean value
+     *
+     * The parser is not case sensistive. The words `on` and
+     * `true` are interpreted as `true`, `off` and `false`as `false`.
+     * If the argument contains a numeric value, 0 is considered
+     * as `false`, all other values as `true`
+     * If the argument contains anything different, -1 is returned.
 
-    if ((!strcmp((const char *)buff, "on")) || (!strcmp((const char *)buff, "true"))) {
-        br = 1.0;
+     * @param arg The argument to parse
+     * @return `0` if `false`, `1` if `true`, `-1` if invalid
+     */
+    arg.trim();
+    arg.toLowerCase();
+    if (arg == "on" || arg == "true") {
+        return 1;
+    } else if (arg == "0" || arg == "off" || arg == "false") {
+        return 0;
+    } else if (atoi(arg.c_str())) {
+        return 1;
     } else {
-        if ((!strcmp((const char *)buff, "off")) || (!strcmp((const char *)buff, "false"))) {
-            br = 0.0;
-        } else {
-            if ((strlen(buff) > 4) && (!strncmp((const char *)buff, "pct ", 4))) {
-                br = atoi((char *)(buff + 4)) / 100.0;
-            } else {
-                if (strlen(buff) > 1 && buff[strlen(buff) - 1] == '%') {
-                    buff[strlen(buff) - 1] = 0;
-                    br = atoi((char *)buff) / 100.0;
-                } else {
-                    if (strchr((char *)buff, '.')) {
-                        br = atof((char *)buff);
-                    } else {
-                        br = atoi((char *)buff) / 100.0;
-                    }
-                }
-            }
+        return -1;
+    }
+}
+
+int16_t parseToken(String arg, const char **tokenList) {
+    /*! Parses a string argument against a token list
+     *
+     * The parser is not case sensistive and returns
+     * the index of the detected token. If no token matches
+     * the parser returns -1
+     *
+     * @param arg The argument to parse
+     * @param tokenList An array of constant zero terminated char string pointers containing the
+     *                  tokens. The tokens *must* be lowercase. The last token in the list *must*
+     *                  be null pointer.
+     * @return The index of the found token, or -1 if no token matches.
+     */
+    arg.trim();
+    arg.toLowerCase();
+    for (const char **pToken = tokenList; *pToken; pToken++) {
+        if (!strcmp(arg.c_str(), *pToken)) {
+            return pToken - tokenList;
         }
     }
-    if (br < 0.0)
-        br = 0.0;
-    if (br > 1.0)
-        br = 1.0;
-    return br;
+    return -1;
+}
+
+long parseRangedLong(String arg, long minVal, long maxVal, long minDefaultVal, long maxDefaultVal) {
+    /*! Parses a string argument for a valid integer value
+     *
+     * The parser checks if the parsed value stays between the defined boundaries and returns either
+     * the entered value or one the defaults depending upon the entered value beeing lower than the
+     * minimum value or higher than the maximum value.
+     *
+     * @param arg The argument to parse
+     * @param minVal The minimum acceptable value
+     * @param maxVal The maximum acceptable value
+     * @param minDefaultVal The default value to return in case the enetered value is lower than
+     *                      `minVal`
+     * @param maxDefaultVal The default value to return in case the enetered value is higher than
+     *                      `maxVal`
+     * @return The parsed value
+     */
+    arg.trim();
+    long val = atol(arg.c_str());
+    if (val < minVal) {
+        return minDefaultVal;
+    } else if (val > maxVal) {
+        return maxDefaultVal;
+    } else {
+        return val;
+    }
+}
+
+double parseUnitLevel(String arg) {
+    /*! Parses a string argument for a valid unit level
+     *
+     * A unit level (like a light) can be set fully on or off with `on` or `true` and `off` or
+     * `false`. A fractional brightness of `0.34` (within interval [0.0, 1.0]) can be sent as either
+     * as `pct 34`, or `0.34`, or `34%`.
+     *
+     * @param arg The argument to parse
+     * @return The parsed value (double between 0.00 and 1.00)
+     */
+    double val = 0.0;
+    arg.trim();
+    arg.toLowerCase();
+
+    if (arg == "on" || arg == "true") {
+        return 1.0;
+    } else if (arg == "off" || arg == "false") {
+        return 0.0;
+    } else if (arg == "pct") {
+        arg = shift(arg);
+        val = atoi(arg.c_str()) / 100.0;
+    } else if (arg.endsWith("%")) {
+        arg.remove(arg.length() - 1);
+        val = atoi(arg.c_str()) / 100.0;
+    } else if (arg.indexOf('.') == -1) {
+        val = atoi(arg.c_str()) / 100.0;
+    } else {
+        val = atof(arg.c_str());
+    }
+    return val < 0.0 ? 0.0 : val > 1.0 ? 1.0 : val;
 }
 
 }  // namespace ustd
