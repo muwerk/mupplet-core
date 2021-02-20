@@ -1,4 +1,4 @@
-[![PlatformIO CI](https://github.com/muwerk/mupplet-core/workflows/PlatformIO%20CI/badge.svg)][badge_CI] [![Dev Docs](https://img.shields.io/badge/docs-dev-blue.svg)][badge_DOC]
+[![PlatformIO CI][image_CI]][badge_CI] [![Dev Docs][image_DOC]][badge_DOC]
 
 **Note:** This project, while being released, is still WIP. Additional functionality from
 [Research-mupplets](https://github.com/muwerk/Research-mupplets) is being refactored and
@@ -159,15 +159,17 @@ References
 - [muwerk][gh_muwerk] microWerk scheduler
 - [munet][gh_munet] microWerk networking
 
+[badge_CI]: https://github.com/muwerk/mupplet-core/actions
+[image_CI]: https://github.com/muwerk/mupplet-core/workflows/PlatformIO%20CI/badge.svg
+[badge_DOC]: https://muwerk.github.io/mupplet-core/docs/index.html
+[image_DOC]: https://img.shields.io/badge/docs-dev-blue.svg
+
 [Light_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1Light.html
 [Light_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md
 [Switch_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1Switch.html
 [Switch_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/switch-notes.md
 [DigitalOut_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1DigitalOut.html
 [DigitalOut_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/digital-out-notes.md
-
-[badge_CI]: https://github.com/muwerk/mupplet-core/actions
-[badge_DOC]: https://muwerk.github.io/mupplet-core/docs/index.html
 
 [gh_ustd]: https://github.com/muwerk/ustd
 [gh_muwerk]: https://github.com/muwerk/muwerk
