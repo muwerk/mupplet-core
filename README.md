@@ -1,7 +1,8 @@
-[![PlatformIO CI](https://github.com/muwerk/mupplet-core/workflows/PlatformIO%20CI/badge.svg)](https://github.com/muwerk/mupplet-core/actions) [![Dev Docs](https://img.shields.io/badge/docs-dev-blue.svg)](https://muwerk.github.io/mupplet-core/docs/index.html)
+[![PlatformIO CI](https://github.com/muwerk/mupplet-core/workflows/PlatformIO%20CI/badge.svg)][badge_CI] [![Dev Docs](https://img.shields.io/badge/docs-dev-blue.svg)][badge_DOC]
 
-**Note:** This project, while being released, is still WIP. Additional functionality from [Research-mupplets](https://github.com/muwerk/Research-mupplets)
-is being refactored and ported into this project.
+**Note:** This project, while being released, is still WIP. Additional functionality from
+[Research-mupplets](https://github.com/muwerk/Research-mupplets) is being refactored and
+ported into this project.
 
 mupplet-core
 ============
@@ -17,18 +18,17 @@ The `mupplet-core` library consists of the following modules:
 
 <img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" align="right" width="7%" height="7%">
 
-* [`Light`](https://muwerk.github.io/mupplet-core/docs/classustd_1_1Light.html) The Light
-  GPIO mupplet allows to control a led or light's state, brightness using modes such as
-  user-controlled, blink, soft-wave, one-time pulse and automatic pattern playback.
-  See [Led application notes](https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md)
-  for an example and more information. Complete example [muBlink](https://github.com/muwerk/examples/tree/master/muBlink).
+* [`Light`][Light_DOC] The Light GPIO mupplet allows to control a led or light's state, brightness
+  using modes such as user-controlled, blink, soft-wave, one-time pulse and automatic pattern
+  playback. See [Led application notes][Light_NOTES] for an example and more information.
+  Complete example [muBlink](https://github.com/muwerk/examples/tree/master/muBlink).
 
 <img src="https://github.com/muwerk/mupplet-core/blob/master/extras/switch.png" align="right" width="10%" height="10%">
 
-* [`Switch`](https://muwerk.github.io/mupplet-core/docs/classustd_1_1Switch.html) The Switch
-  GPIO mupplet allows to use hardware buttons and switches connected to a GPIO. Switch supports debouncing,
-  flip-flop mode and push-button event. See [Switch application notes]( https://github.com/muwerk/mupplet-core/blob/master/extras/switch-notes.md)
-  for an example-code and more information. Complete example [SwitchAndLed](https://github.com/muwerk/examples/tree/master/SwitchAndLed).
+* [`Switch`][Switch_DOC] The Switch GPIO mupplet allows to use hardware buttons and switches
+  connected to a GPIO. Switch supports debouncing, flip-flop mode and push-button event. See
+  [Switch application notes][Switch_NOTES] for an example-code and more information. Complete
+  example [SwitchAndLed](https://github.com/muwerk/examples/tree/master/SwitchAndLed).
 
 Development and Design considerations
 -------------------------------------
@@ -57,7 +57,7 @@ Some design recommendations for mupplets:
   make sure that there is absolutely no difference between remote and local communication
   partners: the implementation of both mupplets in both cases is simply the same.
 
-### Examples
+### Examples ###
 
 * A mupplet can implement a driver for a hardware sensor (e.g. temperature sensor)
 * If a hardware is for a very specific purpose, even application-style logic can be
@@ -149,12 +149,30 @@ History
 More mupplet libraries
 ----------------------
 
-- [mupplet-sensor](https://github.com/muwerk/mupplet-sensor) microWerk Sensor mupplets
-- [mupplet-display](https://github.com/muwerk/mupplet-display) microWerk Display mupplets
+- [mupplet-sensor][gh_mupsensor] microWerk Sensor mupplets
+- [mupplet-display][gh_mupdisplay] microWerk Display mupplets
 
 References
 ----------
 
-- [ustd](https://github.com/muwerk/ustd) microWerk standard library
-- [muwerk](https://github.com/muwerk/muwerk) microWerk scheduler
-- [munet](https://github.com/muwerk/muwerk) microWerk networking
+- [ustd][gh_ustd] microWerk standard library
+- [muwerk][gh_muwerk] microWerk scheduler
+- [munet][gh_munet] microWerk networking
+
+[Light_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1Light.html
+[Light_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md
+[Switch_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1Switch.html
+[Switch_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/switch-notes.md
+[DigitalOut_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1DigitalOut.html
+[DigitalOut_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/digital-out-notes.md
+
+[badge_CI]: https://github.com/muwerk/mupplet-core/actions
+[badge_DOC]: https://muwerk.github.io/mupplet-core/docs/index.html
+
+[gh_ustd]: https://github.com/muwerk/ustd
+[gh_muwerk]: https://github.com/muwerk/muwerk
+[gh_munet]: https://github.com/muwerk/munet
+[gh_mufonts]: https://github.com/muwerk/mufonts
+[gh_mupcore]: https://github.com/muwerk/mupplet-core
+[gh_mupdisplay]: https://github.com/muwerk/mupplet-display
+[gh_mupsensor]: https://github.com/muwerk/mupplet-sendsor
