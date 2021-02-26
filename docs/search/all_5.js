@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['mode_13',['Mode',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce',1,'ustd::Switch::Mode()'],['../classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245',1,'ustd::LightController::Mode()']]],
-  ['mupplet_2dcore_20is_20a_20collection_20of_20hardware_20applets_20for_20the_20muwerk_20scheduler_14',['mupplet-core is a collection of hardware applets for the muwerk scheduler',['../index.html',1,'']]]
+  ['im_5fchange_14',['IM_CHANGE',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70a15d93d68cc42ba5ed1bf10b6f1be702a',1,'ustd::FrequencyCounter']]],
+  ['im_5ffalling_15',['IM_FALLING',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70a987e030b9b255f847b30a3b1e7b4c801',1,'ustd::FrequencyCounter']]],
+  ['im_5frising_16',['IM_RISING',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70ab522ea01b7734ffb4e20fb440d031851',1,'ustd::FrequencyCounter']]],
+  ['interruptmode_17',['InterruptMode',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70',1,'ustd::FrequencyCounter']]]
 ];

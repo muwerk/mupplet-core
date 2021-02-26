@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['wave_34',['Wave',['../classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245af153509004141a8067dea2f06626357a',1,'ustd::LightController']]]
+  ['t_5fcontrol_44',['T_CONTROL',['../classustd_1_1LightController.html#a6bd1b4413389ed4d83be84288b4aed42',1,'ustd::LightController']]],
+  ['timer_45',['Timer',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ceace20a73b93915582663f39bcd0e509d6',1,'ustd::Switch']]]
 ];

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['rising_70',['Rising',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea8974bef573ec5776dbb58a34a44110d6',1,'ustd::Switch']]]
+  ['im_5fchange_89',['IM_CHANGE',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70a15d93d68cc42ba5ed1bf10b6f1be702a',1,'ustd::FrequencyCounter']]],
+  ['im_5ffalling_90',['IM_FALLING',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70a987e030b9b255f847b30a3b1e7b4c801',1,'ustd::FrequencyCounter']]],
+  ['im_5frising_91',['IM_RISING',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70ab522ea01b7734ffb4e20fb440d031851',1,'ustd::FrequencyCounter']]]
 ];
