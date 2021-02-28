@@ -11,6 +11,7 @@ mupplet-core implements the following classes based on the cooperative scheduler
 * * \ref ustd::Light
 * * \ref ustd::Switch
 * * \ref ustd::DigitalOut
+* * \ref ustd::FrequencyCounter
 
 Additionally there are implementation for the following helper classes:
 
@@ -145,6 +146,123 @@ double parseUnitLevel(String arg) {
         val = atof(arg.c_str());
     }
     return val < 0.0 ? 0.0 : val > 1.0 ? 1.0 : val;
+}
+
+// clang-format off
+/*! \brief mupplet-core string encoding utilities
+
+Encoding of UTF-8 strings:
+
+| Number of bytes | First code point | Last code point | Byte 1   | Byte 2   | Byte 3   | Byte 4   |
+| --------------- | ---------------- | --------------- | -------- | -------- | -------- | -------- |
+| 1               | U+0000           | U+007F          | 0xxxxxxx |          |          |
+| 2               | U+0080           | U+07FF          | 110xxxxx | 10xxxxxx |          |
+| 3               | U+0800           | U+FFFF          | 1110xxxx | 10xxxxxx | 10xxxxxx |
+| 4               | U+10000          | U+10FFFF        | 11110xxx | 10xxxxxx | 10xxxxxx | 10xxxxxx |
+
+Mapping between UTF-8 and latin1 ISO 8859-1
+
+* <https://www.utf8-chartable.de/>
+
+*/
+// clang-format on
+
+bool isAscii(String utf8string) {
+    /*! Check, if an arbitrary UTF-8 string only consists of ASCII characters
+
+    @return true, if ASCII compliant
+    */
+   for (unsigned int i=0; i<utf8string.length(); i++) {
+       unsigned char c=utf8string[i];
+       if ((c & 0x80) != 0) return false;
+   }
+   return true;
+}
+
+String utf8ToLatin(String utf8string, char invalid_char='_') {
+    /*! Convert an arbitrary UTF-8 string into latin1 (ISO 8859-1)
+
+    Note: This converts arbitrary multibyte utf-8 strings to latin1 on best-effort
+    basis. Characters that are not in the target code-page are replaced by invalid_char.
+    The conversion is aborted, if an invalid UTF8-encoding is encountered.
+    @param utf8string utf8-encoded string
+    @param invalid_char character that is used for to replace characters that are not in latin1
+    @return latin1 (ISO 8859-1) encoded string
+    */
+    String latin="";
+    unsigned char c,nc;
+    for (unsigned int i=0; i<utf8string.length(); i++) {
+        c=utf8string[i];
+        if ((c & 0x80)==0) { // 1 byte utf8
+            latin+=(char)c;
+            continue;
+        } else {
+            if ((c & 0b11100000)==0b11000000) { // 2 byte utf8
+                if (i<utf8string.length()-1) {
+                    nc=utf8string[i+1];
+                    switch (c) {
+                        case 0xc2:
+                            latin+=(char)nc;
+                        break;
+                        case 0xc3:
+                            nc += 0x40;
+                            latin+=(char)nc;
+                        break;
+                        default:
+                            latin+=(char)invalid_char;
+                        break;
+                    }
+                    i+=1;
+                    continue;
+                } else { // damaged utf8
+                    latin+=(char)invalid_char;
+                    return latin;
+                }
+            } else {
+                if ((c & 0b11110000) == 0b11100000) { // 3 byte utf8
+                    i+=2;
+                    latin+=(char)invalid_char;
+                    continue;
+                } else {
+                    if ((c & 0b11111000) == 0b11110000) { // 4 byte utf8
+                        i+=3;
+                        latin+=(char)invalid_char;
+                        continue;
+                    } else { // damaged utf8
+                        latin+=(char)invalid_char;
+                        return latin;  // we can't continue parsing
+                    }
+                }
+            }
+        }
+    }
+    return latin;
+}
+
+String latinToUtf8(String latin) {
+    /*! Convert a latin1 (ISO 8859-1) string into UTF-8
+
+    @param latin ISO 8869-1 (latin1) encoded string
+    @return UTF8-encoded string  
+    */
+
+    String utf8str="";
+    unsigned char c;
+    for (unsigned int i=0; i<latin.length(); i++) {
+        c=latin[i];
+        if (c<0x80) utf8str+=(char)c;
+        else {
+            if (c<0xc0) {
+                utf8str+=(char)0xc2;
+                utf8str+=(char)c;
+            } else {
+                utf8str+=(char)0xc3;
+                c-=0x40;
+                utf8str+=(char)c;
+            }
+        }
+    }
+    return utf8str;
 }
 
 }  // namespace ustd

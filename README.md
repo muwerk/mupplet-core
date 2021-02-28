@@ -30,6 +30,8 @@ The `mupplet-core` library consists of the following modules:
   [Switch application notes][Switch_NOTES] for an example-code and more information. Complete
   example [SwitchAndLed](https://github.com/muwerk/examples/tree/master/SwitchAndLed).
 
+* [`FrequencyCounter`][FrequencyCounter_DOC] The frequency counter mupplet measures impulse frequencies on a GPIO using interrupts. An ESP32 can reliably measure up to about 80kHz. See [FrequencyCounter application notes][FrequencyCounter_NOTES] for a Geiger counter sample. 
+
 Development and Design considerations
 -------------------------------------
 
@@ -141,6 +143,7 @@ class MyMupplet {
 
 History
 -------
+- 0.4.0 (2021-02-xx) [not yet released] frequency_counter mupplet
 - 0.3.0 (2021-02-19) New helpful parser functions
 - 0.2.0 (2021-02-13) Consistent naming, documentation fixes, configurable topic in `DigitalOut`.
 - 0.1.1 (2021-02-13) Broken repository-url fixed for `library.json`.
@@ -168,6 +171,8 @@ References
 [Light_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/led-notes.md
 [Switch_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1Switch.html
 [Switch_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/switch-notes.md
+[FrequencyCounter_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1FrequencyCounter.html
+[FrequencyCounter_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/frequency-counter-notes.md
 [DigitalOut_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1DigitalOut.html
 [DigitalOut_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/digital-out-notes.md
 
