@@ -141,7 +141,7 @@ $(function() {
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment">// clang-format off</span></div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="comment"></span><span class="comment">// clang-format on</span></div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea">isAscii</a>(String utf8string) {</div>
+<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea">  170</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea">isAscii</a>(String utf8string) {</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;   <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i&lt;utf8string.length(); i++) {</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;       <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> c=utf8string[i];</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;       <span class="keywordflow">if</span> ((c &amp; 0x80) != 0) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -149,7 +149,7 @@ $(function() {
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;   <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;}</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;String <a class="code" href="namespaceustd.html#a91526f012d4a2992ac923697edb93f1a">utf8ToLatin</a>(String utf8string, <span class="keywordtype">char</span> invalid_char=<span class="charliteral">&#39;_&#39;</span>) {</div>
+<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="namespaceustd.html#a91526f012d4a2992ac923697edb93f1a">  182</a></span>&#160;String <a class="code" href="namespaceustd.html#a91526f012d4a2992ac923697edb93f1a">utf8ToLatin</a>(String utf8string, <span class="keywordtype">char</span> invalid_char=<span class="charliteral">&#39;_&#39;</span>) {</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    String latin=<span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> c,nc;</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i&lt;utf8string.length(); i++) {</div>
@@ -200,7 +200,7 @@ $(function() {
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="keywordflow">return</span> latin;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;}</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;String <a class="code" href="namespaceustd.html#acb3a8aa989582637cfd946ef25db7f37">latinToUtf8</a>(String latin) {</div>
+<div class="line"><a name="l00242"></a><span class="lineno"><a class="line" href="namespaceustd.html#acb3a8aa989582637cfd946ef25db7f37">  242</a></span>&#160;String <a class="code" href="namespaceustd.html#acb3a8aa989582637cfd946ef25db7f37">latinToUtf8</a>(String latin) {</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    String utf8str=<span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> c;</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i&lt;latin.length(); i++) {</div>
@@ -221,14 +221,14 @@ $(function() {
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;}</div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;}  <span class="comment">// namespace ustd</span></div>
-<div class="ttc" id="anamespaceustd_html"><div class="ttname"><a href="namespaceustd.html">ustd</a></div><div class="ttdoc">The muwerk namespace.</div><div class="ttdef"><b>Definition:</b> mup_codepage.h:1</div></div>
+<div class="ttc" id="anamespaceustd_html"><div class="ttname"><a href="namespaceustd.html">ustd</a></div><div class="ttdoc">The muwerk namespace.</div><div class="ttdef"><b>Definition:</b> mup_digital_out.h:7</div></div>
 <div class="ttc" id="anamespaceustd_html_a21a1acc15a645aa4dde7d3cea06e7e57"><div class="ttname"><a href="namespaceustd.html#a21a1acc15a645aa4dde7d3cea06e7e57">ustd::parseRangedLong</a></div><div class="ttdeci">long parseRangedLong(String arg, long minVal, long maxVal, long minDefaultVal, long maxDefaultVal)</div><div class="ttdef"><b>Definition:</b> mupplet_core.h:92</div></div>
 <div class="ttc" id="anamespaceustd_html_a30c1178851254a1fa0184cb7376bab29"><div class="ttname"><a href="namespaceustd.html#a30c1178851254a1fa0184cb7376bab29">ustd::parseBoolean</a></div><div class="ttdeci">int8_t parseBoolean(String arg)</div><div class="ttdef"><b>Definition:</b> mupplet_core.h:44</div></div>
-<div class="ttc" id="anamespaceustd_html_a91526f012d4a2992ac923697edb93f1a"><div class="ttname"><a href="namespaceustd.html#a91526f012d4a2992ac923697edb93f1a">ustd::utf8ToLatin</a></div><div class="ttdeci">String utf8ToLatin(String utf8string, char invalid_char='_')</div><div class="ttdef"><b>Definition:</b> mup_codepage.h:36</div></div>
+<div class="ttc" id="anamespaceustd_html_a91526f012d4a2992ac923697edb93f1a"><div class="ttname"><a href="namespaceustd.html#a91526f012d4a2992ac923697edb93f1a">ustd::utf8ToLatin</a></div><div class="ttdeci">String utf8ToLatin(String utf8string, char invalid_char='_')</div><div class="ttdef"><b>Definition:</b> mupplet_core.h:182</div></div>
 <div class="ttc" id="anamespaceustd_html_a97e0fc5390e0fe632b7aa6ff362ab211"><div class="ttname"><a href="namespaceustd.html#a97e0fc5390e0fe632b7aa6ff362ab211">ustd::parseUnitLevel</a></div><div class="ttdeci">double parseUnitLevel(String arg)</div><div class="ttdef"><b>Definition:</b> mupplet_core.h:119</div></div>
-<div class="ttc" id="anamespaceustd_html_acb3a8aa989582637cfd946ef25db7f37"><div class="ttname"><a href="namespaceustd.html#acb3a8aa989582637cfd946ef25db7f37">ustd::latinToUtf8</a></div><div class="ttdeci">String latinToUtf8(String latin)</div><div class="ttdef"><b>Definition:</b> mup_codepage.h:96</div></div>
+<div class="ttc" id="anamespaceustd_html_acb3a8aa989582637cfd946ef25db7f37"><div class="ttname"><a href="namespaceustd.html#acb3a8aa989582637cfd946ef25db7f37">ustd::latinToUtf8</a></div><div class="ttdeci">String latinToUtf8(String latin)</div><div class="ttdef"><b>Definition:</b> mupplet_core.h:242</div></div>
 <div class="ttc" id="anamespaceustd_html_ad649bdcdc2ebc7317cb2e7fecd3a7e2d"><div class="ttname"><a href="namespaceustd.html#ad649bdcdc2ebc7317cb2e7fecd3a7e2d">ustd::parseToken</a></div><div class="ttdeci">int16_t parseToken(String arg, const char **tokenList)</div><div class="ttdef"><b>Definition:</b> mupplet_core.h:69</div></div>
-<div class="ttc" id="anamespaceustd_html_aeaa0501406c152ef7bab2753e0dd8bea"><div class="ttname"><a href="namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea">ustd::isAscii</a></div><div class="ttdeci">bool isAscii(String utf8string)</div><div class="ttdoc">mupplet-core string encoding utilities</div><div class="ttdef"><b>Definition:</b> mup_codepage.h:24</div></div>
+<div class="ttc" id="anamespaceustd_html_aeaa0501406c152ef7bab2753e0dd8bea"><div class="ttname"><a href="namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea">ustd::isAscii</a></div><div class="ttdeci">bool isAscii(String utf8string)</div><div class="ttdoc">mupplet-core string encoding utilities</div><div class="ttdef"><b>Definition:</b> mupplet_core.h:170</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
