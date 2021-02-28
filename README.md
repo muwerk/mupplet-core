@@ -143,7 +143,7 @@ class MyMupplet {
 
 History
 -------
-- 0.4.0 (2021-02-xx) [not yet released] 
+- 0.4.0 (2021-02-28) Frequency counter 
   * frequency counter mupplet (Frequency measurement up to 80kHz on ESP32)
   * codepage conversion utility functions (ISO8859-1 <-> UTF8)
 - 0.3.0 (2021-02-19) New helpful parser functions
