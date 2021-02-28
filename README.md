@@ -30,7 +30,7 @@ The `mupplet-core` library consists of the following modules:
   [Switch application notes][Switch_NOTES] for an example-code and more information. Complete
   example [SwitchAndLed](https://github.com/muwerk/examples/tree/master/SwitchAndLed).
 
-<img src="https://github.com/muwerk/examples/blob/master/Resources/FrequencyCounter.jpg" width="8%">
+<img src="https://github.com/muwerk/examples/blob/master/Resources/FrequencyCounter.jpg" align="right" width="8%">
 
 * [`FrequencyCounter`][FrequencyCounter_DOC] The frequency counter mupplet measures impulse frequencies on a GPIO using interrupts. An ESP32 can reliably measure up to about 80kHz. See [FrequencyCounter application notes][FrequencyCounter_NOTES] for a Geiger counter sample. 
 
