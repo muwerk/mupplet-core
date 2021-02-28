@@ -153,6 +153,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Convert a latin1 (ISO 8859-1) string into UTF-8</p>
+<p>See <a class="el" href="namespaceustd.html#a91526f012d4a2992ac923697edb93f1a">utf8ToLatin()</a> for the opposite conversion.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">latin</td><td>ISO 8869-1 (latin1) encoded string </td></tr>
@@ -341,7 +342,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Convert an arbitrary UTF-8 string into latin1 (ISO 8859-1)</p>
-<p>Note: This converts arbitrary multibyte utf-8 strings to latin1 on best-effort basis. Characters that are not in the target code-page are replaced by invalid_char. The conversion is aborted, if an invalid UTF8-encoding is encountered. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>The function <a class="el" href="namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea">isAscii()</a> can be used to check if a conversion is necessary at all. (No conversion is necessary, if the UTF-8 string only consists of ASCII chars, in that case both encodings are identical.)</p>
+<p>See <a class="el" href="namespaceustd.html#acb3a8aa989582637cfd946ef25db7f37">latinToUtf8()</a> for the opposite conversion.</p>
+<p>Note: This converts arbitrary multibyte utf-8 strings to latin1 on best-effort basis. Characters that are not in the target code-page are replaced by invalid_char. The conversion is aborted, if an invalid UTF8-encoding is encountered.</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">utf8string</td><td>utf8-encoded string </td></tr>
     <tr><td class="paramname">invalid_char</td><td>character that is used for to replace characters that are not in latin1 </td></tr>
