@@ -94,8 +94,10 @@ Classes</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a30c1178851254a1fa0184cb7376bab29"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#a30c1178851254a1fa0184cb7376bab29">parseBoolean</a> (String arg)</td></tr>
 <tr class="separator:a30c1178851254a1fa0184cb7376bab29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad649bdcdc2ebc7317cb2e7fecd3a7e2d"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#ad649bdcdc2ebc7317cb2e7fecd3a7e2d">parseToken</a> (String arg, const char **tokenList)</td></tr>
-<tr class="separator:ad649bdcdc2ebc7317cb2e7fecd3a7e2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad16a714760549d1b2b5f706e160b599f"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#ad16a714760549d1b2b5f706e160b599f">parseToken</a> (String arg, const char **tokenList, int16_t defaultVal=-1)</td></tr>
+<tr class="separator:ad16a714760549d1b2b5f706e160b599f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a745375ab7681b7796eb35051d6e36e39"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#a745375ab7681b7796eb35051d6e36e39">parseLong</a> (String arg, long defaultVal)</td></tr>
+<tr class="separator:a745375ab7681b7796eb35051d6e36e39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21a1acc15a645aa4dde7d3cea06e7e57"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#a21a1acc15a645aa4dde7d3cea06e7e57">parseRangedLong</a> (String arg, long minVal, long maxVal, long minDefaultVal, long maxDefaultVal)</td></tr>
 <tr class="separator:a21a1acc15a645aa4dde7d3cea06e7e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97e0fc5390e0fe632b7aa6ff362ab211"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#a97e0fc5390e0fe632b7aa6ff362ab211">parseUnitLevel</a> (String arg)</td></tr>
@@ -129,9 +131,7 @@ Functions</h2></td></tr>
 
 <p>mupplet-core string encoding utilities </p>
 <p>Encoding of UTF-8 strings:</p>
-<p>| Number of bytes | First code point | Last code point | Byte 1 | Byte 2 | Byte 3 | Byte 4 | ------------&mdash; | -------------&mdash; | ------------&mdash; | -----&mdash; | -----&mdash; | -----&mdash; | -----&mdash; | 1 | U+0000 | U+007F | 0xxxxxxx | | | | 2 | U+0080 | U+07FF | 110xxxxx | 10xxxxxx | | <br  />
- | 3 | U+0800 | U+FFFF | 1110xxxx | 10xxxxxx | 10xxxxxx | <br  />
- | 4 | U+10000 | U+10FFFF | 11110xxx | 10xxxxxx | 10xxxxxx | 10xxxxxx</p>
+<p>| Number of bytes | First code point | Last code point | Byte 1 | Byte 2 | Byte 3 | Byte 4 | ------------&mdash; | -------------&mdash; | ------------&mdash; | -----&mdash; | -----&mdash; | -----&mdash; | -----&mdash; | 1 | U+0000 | U+007F | 0xxxxxxx | | | | 2 | U+0080 | U+07FF | 110xxxxx | 10xxxxxx | | | 3 | U+0800 | U+FFFF | 1110xxxx | 10xxxxxx | 10xxxxxx | | 4 | U+10000 | U+10FFFF | 11110xxx | 10xxxxxx | 10xxxxxx | 10xxxxxx</p>
 <p>Mapping between UTF-8 and latin1 ISO 8859-1</p>
 <p><a href="https://www.utf8-chartable.de/">https://www.utf8-chartable.de/</a> </p>
 <p>Check, if an arbitrary UTF-8 string only consists of ASCII characters</p>
@@ -162,8 +162,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>UTF8-encoded string <br  />
-</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>UTF8-encoded string</dd></dl>
 
 </div>
 </div>
@@ -191,6 +190,44 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>0</code> if <code>false</code>, <code>1</code> if <code>true</code>, <code>-1</code> if invalid</dd></dl>
+
+</div>
+</div>
+<a id="a745375ab7681b7796eb35051d6e36e39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a745375ab7681b7796eb35051d6e36e39">&#9670;&nbsp;</a></span>parseLong()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long ustd::parseLong </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>arg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>defaultVal</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parses a string argument for a valid integer value</p>
+<p>The parser checks if the parsed value is an interger number and returns eitherthe entered value or the supplied default value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>The argument to parse </td></tr>
+    <tr><td class="paramname">defaultVal</td><td>The default value to return in case the entered argument is invalid </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The parsed value</dd></dl>
 
 </div>
 </div>
@@ -244,7 +281,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">arg</td><td>The argument to parse </td></tr>
     <tr><td class="paramname">minVal</td><td>The minimum acceptable value </td></tr>
     <tr><td class="paramname">maxVal</td><td>The maximum acceptable value </td></tr>
-    <tr><td class="paramname">minDefaultVal</td><td>The default value to return in case the enetered value is lower than <code>minVal</code> </td></tr>
+    <tr><td class="paramname">minDefaultVal</td><td>The default value to return in case the enetered value is lower than <code>minVal</code> or not a number </td></tr>
     <tr><td class="paramname">maxDefaultVal</td><td>The default value to return in case the enetered value is higher than <code>maxVal</code> </td></tr>
   </table>
   </dd>
@@ -253,8 +290,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad649bdcdc2ebc7317cb2e7fecd3a7e2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad649bdcdc2ebc7317cb2e7fecd3a7e2d">&#9670;&nbsp;</a></span>parseToken()</h2>
+<a id="ad16a714760549d1b2b5f706e160b599f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad16a714760549d1b2b5f706e160b599f">&#9670;&nbsp;</a></span>parseToken()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,7 +306,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char **&#160;</td>
-          <td class="paramname"><em>tokenList</em>&#160;</td>
+          <td class="paramname"><em>tokenList</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramname"><em>defaultVal</em> = <code>-1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -284,6 +327,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">arg</td><td>The argument to parse </td></tr>
     <tr><td class="paramname">tokenList</td><td>An array of constant zero terminated char string pointers containing the tokens. The tokens <em>must</em> be lowercase. The last token in the list <em>must</em> be null pointer. </td></tr>
+    <tr><td class="paramname">defaultVal</td><td>The default value to return in case the entered argument is invalid (default: -1) </td></tr>
   </table>
   </dd>
 </dl>
