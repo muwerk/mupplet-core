@@ -92,6 +92,13 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:aeaa0501406c152ef7bab2753e0dd8bea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea">isAscii</a> (String utf8string)</td></tr>
+<tr class="memdesc:aeaa0501406c152ef7bab2753e0dd8bea"><td class="mdescLeft">&#160;</td><td class="mdescRight">mupplet-core string encoding utilities  <a href="namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea">More...</a><br /></td></tr>
+<tr class="separator:aeaa0501406c152ef7bab2753e0dd8bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91526f012d4a2992ac923697edb93f1a"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#a91526f012d4a2992ac923697edb93f1a">utf8ToLatin</a> (String utf8string, char invalid_char='_')</td></tr>
+<tr class="separator:a91526f012d4a2992ac923697edb93f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb3a8aa989582637cfd946ef25db7f37"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#acb3a8aa989582637cfd946ef25db7f37">latinToUtf8</a> (String latin)</td></tr>
+<tr class="separator:acb3a8aa989582637cfd946ef25db7f37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30c1178851254a1fa0184cb7376bab29"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#a30c1178851254a1fa0184cb7376bab29">parseBoolean</a> (String arg)</td></tr>
 <tr class="separator:a30c1178851254a1fa0184cb7376bab29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad649bdcdc2ebc7317cb2e7fecd3a7e2d"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#ad649bdcdc2ebc7317cb2e7fecd3a7e2d">parseToken</a> (String arg, const char **tokenList)</td></tr>
@@ -104,6 +111,81 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The muwerk namespace. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="aeaa0501406c152ef7bab2753e0dd8bea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaa0501406c152ef7bab2753e0dd8bea">&#9670;&nbsp;</a></span>isAscii()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ustd::isAscii </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>utf8string</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>mupplet-core string encoding utilities </p>
+<p>Encoding of UTF-8 strings:</p>
+<p>| Number of bytes | First code point | Last code point | Byte 1 | Byte 2 | Byte 3 | Byte 4 | | ------------&mdash; | -------------&mdash; | ------------&mdash; | -----&mdash; | -----&mdash; | -----&mdash; | -----&mdash; | | 1 | U+0000 | U+007F | 0xxxxxxx | | | | 2 | U+0080 | U+07FF | 110xxxxx | 10xxxxxx | | | 3 | U+0800 | U+FFFF | 1110xxxx | 10xxxxxx | 10xxxxxx | | 4 | U+10000 | U+10FFFF | 11110xxx | 10xxxxxx | 10xxxxxx | 10xxxxxx |</p>
+<p>Mapping between UTF-8 and latin1 ISO 8859-1</p>
+<p><a href="https://www.utf8-chartable.de/">https://www.utf8-chartable.de/</a> </p>
+<p>Check, if an arbitrary UTF-8 string only consists of ASCII characters</p>
+<dl class="section return"><dt>Returns</dt><dd>true, if ASCII compliant</dd></dl>
+<p>Check, if an arbitrary UTF-8 string only consists of ASCII characters</p>
+<dl class="section return"><dt>Returns</dt><dd>true, if ASCII compliant</dd></dl>
+<p>Check, if an arbitrary UTF-8 string only consists of ASCII characters</p>
+<dl class="section return"><dt>Returns</dt><dd>true, if ASCII compliant</dd></dl>
+
+</div>
+</div>
+<a id="acb3a8aa989582637cfd946ef25db7f37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb3a8aa989582637cfd946ef25db7f37">&#9670;&nbsp;</a></span>latinToUtf8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String ustd::latinToUtf8 </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>latin</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Convert a latin1 (ISO 8859-1) string into UTF-8</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">latin</td><td>ISO 8869-1 (latin1) encoded string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>UTF8-encoded string <br  />
+</dd></dl>
+<p>Convert a latin1 (ISO 8859-1) string into UTF-8</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">latin</td><td>ISO 8869-1 (latin1) encoded string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>UTF8-encoded string <br  />
+</dd></dl>
+<p>Convert a latin1 (ISO 8859-1) string into UTF-8</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">latin</td><td>ISO 8869-1 (latin1) encoded string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>UTF8-encoded string <br  />
+</dd></dl>
+
+</div>
+</div>
 <a id="a30c1178851254a1fa0184cb7376bab29"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a30c1178851254a1fa0184cb7376bab29">&#9670;&nbsp;</a></span>parseBoolean()</h2>
 
@@ -252,6 +334,61 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The parsed value (double between 0.00 and 1.00)</dd></dl>
+
+</div>
+</div>
+<a id="a91526f012d4a2992ac923697edb93f1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91526f012d4a2992ac923697edb93f1a">&#9670;&nbsp;</a></span>utf8ToLatin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String ustd::utf8ToLatin </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>utf8string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>invalid_char</em> = <code>'_'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Convert an arbitrary UTF-8 string into latin1 (ISO 8859-1)</p>
+<p>Note: This converts arbitrary multibyte utf-8 strings to latin1 on best-effort basis. Characters that are not in the target code-page are replaced by invalid_char. The conversion is aborted, if an invalid UTF8-encoding is encountered. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">utf8string</td><td>utf8-encoded string </td></tr>
+    <tr><td class="paramname">invalid_char</td><td>character that is used for to replace characters that are not in latin1 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>latin1 (ISO 8859-1) encoded string</dd></dl>
+<p>Convert an arbitrary UTF-8 string into latin1 (ISO 8859-1)</p>
+<p>Note: This converts arbitrary multibyte utf-8 strings to latin1 on best-effort basis. Characters that are not in the target code-page are replaced by invalid_char. The conversion is aborted, if an invalid UTF8-encoding is encountered. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">utf8string</td><td>utf8-encoded string </td></tr>
+    <tr><td class="paramname">invalid_char</td><td>character that is used for to replace characters that are not in latin1 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>latin1 (ISO 8859-1) encoded string</dd></dl>
+<p>Convert an arbitrary UTF-8 string into latin1 (ISO 8859-1)</p>
+<p>Note: This converts arbitrary multibyte utf-8 strings to latin1 on best-effort basis. Characters that are not in the target code-page are replaced by invalid_char. The conversion is aborted, if an invalid UTF8-encoding is encountered. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">utf8string</td><td>utf8-encoded string </td></tr>
+    <tr><td class="paramname">invalid_char</td><td>character that is used for to replace characters that are not in latin1 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>latin1 (ISO 8859-1) encoded string</dd></dl>
 
 </div>
 </div>
