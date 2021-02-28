@@ -196,7 +196,7 @@ class FrequencyCounter {
     void setMeasureMode(MeasureMode mode, bool silent = false) {
         /*! Change sample mode
 
-            @param measureMode \ref MeasureMode, e.g. LOWFREQUENCY_MEDIUM.
+            @param mode \ref MeasureMode, e.g. LOWFREQUENCY_MEDIUM.
             @param silent on true, no message is sent.
         */
         switch (mode) {
