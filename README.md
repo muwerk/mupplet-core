@@ -143,7 +143,9 @@ class MyMupplet {
 
 History
 -------
-- 0.4.0 (2021-02-xx) [not yet released] frequency_counter mupplet
+- 0.4.0 (2021-02-xx) [not yet released] 
+  * frequency counter mupplet (Frequency measurement up to 80kHz on ESP32)
+  * codepage conversion utility functions (ISO8859-1 <-> UTF8)
 - 0.3.0 (2021-02-19) New helpful parser functions
 - 0.2.0 (2021-02-13) Consistent naming, documentation fixes, configurable topic in `DigitalOut`.
 - 0.1.1 (2021-02-13) Broken repository-url fixed for `library.json`.
