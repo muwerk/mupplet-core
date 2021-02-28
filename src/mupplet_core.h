@@ -182,9 +182,17 @@ bool isAscii(String utf8string) {
 String utf8ToLatin(String utf8string, char invalid_char='_') {
     /*! Convert an arbitrary UTF-8 string into latin1 (ISO 8859-1)
 
+    The function \ref isAscii() can be used to check if a conversion is necessary at
+    all. (No conversion is necessary, if the UTF-8 string only consists of ASCII chars,
+    in that case both encodings are identical.)
+
+    See \ref latinToUtf8() for the opposite conversion.
+
     Note: This converts arbitrary multibyte utf-8 strings to latin1 on best-effort
     basis. Characters that are not in the target code-page are replaced by invalid_char.
     The conversion is aborted, if an invalid UTF8-encoding is encountered.
+
+
     @param utf8string utf8-encoded string
     @param invalid_char character that is used for to replace characters that are not in latin1
     @return latin1 (ISO 8859-1) encoded string
@@ -241,6 +249,8 @@ String utf8ToLatin(String utf8string, char invalid_char='_') {
 
 String latinToUtf8(String latin) {
     /*! Convert a latin1 (ISO 8859-1) string into UTF-8
+
+    See \ref utf8ToLatin() for the opposite conversion.
 
     @param latin ISO 8869-1 (latin1) encoded string
     @return UTF8-encoded string  
