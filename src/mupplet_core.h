@@ -153,12 +153,12 @@ double parseUnitLevel(String arg) {
 
 Encoding of UTF-8 strings:
 
-| Number of bytes | First code point | Last code point | Byte 1   | Byte 2   | Byte 3   | Byte 4   |
-| --------------- | ---------------- | --------------- | -------- | -------- | -------- | -------- |
+| Number of bytes | First code point | Last code point | Byte 1   | Byte 2   | Byte 3   | Byte 4
+| --------------- | ---------------- | --------------- | -------- | -------- | -------- | --------
 | 1               | U+0000           | U+007F          | 0xxxxxxx |          |          |
-| 2               | U+0080           | U+07FF          | 110xxxxx | 10xxxxxx |          |
-| 3               | U+0800           | U+FFFF          | 1110xxxx | 10xxxxxx | 10xxxxxx |
-| 4               | U+10000          | U+10FFFF        | 11110xxx | 10xxxxxx | 10xxxxxx | 10xxxxxx |
+| 2               | U+0080           | U+07FF          | 110xxxxx | 10xxxxxx |          |          
+| 3               | U+0800           | U+FFFF          | 1110xxxx | 10xxxxxx | 10xxxxxx |          
+| 4               | U+10000          | U+10FFFF        | 11110xxx | 10xxxxxx | 10xxxxxx | 10xxxxxx
 
 Mapping between UTF-8 and latin1 ISO 8859-1
 
