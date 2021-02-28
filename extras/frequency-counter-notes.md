@@ -8,3 +8,4 @@ a geiger counter.
 Hardware: 2x 4.7kΩ resistor, 1nF capacitor, N-Channel mosfet (e.g. N7000),
 geiger counter, 8 digit 7 segment display, Wemos D1 mini.
 
+See [geigerCounter](https://github.com/muwerk/examples/tree/master/geigerCounter) for the complete project.
