@@ -66,17 +66,19 @@ int8_t parseBoolean(String arg) {
     }
 }
 
-int16_t parseToken(String arg, const char **tokenList) {
+int16_t parseToken(String arg, const char **tokenList, int16_t defaultVal = -1) {
     /*! Parses a string argument against a token list
      *
      * The parser is not case sensistive and returns
      * the index of the detected token. If no token matches
      * the parser returns -1
      *
-     * @param arg The argument to parse
-     * @param tokenList An array of constant zero terminated char string pointers containing the
-     *                  tokens. The tokens *must* be lowercase. The last token in the list *must*
-     *                  be null pointer.
+     * @param arg           The argument to parse
+     * @param tokenList     An array of constant zero terminated char string pointers containing the
+     *                      tokens. The tokens *must* be lowercase. The last token in the list
+     *                      *must* be null pointer.
+     * @param defaultVal    The default value to return in case the entered argument is invalid
+     *                      (default: -1)
      * @return The index of the found token, or -1 if no token matches.
      */
     arg.trim();
@@ -86,7 +88,31 @@ int16_t parseToken(String arg, const char **tokenList) {
             return pToken - tokenList;
         }
     }
-    return -1;
+    return defaultVal;
+}
+
+long parseLong(String arg, long defaultVal) {
+    /*! Parses a string argument for a valid integer value
+     *
+     * The parser checks if the parsed value is an interger number and returns eitherthe entered
+     * value or the supplied default value.
+     *
+     * @param arg           The argument to parse
+     * @param defaultVal    The default value to return in case the entered argument is invalid
+     * @return The parsed value
+     */
+    arg.trim();
+    if (arg.length() == 0) {
+        return defaultVal;
+    }
+    for (const char *pPtr = arg.c_str(); *pPtr; pPtr++) {
+        if (*pPtr < '0' || *pPtr > '9') {
+            if (pPtr == arg.c_str() && *pPtr != '-') {
+                return defaultVal;
+            }
+        }
+    }
+    return atol(arg.c_str());
 }
 
 long parseRangedLong(String arg, long minVal, long maxVal, long minDefaultVal, long maxDefaultVal) {
@@ -96,18 +122,20 @@ long parseRangedLong(String arg, long minVal, long maxVal, long minDefaultVal, l
      * the entered value or one the defaults depending upon the entered value beeing lower than the
      * minimum value or higher than the maximum value.
      *
-     * @param arg The argument to parse
-     * @param minVal The minimum acceptable value
-     * @param maxVal The maximum acceptable value
+     * @param arg           The argument to parse
+     * @param minVal        The minimum acceptable value
+     * @param maxVal        The maximum acceptable value
      * @param minDefaultVal The default value to return in case the enetered value is lower than
-     *                      `minVal`
+     *                      `minVal` or not a number
      * @param maxDefaultVal The default value to return in case the enetered value is higher than
      *                      `maxVal`
      * @return The parsed value
      */
-    arg.trim();
-    long val = atol(arg.c_str());
-    if (val < minVal) {
+    long val = parseLong(arg, minDefaultVal);
+    if (val == minDefaultVal) {
+        // maybe not a number?
+        return minDefaultVal;
+    } else if (val < minVal) {
         return minDefaultVal;
     } else if (val > maxVal) {
         return maxDefaultVal;
@@ -156,8 +184,8 @@ Encoding of UTF-8 strings:
 | Number of bytes | First code point | Last code point | Byte 1   | Byte 2   | Byte 3   | Byte 4
 | --------------- | ---------------- | --------------- | -------- | -------- | -------- | --------
 | 1               | U+0000           | U+007F          | 0xxxxxxx |          |          |
-| 2               | U+0080           | U+07FF          | 110xxxxx | 10xxxxxx |          |          
-| 3               | U+0800           | U+FFFF          | 1110xxxx | 10xxxxxx | 10xxxxxx |          
+| 2               | U+0080           | U+07FF          | 110xxxxx | 10xxxxxx |          |
+| 3               | U+0800           | U+FFFF          | 1110xxxx | 10xxxxxx | 10xxxxxx |
 | 4               | U+10000          | U+10FFFF        | 11110xxx | 10xxxxxx | 10xxxxxx | 10xxxxxx
 
 Mapping between UTF-8 and latin1 ISO 8859-1
@@ -172,14 +200,15 @@ bool isAscii(String utf8string) {
 
     @return true, if ASCII compliant
     */
-   for (unsigned int i=0; i<utf8string.length(); i++) {
-       unsigned char c=utf8string[i];
-       if ((c & 0x80) != 0) return false;
-   }
-   return true;
+    for (unsigned int i = 0; i < utf8string.length(); i++) {
+        unsigned char c = utf8string[i];
+        if ((c & 0x80) != 0)
+            return false;
+    }
+    return true;
 }
 
-String utf8ToLatin(String utf8string, char invalid_char='_') {
+String utf8ToLatin(String utf8string, char invalid_char = '_') {
     /*! Convert an arbitrary UTF-8 string into latin1 (ISO 8859-1)
 
     The function \ref isAscii() can be used to check if a conversion is necessary at
@@ -197,47 +226,47 @@ String utf8ToLatin(String utf8string, char invalid_char='_') {
     @param invalid_char character that is used for to replace characters that are not in latin1
     @return latin1 (ISO 8859-1) encoded string
     */
-    String latin="";
-    unsigned char c,nc;
-    for (unsigned int i=0; i<utf8string.length(); i++) {
-        c=utf8string[i];
-        if ((c & 0x80)==0) { // 1 byte utf8
-            latin+=(char)c;
+    String latin = "";
+    unsigned char c, nc;
+    for (unsigned int i = 0; i < utf8string.length(); i++) {
+        c = utf8string[i];
+        if ((c & 0x80) == 0) {  // 1 byte utf8
+            latin += (char)c;
             continue;
         } else {
-            if ((c & 0b11100000)==0b11000000) { // 2 byte utf8
-                if (i<utf8string.length()-1) {
-                    nc=utf8string[i+1];
+            if ((c & 0b11100000) == 0b11000000) {  // 2 byte utf8
+                if (i < utf8string.length() - 1) {
+                    nc = utf8string[i + 1];
                     switch (c) {
-                        case 0xc2:
-                            latin+=(char)nc;
+                    case 0xc2:
+                        latin += (char)nc;
                         break;
-                        case 0xc3:
-                            nc += 0x40;
-                            latin+=(char)nc;
+                    case 0xc3:
+                        nc += 0x40;
+                        latin += (char)nc;
                         break;
-                        default:
-                            latin+=(char)invalid_char;
+                    default:
+                        latin += (char)invalid_char;
                         break;
                     }
-                    i+=1;
+                    i += 1;
                     continue;
-                } else { // damaged utf8
-                    latin+=(char)invalid_char;
+                } else {  // damaged utf8
+                    latin += (char)invalid_char;
                     return latin;
                 }
             } else {
-                if ((c & 0b11110000) == 0b11100000) { // 3 byte utf8
-                    i+=2;
-                    latin+=(char)invalid_char;
+                if ((c & 0b11110000) == 0b11100000) {  // 3 byte utf8
+                    i += 2;
+                    latin += (char)invalid_char;
                     continue;
                 } else {
-                    if ((c & 0b11111000) == 0b11110000) { // 4 byte utf8
-                        i+=3;
-                        latin+=(char)invalid_char;
+                    if ((c & 0b11111000) == 0b11110000) {  // 4 byte utf8
+                        i += 3;
+                        latin += (char)invalid_char;
                         continue;
-                    } else { // damaged utf8
-                        latin+=(char)invalid_char;
+                    } else {  // damaged utf8
+                        latin += (char)invalid_char;
                         return latin;  // we can't continue parsing
                     }
                 }
@@ -253,22 +282,23 @@ String latinToUtf8(String latin) {
     See \ref utf8ToLatin() for the opposite conversion.
 
     @param latin ISO 8869-1 (latin1) encoded string
-    @return UTF8-encoded string  
+    @return UTF8-encoded string
     */
 
-    String utf8str="";
+    String utf8str = "";
     unsigned char c;
-    for (unsigned int i=0; i<latin.length(); i++) {
-        c=latin[i];
-        if (c<0x80) utf8str+=(char)c;
+    for (unsigned int i = 0; i < latin.length(); i++) {
+        c = latin[i];
+        if (c < 0x80)
+            utf8str += (char)c;
         else {
-            if (c<0xc0) {
-                utf8str+=(char)0xc2;
-                utf8str+=(char)c;
+            if (c < 0xc0) {
+                utf8str += (char)0xc2;
+                utf8str += (char)c;
             } else {
-                utf8str+=(char)0xc3;
-                c-=0x40;
-                utf8str+=(char)c;
+                utf8str += (char)0xc3;
+                c -= 0x40;
+                utf8str += (char)c;
             }
         }
     }
