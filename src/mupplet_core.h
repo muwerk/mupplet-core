@@ -305,4 +305,106 @@ String latinToUtf8(String latin) {
     return utf8str;
 }
 
+/*
+const char *hdmap = "→←"
+                    " 。「」、・ヲァィゥェォャュョッ"
+                    "ーアイウエオカキクケコサシスセソ"
+                    "タチツテトナニヌネノハヒフヘホマ"
+                    "ミムメモヤユヨラリルレロワン゛゜"
+                    "αäßεμσρg√⁻¹j˟₵₤ñö"
+                    "pqΘ∞ΩüΣπx̅y不万円÷ █";
+*/
+class HD44780Charset {
+  public:
+    HD44780Charset(char *pLookupTable = nullptr) {
+    }
+
+    static String toHD_ASCII(String utf8string, char invalid_char = '_') {
+        /*! Convert an arbitrary UTF-8 string into HD44780 with Japanese charset.
+
+        Note: This converts arbitrary multibyte utf-8 strings to the HD44780 charset on best-effort
+        basis. Characters that are not in the target code-page are replaced by invalid_char.
+        The conversion is aborted, if an invalid UTF8-encoding is encountered.
+
+        This function only handles ASCII [32..125], it uses larger-matrix versions for lowercase
+        characters with descenders ('j','p','q','g','y')
+
+        See \ref HD44780ASCIIToUtf8() for the opposite conversion.
+
+        @param utf8string utf8-encoded string
+        @param invalid_char character that is used for to replace characters that are not in HD44780
+        charset
+        @return HD44780 encoded string
+        */
+        String hdstr = "";
+        unsigned char c;
+        for (unsigned int i = 0; i < utf8string.length(); i++) {
+            c = utf8string[i];
+            Serial.println(c);
+            if ((c & 0x80) == 0) {  // 1 byte utf8
+                if (c < 0x7e) {     // and not 0x7e or 0x7f
+                    if (strchr("gjpqy", c) != nullptr)
+                        c += 0x80;  // Use extended matrix for lowercase descenders.
+                    hdstr += (char)c;
+                } else {
+                    hdstr += (char)invalid_char;
+                }
+                continue;
+            } else {
+                if ((c & 0b11100000) == 0b11000000) {  // 2 byte utf8
+                    if (i < utf8string.length() - 1) {
+                        hdstr += (char)invalid_char;
+                        i += 1;
+                        continue;
+                    } else {  // damaged utf8
+                        hdstr += (char)invalid_char;
+                        return hdstr;
+                    }
+                } else {
+                    if ((c & 0b11110000) == 0b11100000) {  // 3 byte utf8
+                        i += 2;
+                        hdstr += (char)invalid_char;
+                        continue;
+                    } else {
+                        if ((c & 0b11111000) == 0b11110000) {  // 4 byte utf8
+                            i += 3;
+                            hdstr += (char)invalid_char;
+                            continue;
+                        } else {  // damaged utf8
+                            hdstr += (char)invalid_char;
+                            return hdstr;  // we can't continue parsing
+                        }
+                    }
+                }
+            }
+        }
+        return hdstr;
+    }
+
+    static String toUtf8(String hdstr, char invalid_char = '_') {
+        /*! Convert a HD44780 ASCII subset string into UTF-8
+
+        See \ref utf8ToHD44780ASCII() for the opposite conversion.
+
+        @param hdstr HD44780-ASCII encoded string
+        @return UTF8-encoded string
+        */
+
+        String utf8str = "";
+        unsigned char c;
+        for (unsigned int i = 0; i < hdstr.length(); i++) {
+            c = hdstr[i];
+            if (c < 0x7e)
+                utf8str += (char)c;
+            else {
+                char cf = (char)(c - 0x80);
+                if (strchr("gjpqy", cf) != nullptr)
+                    utf8str += cf;
+                else
+                    utf8str += (char)invalid_char;
+            }
+        }
+        return utf8str;
+    }
+};
 }  // namespace ustd
