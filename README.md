@@ -145,6 +145,9 @@ class MyMupplet {
 
 History
 -------
+- 0.4.1 (2021-03-XX) NOT YET RELEASED
+  * Number in string detection functions
+  * Support for ASCII part HD44780 displays charset conversions
 - 0.4.0 (2021-02-28) Frequency counter
   * Frequency counter mupplet (Frequency measurement up to 80kHz on ESP32)
   * Codepage conversion utility functions (ISO8859-1 <-> UTF8)

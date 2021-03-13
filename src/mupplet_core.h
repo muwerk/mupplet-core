@@ -197,9 +197,10 @@ Mapping between UTF-8 and latin1 ISO 8859-1
 
 bool isAscii(String utf8string) {
     /*! Check, if an arbitrary UTF-8 string only consists of ASCII characters
-
-    @return true, if ASCII compliant
-    */
+     *
+     * @param utf8string    The string to check
+     * @return `true`, if ASCII compliant
+     */
     for (unsigned int i = 0; i < utf8string.length(); i++) {
         unsigned char c = utf8string[i];
         if ((c & 0x80) != 0)
@@ -208,24 +209,62 @@ bool isAscii(String utf8string) {
     return true;
 }
 
+bool isNumber(String string, bool integer = false) {
+    /*! Check, if an arbitrary string contains a numerical value or not.
+     *
+     * @param string    The string to check
+     * @param integer   If `true`, the routine checks if the string contains an integer value
+     *                  (default: `false`)
+     * @return  `true` if the supplied string is a number or an integer value
+     */
+    return isNumber(string.c_str(), integer);
+}
+
+bool isNumber(const char *value, bool integer = false) {
+    /*! Check, if an arbitrary string contains a numerical value or not.
+     *
+     * @param value     The string to check
+     * @param integer   If `true`, the routine checks if the string contains an integer value
+     *                  (default: `false`)
+     * @return  `true` if the supplied string is a number or an integer value
+     */
+    if (!value) {
+        return false;
+    }
+    if (*value == '-') {
+        value++;
+    }
+    bool decimalpoint = false;
+    while (*value) {
+        if (*value < '0' || *value > '9') {
+            if (integer || decimalpoint || *value != '.') {
+                return false;
+            } else {
+                decimalpoint = true;
+            }
+        }
+        value++;
+    }
+    return true;
+}
+
 String utf8ToLatin(String utf8string, char invalid_char = '_') {
     /*! Convert an arbitrary UTF-8 string into latin1 (ISO 8859-1)
-
-    The function \ref isAscii() can be used to check if a conversion is necessary at
-    all. (No conversion is necessary, if the UTF-8 string only consists of ASCII chars,
-    in that case both encodings are identical.)
-
-    See \ref latinToUtf8() for the opposite conversion.
-
-    Note: This converts arbitrary multibyte utf-8 strings to latin1 on best-effort
-    basis. Characters that are not in the target code-page are replaced by invalid_char.
-    The conversion is aborted, if an invalid UTF8-encoding is encountered.
-
-
-    @param utf8string utf8-encoded string
-    @param invalid_char character that is used for to replace characters that are not in latin1
-    @return latin1 (ISO 8859-1) encoded string
-    */
+     *
+     * The function \ref isAscii() can be used to check if a conversion is necessary at
+     * all. (No conversion is necessary, if the UTF-8 string only consists of ASCII chars,
+     * in that case both encodings are identical.)
+     *
+     * See \ref latinToUtf8() for the opposite conversion.
+     *
+     * Note: This converts arbitrary multibyte utf-8 strings to latin1 on best-effort
+     * basis. Characters that are not in the target code-page are replaced by invalid_char.
+     * The conversion is aborted, if an invalid UTF8-encoding is encountered.
+     *
+     * @param utf8string    utf8-encoded string
+     * @param invalid_char  character that is used for to replace characters that are not in latin1
+     * @return latin1 (ISO 8859-1) encoded string
+     */
     String latin = "";
     unsigned char c, nc;
     for (unsigned int i = 0; i < utf8string.length(); i++) {
@@ -278,13 +317,12 @@ String utf8ToLatin(String utf8string, char invalid_char = '_') {
 
 String latinToUtf8(String latin) {
     /*! Convert a latin1 (ISO 8859-1) string into UTF-8
-
-    See \ref utf8ToLatin() for the opposite conversion.
-
-    @param latin ISO 8869-1 (latin1) encoded string
-    @return UTF8-encoded string
-    */
-
+     *
+     * See \ref utf8ToLatin() for the opposite conversion.
+     *
+     * @param latin ISO 8869-1 (latin1) encoded string
+     * @return UTF8-encoded string
+     */
     String utf8str = "";
     unsigned char c;
     for (unsigned int i = 0; i < latin.length(); i++) {
@@ -321,21 +359,22 @@ class HD44780Charset {
 
     static String toHD_ASCII(String utf8string, char invalid_char = '_') {
         /*! Convert an arbitrary UTF-8 string into HD44780 with Japanese charset.
-
-        Note: This converts arbitrary multibyte utf-8 strings to the HD44780 charset on best-effort
-        basis. Characters that are not in the target code-page are replaced by invalid_char.
-        The conversion is aborted, if an invalid UTF8-encoding is encountered.
-
-        This function only handles ASCII [32..125], it uses larger-matrix versions for lowercase
-        characters with descenders ('j','p','q','g','y')
-
-        See \ref HD44780ASCIIToUtf8() for the opposite conversion.
-
-        @param utf8string utf8-encoded string
-        @param invalid_char character that is used for to replace characters that are not in HD44780
-        charset
-        @return HD44780 encoded string
-        */
+         *
+         * Note: This converts arbitrary multibyte utf-8 strings to the HD44780 charset on
+         * best-effort basis. Characters that are not in the target code-page are replaced by
+         * invalid_char.
+         * The conversion is aborted, if an invalid UTF8-encoding is encountered.
+         *
+         * This function only handles ASCII [32..125], it uses larger-matrix versions for lowercase
+         * characters with descenders ('j','p','q','g','y')
+         *
+         * See \ref HD44780ASCIIToUtf8() for the opposite conversion.
+         *
+         * @param utf8string    utf8-encoded string
+         * @param invalid_char  character that is used for to replace characters that are not in
+         *                      HD44780 charset
+         * @return HD44780 encoded string
+         */
         String hdstr = "";
         unsigned char c;
         for (unsigned int i = 0; i < utf8string.length(); i++) {
@@ -383,12 +422,12 @@ class HD44780Charset {
 
     static String toUtf8(String hdstr, char invalid_char = '_') {
         /*! Convert a HD44780 ASCII subset string into UTF-8
-
-        See \ref utf8ToHD44780ASCII() for the opposite conversion.
-
-        @param hdstr HD44780-ASCII encoded string
-        @return UTF8-encoded string
-        */
+         *
+         * See \ref utf8ToHD44780ASCII() for the opposite conversion.
+         *
+         * @param hdstr HD44780-ASCII encoded string
+         * @return UTF8-encoded string
+         */
 
         String utf8str = "";
         unsigned char c;
