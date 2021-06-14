@@ -32,7 +32,14 @@ The `mupplet-core` library consists of the following modules:
 
 <img src="https://github.com/muwerk/examples/blob/master/Resources/FrequencyCounter.jpg" align="right" width="8%">
 
-* [`FrequencyCounter`][FrequencyCounter_DOC] The frequency counter mupplet measures impulse frequencies on a GPIO using interrupts. An ESP32 can reliably measure up to about 80kHz. See [FrequencyCounter application notes][FrequencyCounter_NOTES] for a Geiger counter sample.
+* [`FrequencyCounter`][FrequencyCounter_DOC] The frequency counter mupplet measures impulse frequencies
+  on a GPIO using interrupts. An ESP32 can reliably measure up to about 80kHz. See
+  [FrequencyCounter application notes][FrequencyCounter_NOTES] for a Geiger counter sample.
+
+* [`LightsPCA9685`][PCA9685_DOC] The PCA 9685 16 Channels Light Mupplet allows to control up to
+  16 leds or light's state, brightness using modes such as user-controlled, blink, soft-wave,
+  one-time pulse and automatic pattern playback. See [PCA9685 Application Notes][PCA9685_NOTES]
+  for an example and more information.
 
 Development and Design considerations
 -------------------------------------
@@ -146,6 +153,7 @@ class MyMupplet {
 History
 -------
 - 0.4.1 (2021-03-XX) NOT YET RELEASED
+  * New 16 channel light applet using PCA 9685 PWM controller
   * Number in string detection functions
   * Support for ASCII part HD44780 displays charset conversions
 - 0.4.0 (2021-02-28) Frequency counter
@@ -184,6 +192,8 @@ References
 [FrequencyCounter_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/frequency-counter-notes.md
 [DigitalOut_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1DigitalOut.html
 [DigitalOut_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/digital-out-notes.md
+[PCA9685_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1LightsPCA9685.html
+[PCA9685_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/pca9685-notes.md
 
 [gh_ustd]: https://github.com/muwerk/ustd
 [gh_muwerk]: https://github.com/muwerk/muwerk
