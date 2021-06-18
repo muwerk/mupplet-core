@@ -17,16 +17,16 @@ oszillation, mode: Wave), one-time pulse (mode: Pulse), and repeating, user-sele
 
 ## Messages
 
-Messages sent by led mupplet:
+As all light mupplets, the mupplet can be controlled using the standard light messages:
 
-### Messages sent by led mupplet:
+### Light Related Messages sent by Mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
 | `<mupplet-name>/light/unitbrightness` | normalized brightness [0.0-1.0] | `0.34`: Float value encoded as string. Not send on automatic changes (e.g. pulse mode)
 | `<mupplet-name>/light/state` | `on` or `off` | current led state (`on` is not sent on pwm intermediate values)
 
-### Message received by led mupplet:
+### Light Related Messages received by Mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
@@ -94,26 +94,17 @@ class Light {
         */
     }
 
+    /** Initialize GPIO hardware and start operation
+     *
+     * @param _pSched Pointer to a muwerk scheduler object, used to create worker tasks and for
+     *                message pub/sub.
+     * @param initialState Initial logical state of the light: false=off, true=on.
+     *                     Note that this is independent of the physical output
+     *                     signal on the GPIO port: if a LOW or HIGH signal is
+     *                     required to switch the light on, is defined by the constructor's
+     *                     `activeLogic` parameter.
+     */
     void begin(Scheduler *_pSched, bool initialState = false) {
-        // clang-format off
-        /*! Initialize led hardware and start operation
-
-        The mupplet listens for the following messages:
-
-        | topic | message body | comment
-        | ----- | ------------ | -------
-        | `<mupplet-name>/light/set`      | `on`, `off`, `true`, `false`, `pct 34`, `34%`, `0.34` | Led can be set fully on or off with on/true and off/false. A fractional brightness of 0.34 (within interval [0.0, 1.0]) can be sent as either `pct 34`, or `0.34`, or `34%`.
-        | `<mupplet-name>/light/mode/set` | `passive`, `pulse <duration_ms>`, `blink <intervall_ms>[,<phase-shift>]`, `wave <intervall_ms>[,<phase-shift>]`, `pattern <pattern>[,<intervall>[,<phase>]]` or `wave <intervall_ms>[,<phase-shift>]` | Mode passive does no automatic led state changes, `pulse` switches the led on for `<duration_ms>` ms, then led goes back to passive mode. `blink` changes the led state very `interval_ms` on/off, `wave` uses pwm to for soft changes between on and off states. Optional comma-speratated phase [0.0, ..., 1.0] can be added as a phase-shift. Two leds, one with `wave 1000` and one with `wave 1000,0.5` blink inverse. Patterns can be specified as string containing `+`,`-`,`0`..`9` or `r`. `+` is led on during `<intervall>` ms, `-` is off, `0`..`9` brightness-level. An `r` at the end of the pattern repeats the pattern. `"pattern +-+-+-+++-+++-+++-+-+-+---r,100"` lets the board signal SOS.
-
-        @param _pSched Pointer to a muwerk scheduler object, used to create worker
-                       tasks and for message pub/sub.
-        @param initialState Initial logical state of the led: false=off, true=on.
-                            Note that this is independent of the physical output
-                            signal on the GPIO port: if a LOW or HIGH signal is
-                            required to switch the led on, is defined by the constructor's
-                            activeLogic parameter.
-        */
-        // clang-format on
         pSched = _pSched;
         tID = pSched->add([this]() { this->light.loop(); }, name, 50000L);
 
@@ -145,55 +136,59 @@ class Light {
                     initialState);
     }
 
+    /** Set light to a given logical state.
+     * @param state State of the light: true=on, false=off.
+     */
     void set(bool state) {
-        // clang-format off
-        /*! Set led to a given logical state.
-
-        The mupplet sends the following messages on state change:
-
-        | topic | message body | comment
-        | ----- | ------------ | -------
-        | `<mupplet-name>/light/unitbrightness` | normalized brightness [0.0-1.0] | `0.34`: Float value encoded as string. Not send on automatic changes (e.g. pulse mode)
-        | `<mupplet-name>/light/state` | `on` or `off` | current led state (`on` is not sent on pwm intermediate values)
-
-        @param state true=on, false=off.
-        */
-        // clang-format on
         light.set(state);
     }
 
+    /** Set light mode to given \ref LightController::Mode
+     * @param mode Light \ref LightController::Mode
+     * @param interval_ms Duration of blink in Mode::Blink or pulse duration.
+     * @param phase_unit Phase difference used to synchronize different lights in Wave
+     *                   or blink mode. A phase_unit of 0 synchronizes the given lights.
+     *                   phase-difference is in [0.0-1.0]. A phase difference of 0.5
+     *                   (180 degrees) between two lights would let lights blink
+     *                   reversed.
+     * @param pattern Only in Mode::Pattern: a pattern string consisting of the
+     *                characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or
+     *                at the end of the string 'r' for endless repeat. Intervall_ms is
+     *                the time for each pattern step. Example "++-r" with intervall_ms=100
+     *                lights the led for 200ms on, 100ms off and repeats. "1---------r" makes
+     *                a faint 100ms flash every second. "0135797531r" simulates a PWM wave.
+     */
     void setMode(LightController::Mode mode, unsigned int interval_ms = 1000,
                  double phase_unit = 0.0, String pattern = "") {
-        /*! Set led mode to given \ref LightController::Mode
-
-        @param mode Led \ref LightController::Mode
-        @param interval_ms Duration of blink in Mode::Blink or pulse duration.
-        @param phase_unit Phase difference used to synchronize different leds in Wave
-                          or blink mode. A phase_unit of 0 synchronizes the given leds.
-                          phase-difference is in [0.0-1.0]. A phase difference of 0.5
-                          (180 degrees) between two leds would let leds blink
-                          reversed.
-        @param pattern Only in Mode::Pattern: a pattern string consisting of the
-                       characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or
-                       at the end of the string 'r' for endless repeat. Intervall_ms is
-                       the time for each pattern step. Example "++-r" with intervall_ms=100
-                       lights the led for 200ms on, 100ms off and repeats. "1---------r" makes
-                       a faint 100ms flash every second. "0135797531r" simulates a PWM wave.
-        */
         light.setMode(mode, interval_ms, phase_unit, pattern);
     }
 
+    /** Set minimum and maximum brightness in wave \ref LightController::Mode
+     *
+     * Useful to compensate, if a light stays at similar brightness for a range of input values.
+     *
+     * @param minBrightness Minimum brightness 0-1.0
+     * @param maxBrightness Maximum brightness 0-1.0
+     */
     void setMinMaxWaveBrightness(double minBrightness, double maxBrightness) {
-        /*! Set minimum and maximum brightness in wave \ref LightController::Mode
-
-        Useful to compensate, if a led stays at similar brightness for a range of input values.
-
-        @param minBrightness Minimum brightness 0-1.0
-        @param maxBrightness Maximum brightness 0-1.0
-        */
         light.setMinMaxWaveBrightness(minBrightness, maxBrightness);
     }
 
+#ifdef USTD_FEATURE_HOMEASSISTANT
+    /** Adds an entity to HomeAsisstant for a specific channel
+     * @param pHass Pointer to the HomeAssistant Device Autodiscovery Helper
+     * @param human Optional human readable name for HomeAssistant entity
+     * @param icon Optional alternative icon
+     * @param attribs Optional alternative attribute group (by default all entities reference the
+     * @param dimmable Optional dimmable mode (default: `true`)
+     * "device" attributes group)
+     */
+    void registerHomeAssistant(HomeAssistant *pHass, String human = "", String icon = "",
+                               String attribs = "", bool dimmable = true) {
+        pHass->addLight(name, human, dimmable ? HomeAssistant::LightDim : HomeAssistant::Light,
+                        icon, attribs);
+    }
+#endif
   private:
     void onLightControl(bool state, double level, bool control, bool notify) {
         if (control) {

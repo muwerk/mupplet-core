@@ -76,33 +76,33 @@ class LightsPCA9685 {
     bool activeLogic;
 
   public:
-    /*! Instantiate a PCA9685 16 channel light object at a given address.
-
-    No hardware interaction is performed, until \ref begin() is called.
-
-    @param name Name of the light, used to reference it by pub/sub messages
-    @param addr I2C device address. Defaults to 0x40
-    @param activeLogic Characterizes the pysical logic-level which would turn
-                       the light on. Default is 'false', which assumes the light
-                       turns on if logic level at the corresponding port is LOW. Change
-                       to 'true', if led is turned on by physical logic level HIGH.
-    */
+    /** Instantiate a PCA9685 16 channel light object at a given address.
+     *
+     * No hardware interaction is performed, until \ref begin() is called.
+     *
+     * @param name Name of the light, used to reference it by pub/sub messages
+     * @param addr I2C device address. Defaults to 0x40
+     * @param activeLogic Characterizes the pysical logic-level which would turn
+     *                    the light on. Default is 'false', which assumes the light
+     *                    turns on if logic level at the corresponding port is LOW. Change
+     *                    to 'true', if led is turned on by physical logic level HIGH.
+     */
     LightsPCA9685(String name, uint8_t addr = 0x40, bool activeLogic = false)
         : name(name), addr(addr), activeLogic(activeLogic) {
     }
 
-    /*! Initialize PCA9685 hardware and start operation
-
-    @param _pSched Pointer to a muwerk scheduler object, used to create worker
-                   tasks and for message pub/sub.
-    @param _pWire Optional pointer to a configured 'TwoWire' object. If not specified, the global
-                  object `Wire` is used.
-    @param initialState Initial logical state of the light: false=off, true=on.
-                        Note that this is independent of the physical output
-                        signal on the hardware port: if a LOW or HIGH signal is
-                        required to switch the light on, is defined by the constructor's
-                        'activeLogic' parameter.
-    */
+    /** Initialize PCA9685 hardware and start operation
+     *
+     * @param _pSched Pointer to a muwerk scheduler object, used to create worker tasks and for
+     *                message pub/sub.
+     * @param _pWire Optional pointer to a configured 'TwoWire' object. If not specified, the global
+     *               object `Wire` is used.
+     * @param initialState Initial logical state of the light: false=off, true=on.
+     *                     Note that this is independent of the physical output
+     *                     signal on the hardware port: if a LOW or HIGH signal is
+     *                     required to switch the light on, is defined by the constructor's
+     *                     'activeLogic' parameter.
+     */
     void begin(Scheduler *_pSched, TwoWire *_pWire = nullptr, bool initialState = false) {
         // standard muwerk task initialization
         pSched = _pSched;
@@ -139,10 +139,10 @@ class LightsPCA9685 {
         }
     }
 
-    /*! Set light to a given logical state.
-    @param channel Channel number of light to set (from 0 to 15) or -1 for all channels
-    @param state State of the light: true=on, false=off.
-    */
+    /** Set light to a given logical state.
+     * @param channel Channel number of light to set (from 0 to 15) or -1 for all channels
+     * @param state State of the light: true=on, false=off.
+     */
     void set(int8_t channel, bool state) {
         if (channel < 0) {
             for (channel = 0; channel < 16; channel++) {
@@ -153,22 +153,22 @@ class LightsPCA9685 {
         }
     }
 
-    /*! Set light mode to given \ref LightController::Mode
-    @param channel Channel number of light to set mode (from 0 to 15) or -1 for all channels
-    @param mode Light \ref LightController::Mode
-    @param interval_ms Duration of blink in Mode::Blink or pulse duration.
-    @param phase_unit Phase difference used to synchronize different lights in Wave
-                      or blink mode. A phase_unit of 0 synchronizes the given lights.
-                      phase-difference is in [0.0-1.0]. A phase difference of 0.5
-                      (180 degrees) between two lights would let lights blink
-                      reversed.
-    @param pattern Only in Mode::Pattern: a pattern string consisting of the
-                   characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or
-                   at the end of the string 'r' for endless repeat. Intervall_ms is
-                   the time for each pattern step. Example "++-r" with intervall_ms=100
-                   lights the led for 200ms on, 100ms off and repeats. "1---------r" makes
-                   a faint 100ms flash every second. "0135797531r" simulates a PWM wave.
-    */
+    /** Set light mode to given \ref LightController::Mode
+     * @param channel Channel number of light to set mode (from 0 to 15) or -1 for all channels
+     * @param mode Light \ref LightController::Mode
+     * @param interval_ms Duration of blink in Mode::Blink or pulse duration.
+     * @param phase_unit Phase difference used to synchronize different lights in Wave
+     *                   or blink mode. A phase_unit of 0 synchronizes the given lights.
+     *                   phase-difference is in [0.0-1.0]. A phase difference of 0.5
+     *                   (180 degrees) between two lights would let lights blink
+     *                   reversed.
+     * @param pattern Only in Mode::Pattern: a pattern string consisting of the
+     *                characters '+' (on), '-' (off), '0'-'9' (brightness 0%-100%), or
+     *                at the end of the string 'r' for endless repeat. Intervall_ms is
+     *                the time for each pattern step. Example "++-r" with intervall_ms=100
+     *                lights the led for 200ms on, 100ms off and repeats. "1---------r" makes
+     *                a faint 100ms flash every second. "0135797531r" simulates a PWM wave.
+     */
     void setMode(int8_t channel, LightController::Mode mode, unsigned int interval_ms = 1000,
                  double phase_unit = 0.0, String pattern = "") {
         if (channel < 0) {
@@ -180,14 +180,14 @@ class LightsPCA9685 {
         }
     }
 
-    /*! Set minimum and maximum brightness in wave \ref LightController::Mode
-
-    Useful to compensate, if a light stays at similar brightness for a range of input values.
-
-    @param channel Channel number of light to configure (from 0 to 15) or -1 for all channels
-    @param minBrightness Minimum brightness 0-1.0
-    @param maxBrightness Maximum brightness 0-1.0
-    */
+    /** Set minimum and maximum brightness in wave \ref LightController::Mode
+     *
+     * Useful to compensate, if a light stays at similar brightness for a range of input values.
+     *
+     * @param channel Channel number of light to configure (from 0 to 15) or -1 for all channels
+     * @param minBrightness Minimum brightness 0-1.0
+     * @param maxBrightness Maximum brightness 0-1.0
+     */
     void setMinMaxWaveBrightness(int8_t channel, double minBrightness, double maxBrightness) {
         if (channel < 0) {
             for (channel = 0; channel < 16; channel++) {
@@ -197,6 +197,35 @@ class LightsPCA9685 {
             light[channel].setMinMaxWaveBrightness(minBrightness, maxBrightness);
         }
     }
+
+#ifdef USTD_FEATURE_HOMEASSISTANT
+    /** Adds entities to HomeAsisstant for all channels
+     * @param pHass Pointer to the HomeAssistant Device Autodiscovery Helper
+     * @param human Optional human readable name for HomeAssistant entity
+     * @param icon Optional alternative icon
+     * @param attribs Optional alternative attribute group (by default all entities reference the
+     * "device" attributes group)
+     */
+    void registerHomeAssistant(HomeAssistant *pHass, String human = "", String icon = "",
+                               String attribs = "") {
+        pHass->addMultiLight(name, 16, human, HomeAssistant::LightDim, icon, attribs);
+    }
+
+    /** Adds an entity to HomeAsisstant for a specific channel
+     * @param pHass Pointer to the HomeAssistant Device Autodiscovery Helper
+     * @param channel Number of the channel to add
+     * @param human Optional human readable name for HomeAssistant entity
+     * @param icon Optional alternative icon
+     * @param attribs Optional alternative attribute group (by default all entities reference the
+     * "device" attributes group)
+     */
+    void registerHomeAssistant(HomeAssistant *pHass, int channel, String human = "",
+                               String icon = "", String attribs = "") {
+        if (channel >= 0 && channel < 16) {
+            pHass->addLight(name, channel, human, HomeAssistant::LightDim, icon, attribs);
+        }
+    }
+#endif
 
   private:
     void loop() {
