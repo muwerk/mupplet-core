@@ -1,7 +1,7 @@
 #define __ESP__  // or other ustd library platform define
 #include "scheduler.h"
-#include "light_pca9685.h"
 #include "mup_switch.h"
+#include "mup_light_pca9685.h"
 
 ustd::Scheduler sched;
 

@@ -40,7 +40,7 @@ As all light mupplets, the mupplet can be controlled using the standard light me
 \code{cpp}
 #define __ESP__ 1   // Platform defines required, see ustd library doc, mainpage.
 #include "scheduler.h"
-#include "light_pca9685.h"
+#include "mup_light_pca9685.h"
 
 ustd::Scheduler sched;
 ust::LightsPCA9685 pca("mylights");

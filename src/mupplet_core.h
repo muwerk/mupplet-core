@@ -12,9 +12,11 @@ mupplet-core implements the following classes based on the cooperative scheduler
 * * \ref ustd::Switch
 * * \ref ustd::DigitalOut
 * * \ref ustd::FrequencyCounter
+* * \ref ustd::LightsPCA9685
 
 Additionally there are implementation for the following helper classes:
 
+* * \ref ustd::HomeAssistant
 * * \ref ustd::LightController
 
 For an overview, see:

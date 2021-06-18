@@ -34,7 +34,7 @@ Please update the [ustd library platform define](https://github.com/muwerk/ustd#
 ```cpp
 #define __ESP__   // or other ustd library platform define
 #include "scheduler.h"
-#include "light_pca9685.h"
+#include "mup_light_pca9685.h"
 
 ust::LightsPCA9685 pca("mylights", 0x41, true);
             // PCA 9685 board with I2C address 0x41,
