@@ -5,14 +5,10 @@
 
 namespace ustd {
 
-#ifdef __ESP32__
-#define G_INT_ATTR IRAM_ATTR
-#else
-#ifdef __ESP__
+#if defined(__ESP32__) || defined(__ESP__)
 #define G_INT_ATTR IRAM_ATTR
 #else
 #define G_INT_ATTR
-#endif
 #endif
 
 #define USTD_MAX_FQ_PIRQS (10)
