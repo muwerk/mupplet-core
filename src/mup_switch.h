@@ -5,76 +5,72 @@
 
 namespace ustd {
 
-#ifdef __ESP32__
+#if defined(__ESP32__) || defined(__ESP__)
 #define G_INT_ATTR IRAM_ATTR
-#else
-#ifdef __ESP__
-#define G_INT_ATTR ICACHE_RAM_ATTR
 #else
 #define G_INT_ATTR
 #endif
-#endif
 
-#define USTD_MAX_IRQS (10)
+#define USTD_SW_MAX_IRQS (10)
 
-volatile unsigned long irqcounter[USTD_MAX_IRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-volatile unsigned long lastIrq[USTD_MAX_IRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-volatile unsigned long debounceMs[USTD_MAX_IRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile unsigned long pSwIrqCounter[USTD_SW_MAX_IRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile unsigned long pSwLastIrq[USTD_SW_MAX_IRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile unsigned long pSwDebounceMs[USTD_SW_MAX_IRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-void G_INT_ATTR ustd_irq_master(uint8_t irqno) {
+void G_INT_ATTR ustd_sw_irq_master(uint8_t irqno) {
     unsigned long curr = millis();
     noInterrupts();
-    if (debounceMs[irqno]) {
-        if (timeDiff(lastIrq[irqno], curr) < debounceMs[irqno]) {
+    if (pSwDebounceMs[irqno]) {
+        if (timeDiff(pSwLastIrq[irqno], curr) < pSwDebounceMs[irqno]) {
             interrupts();
             return;
         }
     }
-    ++irqcounter[irqno];
-    lastIrq[irqno] = curr;
+    ++pSwIrqCounter[irqno];
+    pSwLastIrq[irqno] = curr;
     interrupts();
 }
 
-void G_INT_ATTR ustd_irq0() {
-    ustd_irq_master(0);
+void G_INT_ATTR ustd_sw_irq0() {
+    ustd_sw_irq_master(0);
 }
-void G_INT_ATTR ustd_irq1() {
-    ustd_irq_master(1);
+void G_INT_ATTR ustd_sw_irq1() {
+    ustd_sw_irq_master(1);
 }
-void G_INT_ATTR ustd_irq2() {
-    ustd_irq_master(2);
+void G_INT_ATTR ustd_sw_irq2() {
+    ustd_sw_irq_master(2);
 }
-void G_INT_ATTR ustd_irq3() {
-    ustd_irq_master(3);
+void G_INT_ATTR ustd_sw_irq3() {
+    ustd_sw_irq_master(3);
 }
-void G_INT_ATTR ustd_irq4() {
-    ustd_irq_master(4);
+void G_INT_ATTR ustd_sw_irq4() {
+    ustd_sw_irq_master(4);
 }
-void G_INT_ATTR ustd_irq5() {
-    ustd_irq_master(5);
+void G_INT_ATTR ustd_sw_irq5() {
+    ustd_sw_irq_master(5);
 }
-void G_INT_ATTR ustd_irq6() {
-    ustd_irq_master(6);
+void G_INT_ATTR ustd_sw_irq6() {
+    ustd_sw_irq_master(6);
 }
-void G_INT_ATTR ustd_irq7() {
-    ustd_irq_master(7);
+void G_INT_ATTR ustd_sw_irq7() {
+    ustd_sw_irq_master(7);
 }
-void G_INT_ATTR ustd_irq8() {
-    ustd_irq_master(8);
+void G_INT_ATTR ustd_sw_irq8() {
+    ustd_sw_irq_master(8);
 }
-void G_INT_ATTR ustd_irq9() {
-    ustd_irq_master(9);
+void G_INT_ATTR ustd_sw_irq9() {
+    ustd_sw_irq_master(9);
 }
 
-void (*ustd_irq_table[USTD_MAX_IRQS])() = {ustd_irq0, ustd_irq1, ustd_irq2, ustd_irq3, ustd_irq4,
-                                           ustd_irq5, ustd_irq6, ustd_irq7, ustd_irq8, ustd_irq9};
+void (*ustd_sw_irq_table[USTD_SW_MAX_IRQS])() = {ustd_sw_irq0, ustd_sw_irq1, ustd_sw_irq2, ustd_sw_irq3, ustd_sw_irq4,
+                                           ustd_sw_irq5, ustd_sw_irq6, ustd_sw_irq7, ustd_sw_irq8, ustd_sw_irq9};
 
-unsigned long getResetIrqCount(uint8_t irqno) {
+unsigned long getSwResetIrqCount(uint8_t irqno) {
     unsigned long count = (unsigned long)-1;
     noInterrupts();
-    if (irqno < USTD_MAX_IRQS) {
-        count = irqcounter[irqno];
-        irqcounter[irqno] = 0;
+    if (irqno < USTD_SW_MAX_IRQS) {
+        count = pSwIrqCounter[irqno];
+        pSwIrqCounter[irqno] = 0;
     }
     interrupts();
     return count;
@@ -272,20 +268,20 @@ class Switch {
         pinMode(port, INPUT_PULLUP);
         setMode(mode);
 
-        if (interruptIndex >= 0 && interruptIndex < USTD_MAX_IRQS) {
+        if (interruptIndex >= 0 && interruptIndex < USTD_SW_MAX_IRQS) {
             ipin = digitalPinToInterrupt(port);
             switch (mode) {
             case Mode::Falling:
-                attachInterrupt(ipin, ustd_irq_table[interruptIndex], FALLING);
+                attachInterrupt(ipin, ustd_sw_irq_table[interruptIndex], FALLING);
                 break;
             case Mode::Rising:
-                attachInterrupt(ipin, ustd_irq_table[interruptIndex], RISING);
+                attachInterrupt(ipin, ustd_sw_irq_table[interruptIndex], RISING);
                 break;
             default:
-                attachInterrupt(ipin, ustd_irq_table[interruptIndex], CHANGE);
+                attachInterrupt(ipin, ustd_sw_irq_table[interruptIndex], CHANGE);
                 break;
             }
-            debounceMs[interruptIndex] = debounceTimeMs;
+            pSwDebounceMs[interruptIndex] = debounceTimeMs;
             useInterrupt = true;
         }
 
@@ -438,7 +434,7 @@ class Switch {
 
     void readState() {
         if (useInterrupt) {
-            unsigned long count = getResetIrqCount(interruptIndex);
+            unsigned long count = getSwResetIrqCount(interruptIndex);
             int curstate = digitalRead(port);
             char msg[32];
             if (count) {
