@@ -4,6 +4,7 @@
 # IDE stuff
 /.vscode
 lsp.log
+.ccls-cache/
 
 # binaries
 *.a
