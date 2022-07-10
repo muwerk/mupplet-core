@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['parseboolean_70',['parseBoolean',['../namespaceustd.html#a30c1178851254a1fa0184cb7376bab29',1,'ustd']]],
-  ['parselong_71',['parseLong',['../namespaceustd.html#a745375ab7681b7796eb35051d6e36e39',1,'ustd']]],
-  ['parserangedlong_72',['parseRangedLong',['../namespaceustd.html#a21a1acc15a645aa4dde7d3cea06e7e57',1,'ustd']]],
-  ['parsetoken_73',['parseToken',['../namespaceustd.html#ad16a714760549d1b2b5f706e160b599f',1,'ustd']]],
-  ['parseunitlevel_74',['parseUnitLevel',['../namespaceustd.html#a97e0fc5390e0fe632b7aa6ff362ab211',1,'ustd']]]
+  ['isascii_0',['isAscii',['../namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea',1,'ustd']]],
+  ['isnumber_1',['isNumber',['../namespaceustd.html#afaf40ec35c3546539746db0841436575',1,'ustd::isNumber(String string, bool integer=false)'],['../namespaceustd.html#a28ec8b7f1fc911a44401398a955b94e6',1,'ustd::isNumber(const char *value, bool integer=false)']]]
 ];

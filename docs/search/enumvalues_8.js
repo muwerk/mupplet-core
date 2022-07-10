@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['timer_107',['Timer',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ceace20a73b93915582663f39bcd0e509d6',1,'ustd::Switch']]]
+  ['switch_0',['Switch',['../classustd_1_1HomeAssistant.html#a07a0e0d7282ca44ec9f0fd0ecd27453aa1b6ae38c2b65e284c27317f87dcf0b7f',1,'ustd::HomeAssistant']]]
 ];

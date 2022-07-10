@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['latintoutf8_19',['latinToUtf8',['../namespaceustd.html#acb3a8aa989582637cfd946ef25db7f37',1,'ustd']]],
-  ['light_20',['Light',['../classustd_1_1Light.html#a21ad7ec9fcf2d3532c1ca2e75dad30fe',1,'ustd::Light::Light()'],['../classustd_1_1Light.html',1,'ustd::Light']]],
-  ['lightcontroller_21',['LightController',['../classustd_1_1LightController.html#afc7f2973714a1a9d4b1d8bfab6ff8147',1,'ustd::LightController::LightController()'],['../classustd_1_1LightController.html',1,'ustd::LightController']]],
-  ['loop_22',['loop',['../classustd_1_1LightController.html#aa3a2efb3484a6764c33bf29f7232d201',1,'ustd::LightController']]],
-  ['lowfrequency_5ffast_23',['LOWFREQUENCY_FAST',['../classustd_1_1FrequencyCounter.html#adce30ad7f77ec1de03830e5c09e3edf7a1dc0afd2a47590be5c09d1208a0860c0',1,'ustd::FrequencyCounter']]],
-  ['lowfrequency_5flongterm_24',['LOWFREQUENCY_LONGTERM',['../classustd_1_1FrequencyCounter.html#adce30ad7f77ec1de03830e5c09e3edf7a9a58b59c72ff6facec8f47aab563476c',1,'ustd::FrequencyCounter']]],
-  ['lowfrequency_5fmedium_25',['LOWFREQUENCY_MEDIUM',['../classustd_1_1FrequencyCounter.html#adce30ad7f77ec1de03830e5c09e3edf7a563d5cbc112a1ee4c3f35b5d941374d3',1,'ustd::FrequencyCounter']]]
+  ['im_5fchange_0',['IM_CHANGE',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70a15d93d68cc42ba5ed1bf10b6f1be702a',1,'ustd::FrequencyCounter']]],
+  ['im_5ffalling_1',['IM_FALLING',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70a987e030b9b255f847b30a3b1e7b4c801',1,'ustd::FrequencyCounter']]],
+  ['im_5frising_2',['IM_RISING',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70ab522ea01b7734ffb4e20fb440d031851',1,'ustd::FrequencyCounter']]],
+  ['interruptmode_3',['InterruptMode',['../classustd_1_1FrequencyCounter.html#a11ee3ca89fa9c9bc819d3fe5b4a5da70',1,'ustd::FrequencyCounter']]],
+  ['isascii_4',['isAscii',['../namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea',1,'ustd']]],
+  ['isnumber_5',['isNumber',['../namespaceustd.html#afaf40ec35c3546539746db0841436575',1,'ustd::isNumber(String string, bool integer=false)'],['../namespaceustd.html#a28ec8b7f1fc911a44401398a955b94e6',1,'ustd::isNumber(const char *value, bool integer=false)']]]
 ];

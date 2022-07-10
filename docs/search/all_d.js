@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['wave_52',['Wave',['../classustd_1_1LightController.html#abc85697ec510ff1488f56ffcdb974245af153509004141a8067dea2f06626357a',1,'ustd::LightController']]]
+  ['ustd_0',['ustd',['../namespaceustd.html',1,'']]],
+  ['utf8tolatin_1',['utf8ToLatin',['../namespaceustd.html#a91526f012d4a2992ac923697edb93f1a',1,'ustd']]]
 ];

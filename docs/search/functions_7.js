@@ -1,13 +1,8 @@
 var searchData=
 [
-  ['set_75',['set',['../classustd_1_1DigitalOut.html#aa9bf4539f05297f6628a6d6453c7e826',1,'ustd::DigitalOut::set()'],['../classustd_1_1Light.html#a52180c7d7504d92b99dcd6289258fab1',1,'ustd::Light::set()'],['../classustd_1_1LightController.html#a36f4de0cd5fcc3b34c564f728f259b3a',1,'ustd::LightController::set()']]],
-  ['setdebounce_76',['setDebounce',['../classustd_1_1Switch.html#a966f541283b4f3ee3b01122df7e70bb2',1,'ustd::Switch']]],
-  ['setlogicalstate_77',['setLogicalState',['../classustd_1_1Switch.html#a765c9c2a6e62068c4d83e1711004a075',1,'ustd::Switch']]],
-  ['setmeasuremode_78',['setMeasureMode',['../classustd_1_1FrequencyCounter.html#a5fab81faff450c4be86d622087038c35',1,'ustd::FrequencyCounter']]],
-  ['setminmaxwavebrightness_79',['setMinMaxWaveBrightness',['../classustd_1_1Light.html#a2548999ecfeffa8a893df7251c5c440f',1,'ustd::Light::setMinMaxWaveBrightness()'],['../classustd_1_1LightController.html#a1feaccf15e4df739c24cfbed0b918310',1,'ustd::LightController::setMinMaxWaveBrightness()']]],
-  ['setmode_80',['setMode',['../classustd_1_1Light.html#ace56172fd4aca81201f7ecbce17e9940',1,'ustd::Light::setMode()'],['../classustd_1_1Switch.html#a9f49577e878f6f761b2dba6e5e9025e9',1,'ustd::Switch::setMode()'],['../classustd_1_1LightController.html#aeccc32fa82ca3895ecae0e7c2a41be7f',1,'ustd::LightController::setMode()']]],
-  ['setpulse_81',['setPulse',['../classustd_1_1Switch.html#a87e88ea9cd712323b19f6c2ce223769b',1,'ustd::Switch']]],
-  ['settimerduration_82',['setTimerDuration',['../classustd_1_1Switch.html#a24be58ff677f2e20a5139602f3464e63',1,'ustd::Switch']]],
-  ['settoggle_83',['setToggle',['../classustd_1_1Switch.html#a2082bfe5de0628080b23fff90c6cccf9',1,'ustd::Switch']]],
-  ['switch_84',['Switch',['../classustd_1_1Switch.html#af225a908143d4efb3985d73aafa7c93d',1,'ustd::Switch']]]
+  ['latintoutf8_0',['latinToUtf8',['../namespaceustd.html#acb3a8aa989582637cfd946ef25db7f37',1,'ustd']]],
+  ['light_1',['Light',['../classustd_1_1Light.html#a21ad7ec9fcf2d3532c1ca2e75dad30fe',1,'ustd::Light']]],
+  ['lightcontroller_2',['LightController',['../classustd_1_1LightController.html#afc7f2973714a1a9d4b1d8bfab6ff8147',1,'ustd::LightController']]],
+  ['lightspca9685_3',['LightsPCA9685',['../classustd_1_1LightsPCA9685.html#a59236939e6b816c1c497d3d15c909112',1,'ustd::LightsPCA9685']]],
+  ['loop_4',['loop',['../classustd_1_1LightController.html#aa3a2efb3484a6764c33bf29f7232d201',1,'ustd::LightController']]]
 ];

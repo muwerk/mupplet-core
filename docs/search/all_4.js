@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['highfrequency_5ffast_11',['HIGHFREQUENCY_FAST',['../classustd_1_1FrequencyCounter.html#adce30ad7f77ec1de03830e5c09e3edf7aba717251f2832616a633c68775772fac',1,'ustd::FrequencyCounter']]],
-  ['highfrequency_5flongterm_12',['HIGHFREQUENCY_LONGTERM',['../classustd_1_1FrequencyCounter.html#adce30ad7f77ec1de03830e5c09e3edf7a1da4a0312cb50369c975f800565d7c95',1,'ustd::FrequencyCounter']]],
-  ['highfrequency_5fmedium_13',['HIGHFREQUENCY_MEDIUM',['../classustd_1_1FrequencyCounter.html#adce30ad7f77ec1de03830e5c09e3edf7a3b3c6b0f9ba931433a49693ced95131a',1,'ustd::FrequencyCounter']]]
+  ['falling_0',['Falling',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea5159d7a04d8f45e91e31fc7f50921791',1,'ustd::Switch']]],
+  ['flipflop_1',['Flipflop',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22cea7d0bdf2e84554f7b2e8941b098a55c21',1,'ustd::Switch']]],
+  ['forcestate_2',['forceState',['../classustd_1_1LightController.html#a770339a53f86c60b74ec56e9712e6aa8',1,'ustd::LightController']]],
+  ['frequencycounter_3',['FrequencyCounter',['../classustd_1_1FrequencyCounter.html#a7f8bd1231404f3db3f7d6fad4fc66a2d',1,'ustd::FrequencyCounter::FrequencyCounter()'],['../classustd_1_1FrequencyCounter.html',1,'ustd::FrequencyCounter']]]
 ];

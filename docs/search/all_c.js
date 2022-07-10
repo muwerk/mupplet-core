@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['ustd_50',['ustd',['../namespaceustd.html',1,'']]],
-  ['utf8tolatin_51',['utf8ToLatin',['../namespaceustd.html#a91526f012d4a2992ac923697edb93f1a',1,'ustd']]]
+  ['t_5fcontrol_0',['T_CONTROL',['../classustd_1_1LightController.html#a6bd1b4413389ed4d83be84288b4aed42',1,'ustd::LightController']]],
+  ['timer_1',['Timer',['../classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ceace20a73b93915582663f39bcd0e509d6',1,'ustd::Switch']]]
 ];

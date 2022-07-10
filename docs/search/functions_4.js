@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['isascii_65',['isAscii',['../namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea',1,'ustd']]]
+  ['forcestate_0',['forceState',['../classustd_1_1LightController.html#a770339a53f86c60b74ec56e9712e6aa8',1,'ustd::LightController']]],
+  ['frequencycounter_1',['FrequencyCounter',['../classustd_1_1FrequencyCounter.html#a7f8bd1231404f3db3f7d6fad4fc66a2d',1,'ustd::FrequencyCounter']]]
 ];
