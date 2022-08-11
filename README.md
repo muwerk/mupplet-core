@@ -202,4 +202,4 @@ References
 [gh_mufonts]: https://github.com/muwerk/mufonts
 [gh_mupcore]: https://github.com/muwerk/mupplet-core
 [gh_mupdisplay]: https://github.com/muwerk/mupplet-display
-[gh_mupsensor]: https://github.com/muwerk/mupplet-sendsor
+[gh_mupsensor]: https://github.com/muwerk/mupplet-sensor
