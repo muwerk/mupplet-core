@@ -80,7 +80,7 @@ double getFqResetpIrqFrequency(uint8_t irqno, unsigned long minDtUs = 50) {
         unsigned long count = pFqIrqCounter[irqno];
         unsigned long dt = timeDiff(pFqBeginIrqTimer[irqno], pFqLastIrqTimer[irqno]);
         if (dt > minDtUs) {                                     // Ignore small Irq flukes
-            frequency = (count * fQfrequencyMultiplicator) / dt;  // = count/2.0*1000.0000 uS / dt;
+            frequency = (count * fQfrequencyMultiplicator) / dt;  // = count/2.0*fQfrequenceMultiplicator uS / dt;
                                                                 // no. of waves (count/2) / dt.
         }
         pFqBeginIrqTimer[irqno] = 0;
@@ -252,6 +252,10 @@ class FrequencyCounter {
 
     bool begin(Scheduler *_pSched, uint32_t scheduleUs=2000000L) {
         /*! Enable interrupts and start counter
+            
+        @param _pSched Pointer to scheduler
+        @param scheduleUs Measurement schedule in microseconds
+        @return true if successful
         */
         pSched = _pSched;
 
@@ -262,15 +266,15 @@ class FrequencyCounter {
             switch (irqMode) {
             case IM_FALLING:
                 attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], FALLING);
-                fQfrequencyMultiplicator = 1000000.0;
+                fQfrequencyMultiplicator = scheduleUs/2;
                 break;
             case IM_RISING:
                 attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], RISING);
-                fQfrequencyMultiplicator = 1000000.0;
+                fQfrequencyMultiplicator = scheduleUs/2;
                 break;
             case IM_CHANGE:
                 attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], CHANGE);
-                fQfrequencyMultiplicator = 500000.0;
+                fQfrequencyMultiplicator = scheduleUs/4;
                 break;
             }
             irqsAttached = true;
