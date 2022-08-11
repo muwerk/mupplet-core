@@ -250,7 +250,7 @@ class FrequencyCounter {
             publishMeasureMode();
     }
 
-    bool begin(Scheduler *_pSched) {
+    bool begin(Scheduler *_pSched, uint32_t scheduleUs=2000000L) {
         /*! Enable interrupts and start counter
         */
         pSched = _pSched;
@@ -279,7 +279,7 @@ class FrequencyCounter {
         }
 
         auto ft = [=]() { this->loop(); };
-        tID = pSched->add(ft, name, 2000000);  // uS schedule
+        tID = pSched->add(ft, name, scheduleUs);  // uS schedule
 
         auto fnall = [=](String topic, String msg, String originator) {
             this->subsMsg(topic, msg, originator);
