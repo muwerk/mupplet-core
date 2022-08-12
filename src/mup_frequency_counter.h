@@ -266,15 +266,15 @@ class FrequencyCounter {
             switch (irqMode) {
             case IM_FALLING:
                 attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], FALLING);
-                fQfrequencyMultiplicator = scheduleUs/2;
+                fQfrequencyMultiplicator = 1000000L;
                 break;
             case IM_RISING:
                 attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], RISING);
-                fQfrequencyMultiplicator = scheduleUs/2;
+                fQfrequencyMultiplicator = 1000000L;
                 break;
             case IM_CHANGE:
                 attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], CHANGE);
-                fQfrequencyMultiplicator = scheduleUs/4;
+                fQfrequencyMultiplicator = 500000L;
                 break;
             }
             irqsAttached = true;
