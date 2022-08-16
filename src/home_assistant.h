@@ -23,15 +23,15 @@ The HomeAssistant helper reacts to the following messages:
 
 | Topic            | Message Body  | Description
 | ---------------- | ------------- | -------------------------------------------------
-| `ha/state/set` | `on` or `off` | Enables or disables entity discovery.
-| `ha/state/get` |               | Requests the current entity discovery state.
+| `ha/state/set`   | `on` or `off` | Enables or disables entity discovery.
+| `ha/state/get`   |               | Requests the current entity discovery state.
 
 ### Outgoing Messages
 
 | Topic                        | Message Body  | Description
 | ---------------------------- | ------------- | ---------------------------------------
-| `ha/state`                 | `on` or `off` | Current State of the entity discovery
-| `ha/attribs/<attribGroup>` | `{ ... }`     | Current entity attributes (See below)
+| `ha/state`                   | `on` or `off` | Current State of the entity discovery
+| `ha/attribs/<attribGroup>`   | `{ ... }`     | Current entity attributes (See below)
 
 Entity attributes are sent as JSON object and are displayed as attributes to an entity.
 The HomeAssistant Device Autodiscovery Helper always sends the attribute group `device`
