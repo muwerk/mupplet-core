@@ -329,11 +329,9 @@ class FrequencyCounter {
     void subsMsg(String topic, String msg, String originator) {
         if (topic == name + "/sensor/state/get") {
             publish();
-        }
-        if (topic == name + "/sensor/frequency/get") {
+        } else if (topic == name + "/sensor/frequency/get") {
             publish_frequency();
-        }
-        if (topic == name + "/sensor/mode/set") {
+        } else if (topic == name + "/sensor/mode/set") {
             if (msg == "LOWFREQUENCY_FAST" || msg == "0") {
                 setMeasureMode(MeasureMode::LOWFREQUENCY_FAST);
             }
@@ -352,8 +350,7 @@ class FrequencyCounter {
             if (msg == "HIGHFREQUENCY_LONGTERM" || msg == "5") {
                 setMeasureMode(MeasureMode::HIGHFREQUENCY_LONGTERM);
             }
-        }
-        if (topic == name + "/sensor/mode/get") {
+        } else if (topic == name + "/sensor/mode/get") {
             publishMeasureMode();
         }
     };

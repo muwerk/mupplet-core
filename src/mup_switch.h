@@ -63,7 +63,7 @@ void G_INT_ATTR ustd_sw_irq9() {
 }
 
 void (*ustd_sw_irq_table[USTD_SW_MAX_IRQS])() = {ustd_sw_irq0, ustd_sw_irq1, ustd_sw_irq2, ustd_sw_irq3, ustd_sw_irq4,
-                                           ustd_sw_irq5, ustd_sw_irq6, ustd_sw_irq7, ustd_sw_irq8, ustd_sw_irq9};
+                                                 ustd_sw_irq5, ustd_sw_irq6, ustd_sw_irq7, ustd_sw_irq8, ustd_sw_irq9};
 
 unsigned long getSwResetIrqCount(uint8_t irqno) {
     unsigned long count = (unsigned long)-1;
@@ -512,16 +512,14 @@ class Switch {
             else
                 sprintf(buf, "off");
             pSched->publish(name + "/switch/state", buf);
-        }
-        if (topic == name + "/switch/physicalstate/get") {
+        } else if (topic == name + "/switch/physicalstate/get") {
             char buf[32];
             if (physicalState)
                 sprintf(buf, "on");
             else
                 sprintf(buf, "off");
             pSched->publish(name + "/switch/physicalstate", buf);
-        }
-        if (topic == name + "/switch/mode/set") {
+        } else if (topic == name + "/switch/mode/set") {
             char buf[32];
             memset(buf, 0, 32);
             strncpy(buf, msg.c_str(), 31);
@@ -562,8 +560,7 @@ class Switch {
                 }
                 setMode(Mode::Duration);
             }
-        }
-        if (topic == name + "/switch/set") {
+        } else if (topic == name + "/switch/set") {
             char buf[32];
             memset(buf, 0, 32);
             strncpy(buf, msg.c_str(), 31);
@@ -581,17 +578,14 @@ class Switch {
             if (!strcmp(buf, "pulse")) {
                 setPulse();
             }
-        }
-        if (topic == name + "/switch/debounce/get") {
+        } else if (topic == name + "/switch/debounce/get") {
             char buf[32];
             sprintf(buf, "%ld", debounceTimeMs);
             pSched->publish(name + "/debounce", buf);
-        }
-        if (topic == name + "/switch/debounce/set") {
+        } else if (topic == name + "/switch/debounce/set") {
             long dbt = atol(msg.c_str());
             setDebounce(dbt);
-        }
-        if (topic == "mqtt/state") {
+        } else if (topic == "mqtt/state") {
             if (mode == Mode::Default || mode == Mode::Flipflop) {
                 if (msg == "connected") {
                     publishLogicalState(logicalState);
