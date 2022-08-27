@@ -102,8 +102,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7f8bd1231404f3db3f7d6fad4fc66a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fab81faff450c4be86d622087038c35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1FrequencyCounter.html#a5fab81faff450c4be86d622087038c35">setMeasureMode</a> (<a class="el" href="classustd_1_1FrequencyCounter.html#adce30ad7f77ec1de03830e5c09e3edf7">MeasureMode</a> mode, bool silent=false)</td></tr>
 <tr class="separator:a5fab81faff450c4be86d622087038c35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac99492cafbb1efedafe5f8e7196f86f7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1FrequencyCounter.html#ac99492cafbb1efedafe5f8e7196f86f7">begin</a> (Scheduler *_pSched)</td></tr>
-<tr class="separator:ac99492cafbb1efedafe5f8e7196f86f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93b10fa45681a10444bfd6e257050f15"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1FrequencyCounter.html#a93b10fa45681a10444bfd6e257050f15">begin</a> (Scheduler *_pSched, uint32_t scheduleUs=2000000L)</td></tr>
+<tr class="separator:a93b10fa45681a10444bfd6e257050f15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Interrupt driven frequency counter.</p>
@@ -252,8 +252,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac99492cafbb1efedafe5f8e7196f86f7" name="ac99492cafbb1efedafe5f8e7196f86f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac99492cafbb1efedafe5f8e7196f86f7">&#9670;&nbsp;</a></span>begin()</h2>
+<a id="a93b10fa45681a10444bfd6e257050f15" name="a93b10fa45681a10444bfd6e257050f15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93b10fa45681a10444bfd6e257050f15">&#9670;&nbsp;</a></span>begin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -265,8 +265,18 @@ Public Member Functions</h2></td></tr>
           <td class="memname">bool ustd::FrequencyCounter::begin </td>
           <td>(</td>
           <td class="paramtype">Scheduler *&#160;</td>
-          <td class="paramname"><em>_pSched</em></td><td>)</td>
+          <td class="paramname"><em>_pSched</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>scheduleUs</em> = <code>2000000L</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -276,6 +286,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p >Enable interrupts and start counter</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_pSched</td><td>Pointer to scheduler </td></tr>
+    <tr><td class="paramname">scheduleUs</td><td>Measurement schedule in microseconds </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if successful</dd></dl>
 
 </div>
 </div>

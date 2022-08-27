@@ -129,18 +129,18 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Topic   </th><th class="markdownTableHeadNone">Message Body   </th><th class="markdownTableHeadNone">Description    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>hass/state/set</code>   </td><td class="markdownTableBodyNone"><code>on</code> or <code>off</code>   </td><td class="markdownTableBodyNone">Enables or disables entity discovery.    </td></tr>
+<td class="markdownTableBodyNone"><code>ha/state/set</code>   </td><td class="markdownTableBodyNone"><code>on</code> or <code>off</code>   </td><td class="markdownTableBodyNone">Enables or disables entity discovery.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>hass/state/get</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Requests the current entity discovery state.   </td></tr>
+<td class="markdownTableBodyNone"><code>ha/state/get</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Requests the current entity discovery state.   </td></tr>
 </table>
 <h3>Outgoing Messages</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Topic   </th><th class="markdownTableHeadNone">Message Body   </th><th class="markdownTableHeadNone">Description    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>hass/state</code>   </td><td class="markdownTableBodyNone"><code>on</code> or <code>off</code>   </td><td class="markdownTableBodyNone">Current State of the entity discovery    </td></tr>
+<td class="markdownTableBodyNone"><code>ha/state</code>   </td><td class="markdownTableBodyNone"><code>on</code> or <code>off</code>   </td><td class="markdownTableBodyNone">Current State of the entity discovery    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>hass/attribs/&lt;attribGroup&gt;</code>   </td><td class="markdownTableBodyNone"><code>{ ... }</code>   </td><td class="markdownTableBodyNone">Current entity attributes (See below)   </td></tr>
+<td class="markdownTableBodyNone"><code>ha/attribs/&lt;attribGroup&gt;</code>   </td><td class="markdownTableBodyNone"><code>{ ... }</code>   </td><td class="markdownTableBodyNone">Current entity attributes (See below)   </td></tr>
 </table>
 <p >Entity attributes are sent as JSON object and are displayed as attributes to an entity. The <a class="el" href="classustd_1_1HomeAssistant.html">HomeAssistant</a> Device Autodiscovery Helper always sends the attribute group <code>device</code> that will contain such data:</p>
 <div class="fragment"><div class="line">{</div>
@@ -166,7 +166,7 @@ Public Member Functions</h2></td></tr>
 <div class="line">ustd::AirQualityBme280 bme( <span class="stringliteral">&quot;bme280&quot;</span>, BME280_ADDRESS_ALTERNATE,</div>
 <div class="line">                            ustd::AirQualityBme280::SampleMode::MEDIUM );</div>
 <div class="line"><a class="code hl_class" href="classustd_1_1LightsPCA9685.html">ustd::LightsPCA9685</a> panel(<span class="stringliteral">&quot;panel&quot;</span>);</div>
-<div class="line"><a class="code hl_class" href="classustd_1_1HomeAssistant.html">ustd::HomeAssistant</a> hass(<span class="stringliteral">&quot;Tricorder&quot;</span>, <span class="stringliteral">&quot;Starfleet Engineering&quot;</span>, <span class="stringliteral">&quot;Tricorder Mark VII&quot;</span>, <span class="stringliteral">&quot;3.14.15&quot;</span>);</div>
+<div class="line"><a class="code hl_class" href="classustd_1_1HomeAssistant.html">ustd::HomeAssistant</a> ha(<span class="stringliteral">&quot;Tricorder&quot;</span>, <span class="stringliteral">&quot;Starfleet Engineering&quot;</span>, <span class="stringliteral">&quot;Tricorder Mark VII&quot;</span>, <span class="stringliteral">&quot;3.14.15&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">void</span> setup() {</div>
 <div class="line">    net.begin(&amp;sched);</div>
@@ -174,12 +174,12 @@ Public Member Functions</h2></td></tr>
 <div class="line">    mqtt.begin(&amp;sched);</div>
 <div class="line">    bme.begin(&amp;sched);</div>
 <div class="line">    panel.begin(&amp;sched);</div>
-<div class="line">    hass.begin(&amp;sched, <span class="keyword">true</span>);</div>
+<div class="line">    ha.begin(&amp;sched, <span class="keyword">true</span>);</div>
 <div class="line"> </div>
-<div class="line">    hass.addSensor(<span class="stringliteral">&quot;bme280&quot;</span>,<span class="stringliteral">&quot;temperature&quot;</span>);</div>
-<div class="line">    hass.addSensor(<span class="stringliteral">&quot;bme280&quot;</span>,<span class="stringliteral">&quot;humidity&quot;</span>);</div>
-<div class="line">    hass.addSensor(<span class="stringliteral">&quot;bme280&quot;</span>,<span class="stringliteral">&quot;pressure&quot;</span>);</div>
-<div class="line">    hass.addMultiLight(<span class="stringliteral">&quot;panel&quot;</span>, 16);</div>
+<div class="line">    ha.addSensor(<span class="stringliteral">&quot;bme280&quot;</span>,<span class="stringliteral">&quot;temperature&quot;</span>);</div>
+<div class="line">    ha.addSensor(<span class="stringliteral">&quot;bme280&quot;</span>,<span class="stringliteral">&quot;humidity&quot;</span>);</div>
+<div class="line">    ha.addSensor(<span class="stringliteral">&quot;bme280&quot;</span>,<span class="stringliteral">&quot;pressure&quot;</span>);</div>
+<div class="line">    ha.addMultiLight(<span class="stringliteral">&quot;panel&quot;</span>, 16);</div>
 <div class="line">}</div>
 <div class="ttc" id="aclassustd_1_1HomeAssistant_html"><div class="ttname"><a href="classustd_1_1HomeAssistant.html">ustd::HomeAssistant</a></div><div class="ttdef"><b>Definition:</b> home_assistant.h:86</div></div>
 <div class="ttc" id="aclassustd_1_1LightsPCA9685_html"><div class="ttname"><a href="classustd_1_1LightsPCA9685.html">ustd::LightsPCA9685</a></div><div class="ttdoc">mupplet-core PCA 9685 Light class</div><div class="ttdef"><b>Definition:</b> mup_light_pca9685.h:58</div></div>
@@ -326,7 +326,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p >Adds a specific attribute group for the device</p>
-<p >By adding an attribute group, the device sends a full set of attributes every time the network state changes under the topic <code>hass/attribs/&lt;attribGroup&gt;</code>. The default attribute group 'device' is already defined automatically using the device information supplied in the constructor. Adding additional attribute groups is only useful if specific entities should provide more detailed information about the manufacturer of the hardware and/or the hardware/software revision.</p>
+<p >By adding an attribute group, the device sends a full set of attributes every time the network state changes under the topic <code>ha/attribs/&lt;attribGroup&gt;</code>. The default attribute group 'device' is already defined automatically using the device information supplied in the constructor. Adding additional attribute groups is only useful if specific entities should provide more detailed information about the manufacturer of the hardware and/or the hardware/software revision.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">attribGroup</td><td>Name of the attribute group </td></tr>

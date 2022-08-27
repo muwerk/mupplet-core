@@ -100,6 +100,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af225a908143d4efb3985d73aafa7c93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a966f541283b4f3ee3b01122df7e70bb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a966f541283b4f3ee3b01122df7e70bb2">setDebounce</a> (long ms)</td></tr>
 <tr class="separator:a966f541283b4f3ee3b01122df7e70bb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89581ab239c07c57f1516acc3b0bb3d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a89581ab239c07c57f1516acc3b0bb3d8">activateCounter</a> (bool bActive)</td></tr>
+<tr class="separator:a89581ab239c07c57f1516acc3b0bb3d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24be58ff677f2e20a5139602f3464e63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a24be58ff677f2e20a5139602f3464e63">setTimerDuration</a> (unsigned long ms)</td></tr>
 <tr class="separator:a24be58ff677f2e20a5139602f3464e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f49577e878f6f761b2dba6e5e9025e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Switch.html#a9f49577e878f6f761b2dba6e5e9025e9">setMode</a> (<a class="el" href="classustd_1_1Switch.html#a0ed10c5f6a0eb673520e0a76e05f22ce">Mode</a> newmode, unsigned long duration=0)</td></tr>
@@ -138,7 +140,9 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/verylongtpress</code>   </td><td class="markdownTableBodyNone"><code>trigger</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, and button is pressed for longer than <code>&lt;longpress_ms&gt;</code> (default 30000ms).    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/duration</code>   </td><td class="markdownTableBodyNone"><code>&lt;ms&gt;</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, message contains the duration in ms the switch was pressed.   </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/duration</code>   </td><td class="markdownTableBodyNone"><code>&lt;ms&gt;</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, message contains the duration in ms the switch was pressed.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/count</code>   </td><td class="markdownTableBodyNone"><code>&lt;count&gt;</code>   </td><td class="markdownTableBodyNone">If counter was activated (see <code>switch/counter/start</code> msg below, or <a class="el" href="classustd_1_1Switch.html#a89581ab239c07c57f1516acc3b0bb3d8">activateCounter()</a> ), the number of times the switch as been switch logcial on.   </td></tr>
 </table>
 <h3>Message received by the switch mupplet:</h3>
 <table class="markdownTable">
@@ -149,7 +153,13 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/mode/set</code>   </td><td class="markdownTableBodyNone"><code>default</code>, <code>rising</code>, <code>falling</code>, <code>flipflop</code>, <code>timer &lt;time-in-ms&gt;</code>, <code>duration [shortpress_ms[,longpress_ms]]</code>   </td><td class="markdownTableBodyNone">Mode <code>default</code> sends <code>on</code> when a button is pushed, <code>off</code> on release. <code>falling</code> and <code>rising</code> send <code>trigger</code> on corresponding signal change. <code>flipflop</code> changes the state of the logical switch on each change from button on to off. <code>timer</code> keeps the switch on for the specified duration (ms). <code>duration</code> mode sends messages <code>switch/shortpress</code>, if button was pressed for less than <code>&lt;shortpress_ms&gt;</code> (default 3000ms), <code>switch/longpress</code> if pressed less than <code>&lt;longpress_ms&gt;</code>, and <code>switch/verylongpress</code> for longer presses.    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/debounce/set</code>   </td><td class="markdownTableBodyNone">&lt;time-in-ms&gt;   </td><td class="markdownTableBodyNone">String encoded switch debounce time in ms, [0..1000]ms. Default is 20ms. This is especially need, when switch is created in interrupt mode (see comment in <a href="https://github.com/muwerk/Examples/tree/master/led">example</a>).   </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/debounce/set</code>   </td><td class="markdownTableBodyNone">&lt;time-in-ms&gt;   </td><td class="markdownTableBodyNone">String encoded switch debounce time in ms, [0..1000]ms. Default is 20ms. This is especially need, when switch is created in interrupt mode (see comment in <a href="https://github.com/muwerk/Examples/tree/master/led">example</a>).    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/count/get</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Send current number of counts, if counter is active, otherwise <code>NaN</code>.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/start</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Start counter, <code>count</code> messages will be sent, count is reset to 0. All counters are <code>off</code> by default.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/stop</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Stop counting   </td></tr>
 </table>
 <p >More information: <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/Switch-notes.md">Switch application notes</a> </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
@@ -264,6 +274,39 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a89581ab239c07c57f1516acc3b0bb3d8" name="a89581ab239c07c57f1516acc3b0bb3d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89581ab239c07c57f1516acc3b0bb3d8">&#9670;&nbsp;</a></span>activateCounter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ustd::Switch::activateCounter </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bActive</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Start counter and send count messages for each switch activation</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bActive</td><td>On <code>true</code>, the counter is reset to 0, and a message with current count will be send on every switch activation to logical true. <code>false</code> stops counter.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aaadab22dd85f9c20bd46782e8b6cc153" name="aaadab22dd85f9c20bd46782e8b6cc153"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaadab22dd85f9c20bd46782e8b6cc153">&#9670;&nbsp;</a></span>begin()</h2>
 
