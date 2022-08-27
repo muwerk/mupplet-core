@@ -157,6 +157,7 @@ History
   * New 16 channel light applet using PCA 9685 PWM controller
   * Number in string detection functions
   * Support for ASCII part HD44780 displays charset conversions
+  * count option for switch to count switch events.
 - 0.4.0 (2021-02-28) Frequency counter
   * Frequency counter mupplet (Frequency measurement up to 80kHz on ESP32)
   * Codepage conversion utility functions (ISO8859-1 <-> UTF8)
@@ -202,4 +203,4 @@ References
 [gh_mufonts]: https://github.com/muwerk/mufonts
 [gh_mupcore]: https://github.com/muwerk/mupplet-core
 [gh_mupdisplay]: https://github.com/muwerk/mupplet-display
-[gh_mupsensor]: https://github.com/muwerk/mupplet-sendsor
+[gh_mupsensor]: https://github.com/muwerk/mupplet-sensor

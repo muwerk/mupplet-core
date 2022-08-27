@@ -23,15 +23,15 @@ The HomeAssistant helper reacts to the following messages:
 
 | Topic            | Message Body  | Description
 | ---------------- | ------------- | -------------------------------------------------
-| `hass/state/set` | `on` or `off` | Enables or disables entity discovery.
-| `hass/state/get` |               | Requests the current entity discovery state.
+| `ha/state/set`   | `on` or `off` | Enables or disables entity discovery.
+| `ha/state/get`   |               | Requests the current entity discovery state.
 
 ### Outgoing Messages
 
 | Topic                        | Message Body  | Description
 | ---------------------------- | ------------- | ---------------------------------------
-| `hass/state`                 | `on` or `off` | Current State of the entity discovery
-| `hass/attribs/<attribGroup>` | `{ ... }`     | Current entity attributes (See below)
+| `ha/state`                   | `on` or `off` | Current State of the entity discovery
+| `ha/attribs/<attribGroup>`   | `{ ... }`     | Current entity attributes (See below)
 
 Entity attributes are sent as JSON object and are displayed as attributes to an entity.
 The HomeAssistant Device Autodiscovery Helper always sends the attribute group `device`
@@ -65,7 +65,7 @@ ustd::Scheduler sched;
 ustd::AirQualityBme280 bme( "bme280", BME280_ADDRESS_ALTERNATE,
                             ustd::AirQualityBme280::SampleMode::MEDIUM );
 ustd::LightsPCA9685 panel("panel");
-ustd::HomeAssistant hass("Tricorder", "Starfleet Engineering", "Tricorder Mark VII", "3.14.15");
+ustd::HomeAssistant ha("Tricorder", "Starfleet Engineering", "Tricorder Mark VII", "3.14.15");
 
 void setup() {
     net.begin(&sched);
@@ -73,12 +73,12 @@ void setup() {
     mqtt.begin(&sched);
     bme.begin(&sched);
     panel.begin(&sched);
-    hass.begin(&sched, true);
+    ha.begin(&sched, true);
 
-    hass.addSensor("bme280","temperature");
-    hass.addSensor("bme280","humidity");
-    hass.addSensor("bme280","pressure");
-    hass.addMultiLight("panel", 16);
+    ha.addSensor("bme280","temperature");
+    ha.addSensor("bme280","humidity");
+    ha.addSensor("bme280","pressure");
+    ha.addMultiLight("panel", 16);
 }
 \endcode
 
@@ -141,8 +141,8 @@ class HomeAssistant {
     String deviceModel;
     String deviceVersion;
     String deviceId;
-    String hassTopicAttrib = "hass/attribs/";
-    String hassTopicConfig = "!!homeassistant/";
+    String haTopicAttrib = "ha/attribs/";
+    String haTopicConfig = "!!homeassistant/";
 
     // runtime - states
     bool autodiscovery = false;
@@ -194,7 +194,7 @@ class HomeAssistant {
 
         // initialize configuration
 #ifdef USTD_FEATURE_FILESYSTEM
-        autodiscovery = config.readBool("hass/autodiscovery", initialAutodiscovery);
+        autodiscovery = config.readBool("ha/autodiscovery", initialAutodiscovery);
         if ((deviceId = config.readString("net/deviceid")) == "") {
             // initialize device id to mac address
             deviceId = WiFi.macAddress();
@@ -224,7 +224,7 @@ class HomeAssistant {
         });
 
         // react to commands
-        pSched->subscribe(tID, "hass/state/#", [this](String topic, String msg, String originator) {
+        pSched->subscribe(tID, "ha/state/#", [this](String topic, String msg, String originator) {
             this->onCommand(topic.substring(11), msg);
         });
 
@@ -246,14 +246,14 @@ class HomeAssistant {
         }
         publishState();
 #ifdef USTD_FEATURE_FILESYSTEM
-        config.writeBool("hass/autodiscovery", autodiscovery);
+        config.writeBool("ha/autodiscovery", autodiscovery);
 #endif
     }
 
     /** Adds a specific attribute group for the device
      *
      * By adding an attribute group, the device sends a full set of attributes every time the
-     * network state changes under the topic `hass/attribs/<attribGroup>`. The default attribute
+     * network state changes under the topic `ha/attribs/<attribGroup>`. The default attribute
      * group 'device' is already defined automatically using the device information supplied in
      * the constructor. Adding additional attribute groups is only useful if specific entities
      * should provide more detailed information about the manufacturer of the hardware and/or
@@ -728,7 +728,7 @@ class HomeAssistant {
     }
 
     String getConfigTopic(DeviceType type, const char *uniq_id) {
-        return hassTopicConfig + getDeviceClass(type) + "/" + uniq_id + "/config";
+        return haTopicConfig + getDeviceClass(type) + "/" + uniq_id + "/config";
     }
 
     void flushDeviceConfig(DeviceType type, JSONVar &msg) {
@@ -751,11 +751,11 @@ class HomeAssistant {
         JSONVar msg;
         msg["~"] = pathPrefix + "/";
         msg["name"] = hostName + " Status";
-        msg["stat_t"] = "~hass/attribs/device";
+        msg["stat_t"] = "~ha/attribs/device";
         msg["avty_t"] = "~mqtt/state";
         msg["pl_avail"] = "connected";
         msg["pl_not_avail"] = lastWillMessage;
-        msg["json_attr_t"] = "~hass/attribs/device";
+        msg["json_attr_t"] = "~ha/attribs/device";
         msg["unit_of_meas"] = "%";
         msg["val_tpl"] = "{{value_json['RSSI']}}";
         msg["ic"] = "mdi:information-outline";
@@ -827,7 +827,7 @@ class HomeAssistant {
         msg["avty_t"] = "~mqtt/state";
         msg["pl_avail"] = "connected";
         msg["pl_not_avail"] = lastWillMessage;
-        msg["json_attr_t"] = "~" + hassTopicAttrib + (*entity.attribs ? entity.attribs : "device");
+        msg["json_attr_t"] = "~" + haTopicAttrib + (*entity.attribs ? entity.attribs : "device");
         if (*entity.dev_cla) {
             msg["dev_cla"] = entity.dev_cla;
         }
@@ -915,7 +915,7 @@ class HomeAssistant {
 
     void unpublishConfig(Entity &entity) {
         String entityKey = getEntityKey(entity);
-        String configTopic = hassTopicConfig + getDeviceClass(entity.type) + "/";
+        String configTopic = haTopicConfig + getDeviceClass(entity.type) + "/";
         if (entity.channel == -1) {
             pSched->publish(configTopic + entityKey + "/config");
         } else if (entity.channel < -1) {
@@ -938,18 +938,18 @@ class HomeAssistant {
             msg["Manufacturer"] = attribGroups[i].manufacturer;
             msg["Model"] = attribGroups[i].model;
             msg["Version"] = attribGroups[i].version;
-            pSched->publish(hassTopicAttrib + attribGroups[i].name, JSON.stringify(msg));
+            pSched->publish(haTopicAttrib + attribGroups[i].name, JSON.stringify(msg));
         }
     }
 
     void unpublishAttribs() {
         for (unsigned int i = 0; i < attribGroups.length(); i++) {
-            pSched->publish(hassTopicAttrib + attribGroups[i].name);
+            pSched->publish(haTopicAttrib + attribGroups[i].name);
         }
     }
 
     void publishState() {
-        pSched->publish("hass/state", autodiscovery ? "on" : "off");
+        pSched->publish("ha/state", autodiscovery ? "on" : "off");
     }
 
     void updateHA() {

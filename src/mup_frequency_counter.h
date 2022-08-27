@@ -58,8 +58,8 @@ void G_INT_ATTR ustd_fq_pirq9() {
 }
 
 void (*ustd_fq_pirq_table[USTD_MAX_FQ_PIRQS])() = {ustd_fq_pirq0, ustd_fq_pirq1, ustd_fq_pirq2, ustd_fq_pirq3,
-                                             ustd_fq_pirq4, ustd_fq_pirq5, ustd_fq_pirq6, ustd_fq_pirq7,
-                                             ustd_fq_pirq8, ustd_fq_pirq9};
+                                                   ustd_fq_pirq4, ustd_fq_pirq5, ustd_fq_pirq6, ustd_fq_pirq7,
+                                                   ustd_fq_pirq8, ustd_fq_pirq9};
 
 unsigned long getFqResetpIrqCount(uint8_t irqno) {
     unsigned long count = (unsigned long)-1;
@@ -79,9 +79,9 @@ double getFqResetpIrqFrequency(uint8_t irqno, unsigned long minDtUs = 50) {
     if (irqno < USTD_MAX_FQ_PIRQS) {
         unsigned long count = pFqIrqCounter[irqno];
         unsigned long dt = timeDiff(pFqBeginIrqTimer[irqno], pFqLastIrqTimer[irqno]);
-        if (dt > minDtUs) {                                     // Ignore small Irq flukes
-            frequency = (count * fQfrequencyMultiplicator) / dt;  // = count/2.0*1000.0000 uS / dt;
-                                                                // no. of waves (count/2) / dt.
+        if (dt > minDtUs) {                                       // Ignore small Irq flukes
+            frequency = (count * fQfrequencyMultiplicator) / dt;  // = count/2.0*fQfrequenceMultiplicator uS / dt;
+                                                                  // no. of waves (count/2) / dt.
         }
         pFqBeginIrqTimer[irqno] = 0;
         pFqIrqCounter[irqno] = 0;
@@ -199,59 +199,45 @@ class FrequencyCounter {
         case LOWFREQUENCY_FAST:
             detectZeroChange = false;
             measureMode = LOWFREQUENCY_FAST;
-            frequency.smoothInterval = 4;
-            frequency.pollTimeSec = 15;
-            frequency.eps = 0.01;
-            frequency.reset();
+            frequency.update(4,15,0.01);  // requires muwerk 0.6.3 or higher!
             break;
         case LOWFREQUENCY_MEDIUM:
             detectZeroChange = false;
             measureMode = LOWFREQUENCY_MEDIUM;
-            frequency.smoothInterval = 12;
-            frequency.pollTimeSec = 120;
-            frequency.eps = 0.01;
-            frequency.reset();
+            frequency.update(12,120,0.01);
             break;
         case LOWFREQUENCY_LONGTERM:
             detectZeroChange = false;
             measureMode = LOWFREQUENCY_LONGTERM;
-            frequency.smoothInterval = 60;
-            frequency.pollTimeSec = 600;
-            frequency.eps = 0.001;
-            frequency.reset();
+            frequency.update(60,600,0.001);
             break;
         case HIGHFREQUENCY_FAST:
             detectZeroChange = true;
             measureMode = HIGHFREQUENCY_FAST;
-            frequency.smoothInterval = 1;
-            frequency.pollTimeSec = 15;
-            frequency.eps = 0.1;
-            frequency.reset();
+            frequency.update(1,15,0.1);
             break;
         case HIGHFREQUENCY_MEDIUM:
             detectZeroChange = true;
             measureMode = HIGHFREQUENCY_MEDIUM;
-            frequency.smoothInterval = 10;
-            frequency.pollTimeSec = 120;
-            frequency.eps = 0.01;
-            frequency.reset();
+            frequency.update(10,120,0.01);
             break;
         default:
         case HIGHFREQUENCY_LONGTERM:
             detectZeroChange = true;
             measureMode = HIGHFREQUENCY_LONGTERM;
-            frequency.smoothInterval = 60;
-            frequency.pollTimeSec = 600;
-            frequency.eps = 0.001;
-            frequency.reset();
+            frequency.update(60,600,0.001);
             break;
         }
         if (!silent)
             publishMeasureMode();
     }
 
-    bool begin(Scheduler *_pSched) {
+    bool begin(Scheduler *_pSched, uint32_t scheduleUs=2000000L) {
         /*! Enable interrupts and start counter
+            
+        @param _pSched Pointer to scheduler
+        @param scheduleUs Measurement schedule in microseconds
+        @return true if successful
         */
         pSched = _pSched;
 
@@ -262,15 +248,15 @@ class FrequencyCounter {
             switch (irqMode) {
             case IM_FALLING:
                 attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], FALLING);
-                fQfrequencyMultiplicator = 1000000.0;
+                fQfrequencyMultiplicator = 1000000L;
                 break;
             case IM_RISING:
                 attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], RISING);
-                fQfrequencyMultiplicator = 1000000.0;
+                fQfrequencyMultiplicator = 1000000L;
                 break;
             case IM_CHANGE:
                 attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], CHANGE);
-                fQfrequencyMultiplicator = 500000.0;
+                fQfrequencyMultiplicator = 500000L;
                 break;
             }
             irqsAttached = true;
@@ -279,7 +265,7 @@ class FrequencyCounter {
         }
 
         auto ft = [=]() { this->loop(); };
-        tID = pSched->add(ft, name, 2000000);  // uS schedule
+        tID = pSched->add(ft, name, scheduleUs);  // uS schedule
 
         auto fnall = [=](String topic, String msg, String originator) {
             this->subsMsg(topic, msg, originator);
@@ -343,11 +329,9 @@ class FrequencyCounter {
     void subsMsg(String topic, String msg, String originator) {
         if (topic == name + "/sensor/state/get") {
             publish();
-        }
-        if (topic == name + "/sensor/frequency/get") {
+        } else if (topic == name + "/sensor/frequency/get") {
             publish_frequency();
-        }
-        if (topic == name + "/sensor/mode/set") {
+        } else if (topic == name + "/sensor/mode/set") {
             if (msg == "LOWFREQUENCY_FAST" || msg == "0") {
                 setMeasureMode(MeasureMode::LOWFREQUENCY_FAST);
             }
@@ -366,8 +350,7 @@ class FrequencyCounter {
             if (msg == "HIGHFREQUENCY_LONGTERM" || msg == "5") {
                 setMeasureMode(MeasureMode::HIGHFREQUENCY_LONGTERM);
             }
-        }
-        if (topic == name + "/sensor/mode/get") {
+        } else if (topic == name + "/sensor/mode/get") {
             publishMeasureMode();
         }
     };
