@@ -108,7 +108,7 @@ hardware is detected.
 | `<mupplet-name>/switch/longpress` | `trigger` | Switch is in `duration` mode, and button is pressed for less than `<longpress_ms>` (default 30000ms), yet longer than shortpress.
 | `<mupplet-name>/switch/verylongtpress` | `trigger` | Switch is in `duration` mode, and button is pressed for longer than `<longpress_ms>` (default 30000ms).
 | `<mupplet-name>/switch/duration` | `<ms>` | Switch is in `duration` mode, message contains the duration in ms the switch was pressed.
-| `<mupplet-name>/switch/count` | `<count>` | If counter was activated (see `switch/counter/start` msg below, or \ref activateCounter() ), the number of times the switch as been switch logcial on.
+| `<mupplet-name>/switch/counter` | `<count>` | If counter was activated (see `switch/counter/start` msg below, or \ref activateCounter() ), the number of times the switch as been switch logcial on.
 
 ### Message received by the switch mupplet:
 
@@ -117,8 +117,8 @@ hardware is detected.
 | `<mupplet-name>/switch/set` | `on`, `off`, `true`, `false`, `toggle` | Override switch setting. When setting the switch state via message, the hardware port remains overridden until the hardware changes state (e.g. button is physically pressed). Sending a `switch/set` message puts the switch in override-mode: e.g. when sending `switch/set` `on`, the state of the button is signalled `on`, even so the physical button might be off. Next time the physical button is pressed (or changes state), override mode is stopped, and the state of the actual physical button is published again.
 | `<mupplet-name>/switch/mode/set` | `default`, `rising`, `falling`, `flipflop`, `timer <time-in-ms>`, `duration [shortpress_ms[,longpress_ms]]` | Mode `default` sends `on` when a button is pushed, `off` on release. `falling` and `rising` send `trigger` on corresponding signal change. `flipflop` changes the state of the logical switch on each change from button on to off. `timer` keeps the switch on for the specified duration (ms). `duration` mode sends messages `switch/shortpress`, if button was pressed for less than `<shortpress_ms>` (default 3000ms), `switch/longpress` if pressed less than `<longpress_ms>`, and `switch/verylongpress` for longer presses.
 | `<mupplet-name>/switch/debounce/set` | <time-in-ms> | String encoded switch debounce time in ms, [0..1000]ms. Default is 20ms. This is especially need, when switch is created in interrupt mode (see comment in [example](https://github.com/muwerk/Examples/tree/master/led)).
-| `<mupplet-name>/switch/count/get` |  | Send current number of counts, if counter is active, otherwise `NaN`.
-| `<mupplet-name>/switch/counter/start` |  | Start counter, `count` messages will be sent, count is reset to 0. All counters are `off` by default.
+| `<mupplet-name>/switch/counter/get` |  | Send current number of counts, if counter is active, otherwise `NaN`.
+| `<mupplet-name>/switch/counter/start` |  | Start counter, `counter` messages will be sent, count is reset to 0. All counters are `off` by default.
 | `<mupplet-name>/switch/counter/stop` |  | Stop counting
 
 More information:
@@ -164,7 +164,7 @@ class Switch {
     bool overridePhysicalActive = false;
 
     bool bCounter = false;
-    unsigned long count = 0;
+    unsigned long counter = 0;
 
     bool flipflop = true;  // This starts with 'off', since state is initially changed once.
     unsigned long activeTimer = 0;
@@ -217,7 +217,7 @@ class Switch {
         */
         bCounter = bActive;
         if (bCounter) {
-            count = 0;
+            counter = 0;
             publishCounter();
         }
     }
@@ -329,7 +329,7 @@ class Switch {
             publishLogicalState(logicalState);
             if (bCounter) {
                 if (logicalState) {
-                    count += 1;
+                    counter += 1;
                     publishCounter();
                 }
             }
@@ -358,11 +358,11 @@ class Switch {
   private:
     void publishCounter() {
         char buf[32];
-        sprintf(buf, "%ld", count);
+        sprintf(buf, "%ld", counter);
         if (bCounter) {
-            pSched->publish(name + "/switch/count", buf);
+            pSched->publish(name + "/switch/counter", buf);
         } else {
-            pSched->publish(name + "/switch/count", "NaN");
+            pSched->publish(name + "/switch/counter", "NaN");
         }
     }
 
