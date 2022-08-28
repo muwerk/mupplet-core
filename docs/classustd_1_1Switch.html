@@ -142,7 +142,7 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/duration</code>   </td><td class="markdownTableBodyNone"><code>&lt;ms&gt;</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classustd_1_1Switch.html" title="mupplet-core GPIO Switch class">Switch</a> is in <code>duration</code> mode, message contains the duration in ms the switch was pressed.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/count</code>   </td><td class="markdownTableBodyNone"><code>&lt;count&gt;</code>   </td><td class="markdownTableBodyNone">If counter was activated (see <code>switch/counter/start</code> msg below, or <a class="el" href="classustd_1_1Switch.html#a89581ab239c07c57f1516acc3b0bb3d8">activateCounter()</a> ), the number of times the switch as been switch logcial on.   </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter</code>   </td><td class="markdownTableBodyNone"><code>&lt;count&gt;</code>   </td><td class="markdownTableBodyNone">If counter was activated (see <code>switch/counter/start</code> msg below, or <a class="el" href="classustd_1_1Switch.html#a89581ab239c07c57f1516acc3b0bb3d8">activateCounter()</a> ), the number of times the switch as been switch logcial on.   </td></tr>
 </table>
 <h3>Message received by the switch mupplet:</h3>
 <table class="markdownTable">
@@ -155,9 +155,9 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/debounce/set</code>   </td><td class="markdownTableBodyNone">&lt;time-in-ms&gt;   </td><td class="markdownTableBodyNone">String encoded switch debounce time in ms, [0..1000]ms. Default is 20ms. This is especially need, when switch is created in interrupt mode (see comment in <a href="https://github.com/muwerk/Examples/tree/master/led">example</a>).    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/count/get</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Send current number of counts, if counter is active, otherwise <code>NaN</code>.    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/get</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Send current number of counts, if counter is active, otherwise <code>NaN</code>.    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/start</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Start counter, <code>count</code> messages will be sent, count is reset to 0. All counters are <code>off</code> by default.    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/start</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Start counter, <code>counter</code> messages will be sent, count is reset to 0. All counters are <code>off</code> by default.    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/stop</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Stop counting   </td></tr>
 </table>
