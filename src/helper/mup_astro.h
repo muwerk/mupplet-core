@@ -137,6 +137,8 @@ class Astro {
 
         localOffset will be <0 for western hemisphere and >0 for eastern hemisphere
         daylightSavings should be 1 if it is in effect during the summer otherwise it should be 0
+
+        Warning: WIP! Isn't integrated with class functions yet...
         */
         // 1. first calculate the day of the year
         const double ZENITH = 90.0 + 50.0 / 60.0;
