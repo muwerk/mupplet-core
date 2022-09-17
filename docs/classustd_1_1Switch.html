@@ -155,10 +155,12 @@ Public Member Functions</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/debounce/set</code>   </td><td class="markdownTableBodyNone">&lt;time-in-ms&gt;   </td><td class="markdownTableBodyNone">String encoded switch debounce time in ms, [0..1000]ms. Default is 20ms. This is especially need, when switch is created in interrupt mode (see comment in <a href="https://github.com/muwerk/Examples/tree/master/led">example</a>).    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/get</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Send current number of counts, if counter is active, otherwise <code>NaN</code>.    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/state/get</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Sends current switch state (logical).    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/start</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Start counter, <code>counter</code> messages will be sent, count is reset to 0. All counters are <code>off</code> by default.    </td></tr>
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/get</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Send current number of counts, if counter is active, otherwise <code>NaN</code>.    </td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/start</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Start counter, <code>counter</code> messages will be sent, count is reset to 0. All counters are <code>off</code> by default.    </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>&lt;mupplet-name&gt;/switch/counter/stop</code>   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Stop counting   </td></tr>
 </table>
 <p >More information: <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/Switch-notes.md">Switch application notes</a> </p>
