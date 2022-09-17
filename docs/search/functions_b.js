@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['set_0',['set',['../classustd_1_1DigitalOut.html#aa9bf4539f05297f6628a6d6453c7e826',1,'ustd::DigitalOut::set()'],['../classustd_1_1Light.html#a52180c7d7504d92b99dcd6289258fab1',1,'ustd::Light::set()'],['../classustd_1_1LightsPCA9685.html#aa4b625e4ac29c8cec5b96b1ce5b1f3bc',1,'ustd::LightsPCA9685::set()'],['../classustd_1_1LightController.html#a36f4de0cd5fcc3b34c564f728f259b3a',1,'ustd::LightController::set()']]],
+  ['set_0',['set',['../classustd_1_1Light.html#a52180c7d7504d92b99dcd6289258fab1',1,'ustd::Light::set()'],['../classustd_1_1LightsPCA9685.html#aa4b625e4ac29c8cec5b96b1ce5b1f3bc',1,'ustd::LightsPCA9685::set()'],['../classustd_1_1LightController.html#a36f4de0cd5fcc3b34c564f728f259b3a',1,'ustd::LightController::set()'],['../classustd_1_1DigitalOut.html#aa9bf4539f05297f6628a6d6453c7e826',1,'ustd::DigitalOut::set()']]],
   ['setautodiscovery_1',['setAutoDiscovery',['../classustd_1_1HomeAssistant.html#a2f125a7fe09dfe8c43531a80f278b523',1,'ustd::HomeAssistant']]],
   ['setdebounce_2',['setDebounce',['../classustd_1_1Switch.html#a966f541283b4f3ee3b01122df7e70bb2',1,'ustd::Switch']]],
   ['setlogicalstate_3',['setLogicalState',['../classustd_1_1Switch.html#a765c9c2a6e62068c4d83e1711004a075',1,'ustd::Switch']]],
@@ -10,5 +10,5 @@ var searchData=
   ['setpulse_7',['setPulse',['../classustd_1_1Switch.html#a87e88ea9cd712323b19f6c2ce223769b',1,'ustd::Switch']]],
   ['settimerduration_8',['setTimerDuration',['../classustd_1_1Switch.html#a24be58ff677f2e20a5139602f3464e63',1,'ustd::Switch']]],
   ['settoggle_9',['setToggle',['../classustd_1_1Switch.html#a2082bfe5de0628080b23fff90c6cccf9',1,'ustd::Switch']]],
-  ['switch_10',['Switch',['../classustd_1_1HomeAssistant.html#a07a0e0d7282ca44ec9f0fd0ecd27453aa1b6ae38c2b65e284c27317f87dcf0b7f',1,'ustd::HomeAssistant::Switch()'],['../classustd_1_1Switch.html#af225a908143d4efb3985d73aafa7c93d',1,'ustd::Switch::Switch()'],['../classustd_1_1Switch.html',1,'ustd::Switch']]]
+  ['switch_10',['Switch',['../classustd_1_1Switch.html#af225a908143d4efb3985d73aafa7c93d',1,'ustd::Switch']]]
 ];
