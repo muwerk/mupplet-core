@@ -158,6 +158,7 @@ History
   * Number in string detection functions
   * Support for ASCII part HD44780 displays charset conversions
   * count option for switch to count switch events.
+  * Astro helper module for sunrise sunset calculations (WIP!)
 - 0.4.0 (2021-02-28) Frequency counter
   * Frequency counter mupplet (Frequency measurement up to 80kHz on ESP32)
   * Codepage conversion utility functions (ISO8859-1 <-> UTF8)

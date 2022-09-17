@@ -4,23 +4,35 @@
 
 namespace ustd {
 
-const double C_PI = 3.1415926535897932384626433;  // PI
-const double C_D2R = C_PI / 180.0;                // degree -> radians conversion
-const double C_R2D = 180.0 / C_PI;                // radians -> degrees
-const double C_AU = 149597870700.0;               // astronomical unit, meter
-const double C_C = 299792458.0;                   // speed of light, m/s
-const double C_CAUD = C_C * 60 * 60 * 24 / C_AU;  // AUs per day, approx 173
-const double C_MJD = 2400000.5;                   // MJD = JD - C_MJD
+const double C_PI = 3.1415926535897932384626433;  //!< PI
+const double C_D2R = C_PI / 180.0;                //!< degree -> radians conversion
+const double C_R2D = 180.0 / C_PI;                //!< radians -> degrees
+const double C_AU = 149597870700.0;               //!< astronomical unit, meter
+const double C_C = 299792458.0;                   //!< speed of light, m/s
+const double C_CAUD = C_C * 60 * 60 * 24 / C_AU;  //!< AUs per day, approx 173
+const double C_MJD = 2400000.5;                   //!< MJD = JD - C_MJD
 
+/*! \brief mupplet helper for some astronomical calculations: sunrise and sunset
+
+Warning: WIP!
+*/
 class Astro {
   public:
     double lon, lat, utcOffset;
 
 #ifdef USTD_FEATURE_FILESYSTEM
     Astro() {
+        /*! This will at some point contain initialization from filesystem */
     }
 #endif
-    Astro(double lat, double lon, double utcOffset) : lat(lat), lon(lon), utcOffset(utcOffset) {
+    Astro(double lat, double lon, double utcOffset)
+        : lat(lat), lon(lon), utcOffset(utcOffset) {
+        /*! Instantiate an Astro object
+
+        @param lat lattitude in degree
+        @param lon longitude in degree
+        @param utcOffset UTC time offset in seconds
+        */
     }
 
     static long julianDayNumber(int year, uint8_t month, uint8_t day) {
