@@ -13,11 +13,12 @@ mupplet-core implements the following classes based on the cooperative scheduler
 * * \ref ustd::DigitalOut
 * * \ref ustd::FrequencyCounter
 * * \ref ustd::LightsPCA9685
+* * \ref ustd::HomeAssistant
 
 Additionally there are implementation for the following helper classes:
 
-* * \ref ustd::HomeAssistant
 * * \ref ustd::LightController
+* * \ref ustd::Astro
 
 For an overview, see:
 <a href="https://github.com/muwerk/mupplet-core/blob/master/README.md">mupplet-core readme</a>
@@ -175,7 +176,8 @@ double parseUnitLevel(String arg) {
     } else {
         val = atof(arg.c_str());
     }
-    return val < 0.0 ? 0.0 : val > 1.0 ? 1.0 : val;
+    return val < 0.0 ? 0.0 : val > 1.0 ? 1.0
+                                       : val;
 }
 
 // clang-format off
