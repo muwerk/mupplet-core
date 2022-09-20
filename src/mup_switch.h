@@ -552,6 +552,7 @@ class Switch {
             if (mode == Mode::BinarySensor) {
                 if (time(nullptr) - lastStatePublish > stateRefresh || (initialStateIsPublished = false && initialStatePublish == true)) {
                     publishLogicalState(logicalState);
+                    if (bCounter) publishCounter();
                     initialStateIsPublished = true;
                 }
             }
