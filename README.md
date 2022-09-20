@@ -66,7 +66,8 @@ Some design recommendations for mupplets:
   mupplet would publish. A major advantage of this type of light coupling via messages is
   that the temperature mupplet could run on a different hardware: an MQTT server and munet
   make sure that there is absolutely no difference between remote and local communication
-  partners: the implementation of both mupplets in both cases is simply the same.
+  partners: the implementation of both mupplets in both cases is simply the same. Additionally
+  this facilitates a later port to multi-core and preemtive multi-tasking systems.
 
 ### Examples ###
 
