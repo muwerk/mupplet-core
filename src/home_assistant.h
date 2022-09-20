@@ -901,6 +901,7 @@ class HomeAssistant {
         if (*entity.dev_cla) {
             msg["dev_cla"] = entity.dev_cla;
         }
+        flushDeviceConfig(entity.type, msg);
     }
 
     void unpublishConfigs() {
