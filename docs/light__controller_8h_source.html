@@ -309,37 +309,38 @@ $(function() {
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno"><a class="line" href="classustd_1_1LightController.html#a770339a53f86c60b74ec56e9712e6aa8">  339</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classustd_1_1LightController.html#a770339a53f86c60b74ec56e9712e6aa8">forceState</a>(<span class="keywordtype">bool</span> state, <span class="keywordtype">double</span> brightlevel) {</div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>        this-&gt;state = state;</div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>        this-&gt;brightlevel = brightlevel &lt; 0.0 ? 0.0 : brightlevel &gt; 1.0 ? 1.0 : brightlevel;</div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    }</div>
-<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span> </div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>  <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classustd_1_1LightController.html#a36f4de0cd5fcc3b34c564f728f259b3a">set</a>(<span class="keywordtype">bool</span> _state, <span class="keywordtype">bool</span> _automatic) {</div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>        <span class="keywordflow">if</span> (_state == state)</div>
-<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>        <span class="keywordflow">if</span> (!_automatic)</div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>            mode = Mode::Passive;</div>
-<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>        <span class="comment">// if we want to preserve the brightness level, we need to change this</span></div>
-<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>        brightlevel = _state ? 1.0 : 0.0;</div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>        state = _state;</div>
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>        controller(state, brightlevel, <span class="keyword">true</span>, !_automatic);</div>
-<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>    }</div>
-<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span> </div>
-<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classustd_1_1LightController.html#a5c5e49115ab7450c89c4674130a1aef3">brightness</a>(<span class="keywordtype">double</span> _brightlevel, <span class="keywordtype">bool</span> _automatic) {</div>
-<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>        <span class="keywordflow">if</span> (_brightlevel &lt; 0.0)</div>
-<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>            _brightlevel = 0.0;</div>
-<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>        <span class="keywordflow">if</span> (_brightlevel &gt; 1.0)</div>
-<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>            _brightlevel = 1.0;</div>
-<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>        <span class="keywordflow">if</span> (brightlevel == _brightlevel)</div>
-<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>        <span class="keywordflow">if</span> (!_automatic)</div>
-<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>            mode = Mode::Passive;</div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>        brightlevel = _brightlevel;</div>
-<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>        state = _brightlevel &gt; 0.0;</div>
-<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>        controller(state, brightlevel, <span class="keyword">true</span>, !_automatic);</div>
-<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>    }</div>
-<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>};</div>
-<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span> </div>
-<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>}  <span class="comment">// namespace ustd</span></div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>        this-&gt;brightlevel = brightlevel &lt; 0.0 ? 0.0 : brightlevel &gt; 1.0 ? 1.0</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>                                                                        : brightlevel;</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    }</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span> </div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>  <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classustd_1_1LightController.html#a36f4de0cd5fcc3b34c564f728f259b3a">set</a>(<span class="keywordtype">bool</span> _state, <span class="keywordtype">bool</span> _automatic) {</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>        <span class="keywordflow">if</span> (_state == state)</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>        <span class="keywordflow">if</span> (!_automatic)</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>            mode = Mode::Passive;</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>        <span class="comment">// if we want to preserve the brightness level, we need to change this</span></div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>        brightlevel = _state ? 1.0 : 0.0;</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>        state = _state;</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>        controller(state, brightlevel, <span class="keyword">true</span>, !_automatic);</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>    }</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span> </div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classustd_1_1LightController.html#a5c5e49115ab7450c89c4674130a1aef3">brightness</a>(<span class="keywordtype">double</span> _brightlevel, <span class="keywordtype">bool</span> _automatic) {</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>        <span class="keywordflow">if</span> (_brightlevel &lt; 0.0)</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>            _brightlevel = 0.0;</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>        <span class="keywordflow">if</span> (_brightlevel &gt; 1.0)</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>            _brightlevel = 1.0;</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>        <span class="keywordflow">if</span> (brightlevel == _brightlevel)</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>        <span class="keywordflow">if</span> (!_automatic)</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>            mode = Mode::Passive;</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>        brightlevel = _brightlevel;</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>        state = _brightlevel &gt; 0.0;</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>        controller(state, brightlevel, <span class="keyword">true</span>, !_automatic);</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>    }</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>};</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span> </div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>}  <span class="comment">// namespace ustd</span></div>
 <div class="ttc" id="aclassustd_1_1LightController_html"><div class="ttname"><a href="classustd_1_1LightController.html">ustd::LightController</a></div><div class="ttdoc">The Light Controller Class.</div><div class="ttdef"><b>Definition:</b> light_controller.h:16</div></div>
 <div class="ttc" id="aclassustd_1_1LightController_html_a1feaccf15e4df739c24cfbed0b918310"><div class="ttname"><a href="classustd_1_1LightController.html#a1feaccf15e4df739c24cfbed0b918310">ustd::LightController::setMinMaxWaveBrightness</a></div><div class="ttdeci">void setMinMaxWaveBrightness(double minBrightness, double maxBrightness)</div><div class="ttdef"><b>Definition:</b> light_controller.h:321</div></div>
 <div class="ttc" id="aclassustd_1_1LightController_html_a36f4de0cd5fcc3b34c564f728f259b3a"><div class="ttname"><a href="classustd_1_1LightController.html#a36f4de0cd5fcc3b34c564f728f259b3a">ustd::LightController::set</a></div><div class="ttdeci">void set(bool state)</div><div class="ttdef"><b>Definition:</b> light_controller.h:261</div></div>
