@@ -31,12 +31,12 @@ class LightController {
      * The hardware control function is called every time when the state of the light shall
      * change or when the state shall be notified.
      *
-     * @param state The logical state of the light: `true` if the light is on, `false` if the light
-     *              is off.
-     * @param level The brightness level of the light. The value ranges between 0.0 and 1.0
-     * @param control If `true` the hardware shall be set to the supplied values.
-     * @param notify If `true` the current state and brightness level shall be notified to whom
-     *               it may concern.
+     * state: The logical state of the light: `true` if the light is on, `false` if the light
+     *        is off.
+     * level: The brightness level of the light. The value ranges between 0.0 and 1.0
+     * control: If `true` the hardware shall be set to the supplied values.
+     * notify: If `true` the current state and brightness level shall be notified to whom
+     *         it may concern.
      */
 #if defined(__ESP__) || defined(__UNIXOID__)
     typedef std::function<void(bool state, double level, bool control, bool notify)> T_CONTROL;
@@ -365,7 +365,8 @@ class LightController {
          @param brightlevel Brightness level of the light [0.0 (off) - 1.0 (on)]
          */
         this->state = state;
-        this->brightlevel = brightlevel < 0.0 ? 0.0 : brightlevel > 1.0 ? 1.0 : brightlevel;
+        this->brightlevel = brightlevel < 0.0 ? 0.0 : brightlevel > 1.0 ? 1.0
+                                                                        : brightlevel;
     }
 
   private:
