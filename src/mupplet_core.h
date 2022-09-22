@@ -38,8 +38,8 @@ depends on:
 * * <a href="https://github.com/muwerk/muwerk">muwerk github repository</a>
 
 other mupplet libraries:
-* * <a href="https://github.com/muwerk/mupplet-sensor">muwerk mupplet-sensor repository</>
-* * <a href="https://github.com/muwerk/mupplet-display">muwerk mupplet-display repository</>
+* * <a href="https://github.com/muwerk/mupplet-sensor">muwerk mupplet-sensor repository</a>
+* * <a href="https://github.com/muwerk/mupplet-display">muwerk mupplet-display repository</a>
 
 */
 
