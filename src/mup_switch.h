@@ -93,7 +93,7 @@ Other options include flip-flop mode and monostable impulses.
 
 Additionally, a binary_sensor mode is available that simply reports the state of the input pin.
 Note however that there is a simpler implementation of BinarySensor available in the 
-<a href="https://github.com/muwerk/mupplet-sensor">mupplet-sensor<\a> project, which is
+<a href="https://github.com/muwerk/mupplet-sensor">mupplet-sensor</a> project, which is
 recommended for most use-cases.
 
 The physical hardware of a switch can be overriden by a software \ref setLogicalState,
