@@ -37,6 +37,10 @@ depends on:
 * * <a href="https://github.com/muwerk/ustd">ustd github repository</a>
 * * <a href="https://github.com/muwerk/muwerk">muwerk github repository</a>
 
+other mupplet libraries:
+* * <a href="https://github.com/muwerk/mupplet-sensor">muwerk mupplet-sensor repository</>
+* * <a href="https://github.com/muwerk/mupplet-display">muwerk mupplet-display repository</>
+
 */
 
 #include "scheduler.h"
