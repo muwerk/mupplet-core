@@ -91,6 +91,11 @@ timing information about length of button presses.
 
 Other options include flip-flop mode and monostable impulses.
 
+Additionally, a binary_sensor mode is available that simply reports the state of the input pin.
+Note however that there is a simpler implementation of BinarySensor available in the 
+<a href="https://github.com/muwerk/mupplet-sensor">mupplet-sensor<\a> project, which is
+recommended for most use-cases.
+
 The physical hardware of a switch can be overriden by a software \ref setLogicalState,
 a switch stays in override-mode until the next state change of the physical
 hardware is detected.
@@ -115,9 +120,10 @@ hardware is detected.
 | topic | message body | comment
 | ----- | ------------ | -------
 | `<mupplet-name>/switch/set` | `on`, `off`, `true`, `false`, `toggle` | Override switch setting. When setting the switch state via message, the hardware port remains overridden until the hardware changes state (e.g. button is physically pressed). Sending a `switch/set` message puts the switch in override-mode: e.g. when sending `switch/set` `on`, the state of the button is signalled `on`, even so the physical button might be off. Next time the physical button is pressed (or changes state), override mode is stopped, and the state of the actual physical button is published again.
-| `<mupplet-name>/switch/mode/set` | `default`, `rising`, `falling`, `flipflop`, `timer <time-in-ms>`, `duration [shortpress_ms[,longpress_ms]]` | Mode `default` sends `on` when a button is pushed, `off` on release. `falling` and `rising` send `trigger` on corresponding signal change. `flipflop` changes the state of the logical switch on each change from button on to off. `timer` keeps the switch on for the specified duration (ms). `duration` mode sends messages `switch/shortpress`, if button was pressed for less than `<shortpress_ms>` (default 3000ms), `switch/longpress` if pressed less than `<longpress_ms>`, and `switch/verylongpress` for longer presses.
+| `<mupplet-name>/switch/mode/set` | `default`, `rising`, `falling`, `flipflop`, `binary_sensor`, `timer <time-in-ms>`, `duration [shortpress_ms[,longpress_ms]]` | Mode `default` sends `on` when a button is pushed, `off` on release. `falling` and `rising` send `trigger` on corresponding signal change. `flipflop` changes the state of the logical switch on each change from button on to off. `timer` keeps the switch on for the specified duration (ms). `duration` mode sends messages `switch/shortpress`, if button was pressed for less than `<shortpress_ms>` (default 3000ms), `switch/longpress` if pressed less than `<longpress_ms>`, and `switch/verylongpress` for longer presses.
 | `<mupplet-name>/switch/debounce/set` | <time-in-ms> | String encoded switch debounce time in ms, [0..1000]ms. Default is 20ms. This is especially need, when switch is created in interrupt mode (see comment in [example](https://github.com/muwerk/Examples/tree/master/led)).
 | `<mupplet-name>/switch/state/get` |  | Sends current switch state (logical).
+| `<mupplet-name>/binary_sensor/state/get` |  | Sends current binary_sensor state, for Mode::BinarySensor only, (logical).
 | `<mupplet-name>/switch/counter/get` |  | Send current number of counts, if counter is active, otherwise `NaN`.
 | `<mupplet-name>/switch/counter/start` |  | Start counter, `counter` messages will be sent, count is reset to 0. All counters are `off` by default.
 | `<mupplet-name>/switch/counter/stop` |  | Stop counting
@@ -132,16 +138,17 @@ class Switch {
     static const char *version;  // = "0.1.0";
     /*! The mode switch is operating in */
     enum Mode {
-        Default,  /*!< Standard mode, changes between on-state (button pressed) and off-state
-                     (released) */
-        Rising,   /*!< Act on level changes LOW->HIGH, generates a 'trigger' message (push-button
-                     event) */
-        Falling,  /*!< Act on level changes HIGH->LOW, generates a 'trigger' message (push-button
-                     event)  */
-        Flipflop, /*!< Each trigger changes state for on to off or vice-versa */
-        Timer,    /*!< Each trigger generates an on-state for a given time (monostable) */
-        Duration  /*!< Timing information is provided: SHORTPRESS, LONGPRESS, VERYLONGPRESS and
-                     absolute duration */
+        Default,     /*!< Standard mode, changes between on-state (button pressed) and off-state
+                        (released) */
+        Rising,      /*!< Act on level changes LOW->HIGH, generates a 'trigger' message (push-button
+                        event) */
+        Falling,     /*!< Act on level changes HIGH->LOW, generates a 'trigger' message (push-button
+                        event)  */
+        Flipflop,    /*!< Each trigger changes state for on to off or vice-versa */
+        Timer,       /*!< Each trigger generates an on-state for a given time (monostable) */
+        Duration,    /*!< Timing information is provided: SHORTPRESS, LONGPRESS, VERYLONGPRESS and
+                       absolute duration */
+        BinarySensor /*! Act as binary sensor, reporting state as ../binary_sensor/state instead of ../switch/state */
     };
 
   private:
@@ -172,6 +179,11 @@ class Switch {
     unsigned long timerDuration = 1000;  // ms
     unsigned long startEvent = 0;        // ms
     unsigned long durations[2] = {3000, 30000};
+
+    time_t lastStatePublish = 0;    //!< last time, logical state was published
+    unsigned int stateRefresh = 0;  //!< if !=0, and switch::mode is default, flipflop or binary_sensor, state is published every stateRefresh seconds
+    bool initialStatePublish = false;
+    bool initialStateIsPublished = false;
 
   public:
     Switch(String name, uint8_t port, Mode mode = Mode::Default, bool activeLogic = false,
@@ -254,35 +266,17 @@ class Switch {
         overridePhysicalActive = false;
         lastChangeMs = 0;
         mode = newmode;
+        if (mode == Mode::BinarySensor) {
+            initialStateIsPublished = false;
+            initialStatePublish = true;
+            stateRefresh = 600;
+        }
         startEvent = (unsigned long)-1;
     }
 
     void begin(Scheduler *_pSched) {
-        // clang-format off
         /*! Initialize GPIOs and activate switch hardware
-
-        ### Messages sent by the switch mupplet on state changes:
-
-        | topic | message body | comment
-        | ----- | ------------ | -------
-        | `<mupplet-name>/switch/state` | `on`, `off` or `trigger` | switch state, usually `on` or `off`. In modes `falling` and `rising` only `trigger` messages are sent on rising or falling signal.
-        | `<mupplet-name>/switch/debounce` | <time-in-ms> | reply to `<mupplet-name>/switch/debounce/get`, switch debounce time in ms [0..1000]ms.
-        | `<custom-topic>` | `on`, `off` or `trigger` | If a custom-topic is given during switch init, an addtional message is publish on switch state changes with that topic, The message is identical to ../switch/state', usually `on` or `off`. In modes `falling` and `rising` only `trigger`.
-        | `<mupplet-name>/switch/shortpress` | `trigger` | Switch is in `duration` mode, and button is pressed for less than `<shortpress_ms>` (default 3000ms).
-        | `<mupplet-name>/switch/longpress` | `trigger` | Switch is in `duration` mode, and button is pressed for less than `<longpress_ms>` (default 30000ms), yet longer than shortpress.
-        | `<mupplet-name>/switch/verylongtpress` | `trigger` | Switch is in `duration` mode, and button is pressed for longer than `<longpress_ms>` (default 30000ms).
-        | `<mupplet-name>/switch/duration` | `<ms>` | Switch is in `duration` mode, message contains the duration in ms the switch was pressed.
-
-        ### The switch mupplet now listens to the following messages:
-
-        | topic | message body | comment
-        | ----- | ------------ | -------
-        | `<mupplet-name>/switch/set` | `on`, `off`, `true`, `false`, `toggle` | Override switch setting. When setting the switch state via message, the hardware port remains overridden until the hardware changes state (e.g. button is physically pressed). Sending a `switch/set` message puts the switch in override-mode: e.g. when sending `switch/set` `on`, the state of the button is signalled `on`, even so the physical button might be off. Next time the physical button is pressed (or changes state), override mode is stopped, and the state of the actual physical button is published again.
-        | `<mupplet-name>/switch/mode/set` | `default`, `rising`, `falling`, `flipflop`, `timer <time-in-ms>`, `duration [shortpress_ms[,longpress_ms]]` | Mode `default` sends `on` when a button is pushed, `off` on release. `falling` and `rising` send `trigger` on corresponding signal change. `flipflop` changes the state of the logical switch on each change from button on to off. `timer` keeps the switch on for the specified duration (ms). `duration` mode sends messages `switch/shortpress`, if button was pressed for less than `<shortpress_ms>` (default 3000ms), `switch/longpress` if pressed less than `<longpress_ms>`, and `switch/verylongpress` for longer presses.
-        | `<mupplet-name>/switch/debounce/set` | <time-in-ms> | String encoded switch debounce time in ms, [0..1000]ms. Default is 20ms. This is especially need, when switch is created in interrupt mode (see comment in [example](https://github.com/muwerk/Examples/tree/master/led)).
-
-        */
-        // clang-format on
+         */
         pSched = _pSched;
 
         pinMode(port, INPUT_PULLUP);
@@ -313,7 +307,7 @@ class Switch {
         auto fnall = [=](String topic, String msg, String originator) {
             this->subsMsg(topic, msg, originator);
         };
-        pSched->subscribe(tID, name + "/switch/#", fnall);
+        pSched->subscribe(tID, name + "/#", fnall);
         pSched->subscribe(tID, "mqtt/state", fnall);
     }
 
@@ -335,6 +329,13 @@ class Switch {
                 }
             }
         }
+    }
+
+    void setStateRefresh(int logicalStateRefreshEverySecs) {
+        /*! Periodically publish switch / binary_sensor state every logicalStateRefreshEverySecs seconds
+        @param logicalStateRefreshEverySecs Number of seconds after which the current state of a switch is published
+        */
+        stateRefresh = logicalStateRefreshEverySecs;
     }
 
     void setToggle() {
@@ -362,17 +363,24 @@ class Switch {
         sprintf(buf, "%ld", counter);
         if (bCounter) {
             pSched->publish(name + "/switch/counter", buf);
+            pSched->publish(name + "/sensor/counter", buf);
         } else {
             pSched->publish(name + "/switch/counter", "NaN");
+            pSched->publish(name + "/sensor/counter", "NaN");
         }
     }
 
     void publishLogicalState(bool lState) {
         String textState;
-        if (lState == true)
+        String binaryState;
+        lastStatePublish = time(nullptr);
+        if (lState == true) {
             textState = "on";
-        else
+            binaryState = "ON";
+        } else {
             textState = "off";
+            binaryState = "OFF";
+        }
         switch (mode) {
         case Mode::Default:
         case Mode::Flipflop:
@@ -414,6 +422,11 @@ class Switch {
                 }
             }
             break;
+        case Mode::BinarySensor:
+            pSched->publish(name + "/binary_sensor/state", binaryState);
+            if (customTopic != "")
+                pSched->publish(customTopic, binaryState);
+            break;
         }
     }
 
@@ -423,6 +436,7 @@ class Switch {
         case Mode::Rising:
         case Mode::Falling:
         case Mode::Duration:
+        case Mode::BinarySensor:
             setLogicalState(physicalState);
             break;
         case Mode::Flipflop:
@@ -538,17 +552,21 @@ class Switch {
                 setLogicalState(false);
             }
         }
+        if (stateRefresh != 0 || (initialStateIsPublished = false && initialStatePublish == true)) {
+            if (mode == Mode::BinarySensor) {
+                if (time(nullptr) - lastStatePublish > stateRefresh || (initialStateIsPublished = false && initialStatePublish == true)) {
+                    publishLogicalState(logicalState);
+                    if (bCounter) publishCounter();
+                    initialStateIsPublished = true;
+                }
+            }
+        }
     }
 
     void subsMsg(String topic, String msg, String originator) {
-        if (topic == name + "/switch/state/get") {
-            char buf[32];
-            if (logicalState)
-                sprintf(buf, "on");
-            else
-                sprintf(buf, "off");
-            pSched->publish(name + "/switch/state", buf);
-        } else if (topic == name + "/switch/counter/get") {
+        if (topic == name + "/switch/state/get" || topic == name + "/binary_sensor/state/get") {
+            publishLogicalState(logicalState);
+        } else if (topic == name + "/switch/counter/get" || topic == name + "/sensor/counter/get") {
             publishCounter();
         } else if (topic == name + "/switch/physicalstate/get") {
             char buf[32];
@@ -580,6 +598,8 @@ class Switch {
                 setMode(Mode::Falling);
             } else if (!strcmp(buf, "flipflop")) {
                 setMode(Mode::Flipflop);
+            } else if (!strcmp(buf, "binary_sensor")) {
+                setMode(Mode::BinarySensor);
             } else if (!strcmp(buf, "timer")) {
                 unsigned long dur = 1000;
                 if (p)
@@ -624,9 +644,12 @@ class Switch {
             long dbt = atol(msg.c_str());
             setDebounce(dbt);
         } else if (topic == "mqtt/state") {
-            if (mode == Mode::Default || mode == Mode::Flipflop) {
+            if (mode == Mode::Default || mode == Mode::Flipflop || mode == Mode::BinarySensor) {
                 if (msg == "connected") {
                     publishLogicalState(logicalState);
+                    if (bCounter) {
+                        publishCounter();
+                    }
                 }
             }
         } else if (topic == name + "/switch/counter/start") {

@@ -18,28 +18,41 @@ The `mupplet-core` library consists of the following modules:
 
 <img src="https://github.com/muwerk/mupplet-core/blob/master/extras/led.png" align="right" width="7%" height="7%">
 
-* [`Light`][Light_DOC] The Light GPIO mupplet allows to control a led or light's state, brightness
+- [`Light`][Light_DOC] The Light GPIO mupplet allows to control a led or light's state, brightness
   using modes such as user-controlled, blink, soft-wave, one-time pulse and automatic pattern
   playback. See [Led application notes][Light_NOTES] for an example and more information.
   Complete example [muBlink](https://github.com/muwerk/examples/tree/master/muBlink).
 
 <img src="https://github.com/muwerk/mupplet-core/blob/master/extras/switch.png" align="right" width="10%" height="10%">
 
-* [`Switch`][Switch_DOC] The Switch GPIO mupplet allows to use hardware buttons and switches
+- [`Switch`][Switch_DOC] The Switch GPIO mupplet allows to use hardware buttons and switches
   connected to a GPIO. Switch supports debouncing, flip-flop mode and push-button event. See
   [Switch application notes][Switch_NOTES] for an example-code and more information. Complete
   example [SwitchAndLed](https://github.com/muwerk/examples/tree/master/SwitchAndLed).
 
 <img src="https://github.com/muwerk/examples/blob/master/Resources/FrequencyCounter.jpg" align="right" width="8%">
 
-* [`FrequencyCounter`][FrequencyCounter_DOC] The frequency counter mupplet measures impulse frequencies
+- [`FrequencyCounter`][FrequencyCounter_DOC] The frequency counter mupplet measures impulse frequencies
   on a GPIO using interrupts. An ESP32 can reliably measure up to about 80kHz. See
   [FrequencyCounter application notes][FrequencyCounter_NOTES] for a Geiger counter sample.
 
-* [`LightsPCA9685`][PCA9685_DOC] The PCA 9685 16 Channels Light Mupplet allows to control up to
-  16 leds or light's state, brightness using modes such as user-controlled, blink, soft-wave,
+- [`LightsPCA9685`][PCA9685_DOC] The PCA 9685 16 Channels Light Mupplet allows to control up to
+  16 led or light states, brightness using modes such as user-controlled, blink, soft-wave,
   one-time pulse and automatic pattern playback. See [PCA9685 Application Notes][PCA9685_NOTES]
   for an example and more information.
+
+- [`Home Assistant`][HomeAssistant_DOC]. Almost any mupplet can be integrated easily into home-assistant,
+  supported are Home Assistant MQTT Switch, Binary Sensor, Sensor, and Light. The `home_assistant` mupplet
+  handles the entire discovery- and synchronization process. For examples see 
+  [leds and switches with home-assistant](https://github.com/muwerk/examples/tree/master/switchLedHomeassistant) or 
+  [simple binary- and analog sensors](https://github.com/muwerk/examples/tree/master/binaryAndAnalogSimpleSensors) or 
+  [multi-sensor environment monitoring](https://github.com/muwerk/examples/tree/master/enviroMaster).
+
+Additional mupplet implementations can be found:
+
+- [`mupplet-sensor`](https://github.com/muwerk/mupplet-sensor): implementations for various sensors, temperature,
+  humidity, pressure, illuminance, generic binary sensors and analog sensors.
+- [`mupplet-display`](https://github.com/muwerk/mupplet-display): implementations for various displays.
 
 Development and Design considerations
 -------------------------------------
@@ -66,7 +79,8 @@ Some design recommendations for mupplets:
   mupplet would publish. A major advantage of this type of light coupling via messages is
   that the temperature mupplet could run on a different hardware: an MQTT server and munet
   make sure that there is absolutely no difference between remote and local communication
-  partners: the implementation of both mupplets in both cases is simply the same.
+  partners: the implementation of both mupplets in both cases is simply the same. Additionally
+  this facilitates a later port to multi-core and preemtive multi-tasking systems.
 
 ### Examples ###
 
@@ -152,11 +166,11 @@ class MyMupplet {
 
 History
 -------
-- 0.5.0 (2021-06-XX) NOT YET RELEASED
+- 0.5.0 (2022-09-22) NOT YET RELEASED
   * New HomeAssistant Device Autodiscovery Helper
   * New 16 channel light applet using PCA 9685 PWM controller
   * Number in string detection functions
-  * Support for ASCII part HD44780 displays charset conversions
+  * Support for ASCII part HD44780 displays charset conversions (see: [mupplet-display](https://github.com/muwerk/mupplet-display))
   * count option for switch to count switch events.
   * Astro helper module for sunrise sunset calculations (WIP!)
 - 0.4.0 (2021-02-28) Frequency counter
@@ -197,6 +211,7 @@ References
 [DigitalOut_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/digital-out-notes.md
 [PCA9685_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1LightsPCA9685.html
 [PCA9685_NOTES]: https://github.com/muwerk/mupplet-core/blob/master/extras/pca9685-notes.md
+[HomeAssistant_DOC]: https://muwerk.github.io/mupplet-core/docs/classustd_1_1HomeAssistant.html
 
 [gh_ustd]: https://github.com/muwerk/ustd
 [gh_muwerk]: https://github.com/muwerk/muwerk
