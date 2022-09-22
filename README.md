@@ -166,7 +166,7 @@ class MyMupplet {
 
 History
 -------
-- 0.5.0 (2022-09-22) NOT YET RELEASED
+- 0.5.0 (2022-09-22)
   * New HomeAssistant Device Autodiscovery Helper
   * New 16 channel light applet using PCA 9685 PWM controller
   * Number in string detection functions
