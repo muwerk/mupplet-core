@@ -166,6 +166,8 @@ class MyMupplet {
 
 History
 -------
+- 0.5.1 (2022-09-23)
+  * Bugfix: mup_switch.h used time_t, which isn't available on Arduino, replaced with muwerk timestamps.
 - 0.5.0 (2022-09-22)
   * New HomeAssistant Device Autodiscovery Helper
   * New 16 channel light applet using PCA 9685 PWM controller

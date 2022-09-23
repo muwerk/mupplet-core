@@ -180,8 +180,8 @@ class Switch {
     unsigned long startEvent = 0;        // ms
     unsigned long durations[2] = {3000, 30000};
 
-    time_t lastStatePublish = 0;    //!< last time, logical state was published
-    unsigned int stateRefresh = 0;  //!< if !=0, and switch::mode is default, flipflop or binary_sensor, state is published every stateRefresh seconds
+    unsigned long lastStatePublish = 0;  //!< last time, logical state was published
+    unsigned int stateRefresh = 0;       //!< if !=0, and switch::mode is default, flipflop or binary_sensor, state is published every stateRefresh seconds
     bool initialStatePublish = false;
     bool initialStateIsPublished = false;
 
@@ -358,6 +358,15 @@ class Switch {
     }
 
   private:
+    unsigned long getTimestamp() {
+        /*! Create a unix timestamp eq. to calling time(nullptr) for all platforms, including those without time.h, time_t */
+#if defined(__ARDUINO__) || defined(__ARM__) || defined(__RISC_V__)
+        return pSched->getUptime();
+#else
+        return (unsigned long)time(nullptr);
+#endif
+    }
+
     void publishCounter() {
         char buf[32];
         sprintf(buf, "%ld", counter);
@@ -373,7 +382,7 @@ class Switch {
     void publishLogicalState(bool lState) {
         String textState;
         String binaryState;
-        lastStatePublish = time(nullptr);
+        lastStatePublish = getTimestamp();
         if (lState == true) {
             textState = "on";
             binaryState = "ON";
@@ -554,7 +563,7 @@ class Switch {
         }
         if (stateRefresh != 0 || (initialStateIsPublished = false && initialStatePublish == true)) {
             if (mode == Mode::BinarySensor) {
-                if (time(nullptr) - lastStatePublish > stateRefresh || (initialStateIsPublished = false && initialStatePublish == true)) {
+                if (getTimestamp() - lastStatePublish > stateRefresh || (initialStateIsPublished = false && initialStatePublish == true)) {
                     publishLogicalState(logicalState);
                     if (bCounter) publishCounter();
                     initialStateIsPublished = true;
