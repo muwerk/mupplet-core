@@ -184,6 +184,33 @@ double parseUnitLevel(String arg) {
                                        : val;
 }
 
+bool parseColor(String arg, uint8_t *r = nullptr, uint8_t *g = nullptr, uint8_t *b = nullptr) {
+    /*! Parse and split a 24-bit hex color value into r,g,b components
+
+    The color value can be either represented as `0x010203` or `#010203`. It is split into
+    the components r=1, b=2 and g=3.
+
+    @param arg String to parse, either 0x123456 or #123456
+    @param r Optional pointer that receives the red-part (first two digits of hex string)
+    @param g Optional pointer that receives the green-part (middle part of hex string)
+    @param b Optional pointer that receives the blue-part (end of hex string)
+    @return true: sucessful conversion, false: wrong format.
+    */
+    String hex;
+    if (arg.length() < 7) return false;
+    if (arg.startsWith("#")) {
+        hex = arg.substring(1);
+    } else if (arg.startsWith("0x")) {
+        hex = arg.substring(2);
+    } else
+        return false;
+    if (hex.length() != 6) return false;
+    if (r) *r = (uint8_t)strtol(hex.substring(0, 2).c_str(), 0, 16);
+    if (g) *g = (uint8_t)strtol(hex.substring(2, 4).c_str(), 0, 16);
+    if (b) *b = (uint8_t)strtol(hex.substring(4).c_str(), 0, 16);
+    return true;
+}
+
 // clang-format off
 /*! \brief mupplet-core string encoding utilities
 
