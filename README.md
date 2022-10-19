@@ -41,6 +41,8 @@ The `mupplet-core` library consists of the following modules:
   one-time pulse and automatic pattern playback. See [PCA9685 Application Notes][PCA9685_NOTES]
   for an example and more information.
 
+- NeoPixel supports neopixels with help of Adafruit's Neopixel library.
+
 - [`Home Assistant`][HomeAssistant_DOC]. Almost any mupplet can be integrated easily into home-assistant,
   supported are Home Assistant MQTT Switch, Binary Sensor, Sensor, and Light. The `home_assistant` mupplet
   handles the entire discovery- and synchronization process. For examples see 
@@ -166,6 +168,7 @@ class MyMupplet {
 
 History
 -------
+- 0.5.2 (ongoing dev)
 - 0.5.1 (2022-09-23)
   * Bugfix: mup_switch.h used time_t, which isn't available on Arduino, replaced with muwerk timestamps.
 - 0.5.0 (2022-09-22)
