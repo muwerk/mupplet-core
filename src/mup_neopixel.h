@@ -195,7 +195,7 @@ class NeoPixel {
         } else if (topic == name + "/light/color/get") {
             publishColor(-1);
         } else if (topic == name + "/light/set" || topic == name + "/light/state/set" || topic == name + "/light/unitbrightness/set") {
-            if (ticker - lastTicker < 2) return;  // ignore anything that follows too "fast" after color-sets.
+            if (ticker - lastTicker < 6) return;  // ignore anything that follows too "fast" after color-sets.
             double br = parseUnitLevel(msg);
             brightness(br);
             lastTicker = ticker;
