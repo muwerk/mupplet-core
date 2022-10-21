@@ -187,10 +187,10 @@ double parseUnitLevel(String arg) {
 bool parseColor(String arg, uint8_t *r = nullptr, uint8_t *g = nullptr, uint8_t *b = nullptr) {
     /*! Parse and split a 24-bit hex color value into r,g,b components
 
-    The color value can be either represented as `0x010203` or `#010203`. It is split into
+    The color value can be either represented as `0x010203` or `#010203` or `1,2,3` in decimal, comma separated. It is split into
     the components r=1, b=2 and g=3.
 
-    @param arg String to parse, either 0x123456 or #123456
+    @param arg String to parse, either `0x123456` (hex) or `#123456` (hex) or `18,52,86` (dec)
     @param r Optional pointer that receives the red-part (first two digits of hex string)
     @param g Optional pointer that receives the green-part (middle part of hex string)
     @param b Optional pointer that receives the blue-part (end of hex string)
@@ -202,8 +202,21 @@ bool parseColor(String arg, uint8_t *r = nullptr, uint8_t *g = nullptr, uint8_t 
         hex = arg.substring(1);
     } else if (arg.startsWith("0x")) {
         hex = arg.substring(2);
-    } else
+    } else if (arg.indexOf(',') != -1) {
+        uint16_t ind = arg.indexOf(',');
+        String r1 = arg.substring(0, ind);
+        String r2 = arg.substring(ind + 1);
+        if (r) *r = (uint8_t)strtol(r1.c_str(), 0, 10);
+        uint16_t ind2 = r2.indexOf(',');
+        if (ind2 == -1) return false;
+        r1 = r2.substring(0, ind2);
+        r2 = r2.substring(ind2 + 1);
+        if (g) *g = (uint8_t)strtol(r1.c_str(), 0, 10);
+        if (b) *b = (uint8_t)strtol(r2.c_str(), 0, 10);
+        return true;
+    } else {
         return false;
+    }
     if (hex.length() != 6) return false;
     if (r) *r = (uint8_t)strtol(hex.substring(0, 2).c_str(), 0, 16);
     if (g) *g = (uint8_t)strtol(hex.substring(2, 4).c_str(), 0, 16);

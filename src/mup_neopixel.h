@@ -17,8 +17,8 @@ class NeoPixel {
     uint16_t numPixels;
     uint8_t options;
     Adafruit_NeoPixel *pPixels;
-    ustd::array<uint32_t> hwBuf;
-    ustd::array<uint32_t> hwFrameBuf;
+    ustd::array<uint32_t> *phwBuf;
+    ustd::array<uint32_t> *phwFrameBuf;
     bool state;
 
     NeoPixel(String name, uint8_t pin, uint16_t numPixels = 1,
@@ -33,8 +33,8 @@ class NeoPixel {
         pSched = _pSched;
 
         pPixels = new Adafruit_NeoPixel(numPixels, pin, options);
-        hwBuf = ustd::array<uint32_t>(numPixels, numPixels);
-        hwFrameBuf = ustd::array<uint32_t>(numPixels, numPixels);
+        phwBuf = new ustd::array<uint32_t>(numPixels, numPixels);
+        phwFrameBuf = new ustd::array<uint32_t>(numPixels, numPixels);
         for (uint16_t i = 0; i < numPixels; i++) {
             pixel(i, 0, 0, 0);
         }
@@ -78,14 +78,14 @@ class NeoPixel {
         if (i >= numPixels)
             return;
         pPixels->setPixelColor(i, pPixels->Color(r, g, b));
-        hwFrameBuf[i] = RGB32(r, g, b);
+        (*phwFrameBuf)[i] = RGB32(r, g, b);
         if (updateHardware)
             pixelsUpdate();
     }
 
     bool setFrame(ustd::array<uint32_t> *pFr) {
-        if (!pFr || pFr->length() != hwFrameBuf.length()) return false;
-        hwFrameBuf = *pFr;
+        if (!pFr || pFr->length() != (*phwFrameBuf).length()) return false;
+        *phwFrameBuf = *pFr;
         pixelsUpdate();
     }
 
@@ -93,8 +93,8 @@ class NeoPixel {
         pPixels->show();
         uint32_t st = 0;
         for (uint16_t i = 0; i < numPixels; i++) {
-            hwBuf[i] = hwFrameBuf[i];
-            st |= hwBuf[i];
+            (*phwBuf)[i] = (*phwFrameBuf)[i];
+            st |= (*phwBuf)[i];
         }
         if (st)
             state = true;
