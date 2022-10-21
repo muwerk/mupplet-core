@@ -872,6 +872,19 @@ class HomeAssistant {
             msg["bri_val_tpl"] = "{{ value | float * 100 | round(0) }}";
             msg["on_cmd_type"] = "brightness";
         }
+        if (entity.type == LightRGB) {
+            // add support for brightness
+            msg["bri_cmd_t"] = hostName + "/" + topic + "/set";
+            msg["bri_scl"] = "100";
+            msg["bri_stat_t"] = "~" + topic + "/unitbrightness";
+            msg["bri_val_tpl"] = "{{ value | float * 100 | round(0) }}";
+            msg["on_cmd_type"] = "first";
+            // color
+            msg["color_mode"] = true;
+            msg["supported_color_mode"] = {"rgb"};
+            msg["rgb_cmd_t"] = hostName + "/" + topic + "/color/set";
+            msg["rgb_stat_t"] = "~" + topic + "/color";
+        }
 
         flushDeviceConfig(entity.type, msg);
     }
