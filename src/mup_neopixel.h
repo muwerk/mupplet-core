@@ -22,9 +22,11 @@ class NeoPixel {
     ustd::array<uint32_t> *phwBuf;
     ustd::array<uint32_t> *phwFrameBuf;
     bool state;
+    unsigned long ticker = 0;
+    unsigned long lastTicker = 0;
 
     NeoPixel(String name, uint8_t pin, uint16_t numPixels = 1,
-             uint8_t options = NEO_GRB + NEO_KHZ800)
+             uint8_t options = NEO_RGB + NEO_KHZ800)
         : name(name), pin(pin), numPixels(numPixels), options(options) {
     }
 
@@ -89,7 +91,9 @@ class NeoPixel {
 
     bool setFrame(ustd::array<uint32_t> *pFr) {
         if (!pFr || pFr->length() != (*phwFrameBuf).length()) return false;
-        *phwFrameBuf = *pFr;
+        for (uint16_t i = 0; i < numPixels; i++) {
+            (*phwBuf)[i] = (*phwFrameBuf)[i];
+        }
         pixelsUpdate();
     }
 
@@ -112,6 +116,7 @@ class NeoPixel {
         gr = dr / numPixels;
         gg = dg / numPixels;
         gb = db / numPixels;
+        pPixels->show();
         if (st)
             state = true;
         else
@@ -162,7 +167,7 @@ class NeoPixel {
             RGB32Parse((*phwBuf)[index], &r, &g, &b);
             sprintf(buf, "%d,%d,%d", r, g, b);
         }
-        pSched->publish(name + "light/color", buf);
+        pSched->publish(name + "/light/color", buf);
     }
 
     void publishState() {
@@ -177,7 +182,7 @@ class NeoPixel {
 
     void loop() {
         if (bStarted)
-            return;
+            ++ticker;
     }
 
     void subsMsg(String topic, String msg, String originator) {
@@ -185,16 +190,19 @@ class NeoPixel {
         String leader = name + "/light/";
         if (topic == name + "/light/state/get") {
             publishState();
-        } else if (topic == name + "light/unitbrightness/get") {
+        } else if (topic == name + "/light/unitbrightness/get") {
             publishBrightness(-1);
-        } else if (topic == name + "light/color/get") {
+        } else if (topic == name + "/light/color/get") {
             publishColor(-1);
-        } else if (topic == name + "light/set" || topic == name + "light/state/set" || topic == name + "light/unitbrightness/set") {
+        } else if (topic == name + "/light/set" || topic == name + "/light/state/set" || topic == name + "/light/unitbrightness/set") {
+            if (ticker - lastTicker < 2) return;  // ignore anything that follows too "fast" after color-sets.
             double br = parseUnitLevel(msg);
             brightness(br);
-        } else if (topic == name + "light/color/set") {
+            lastTicker = ticker;
+        } else if (topic == name + "/light/color/set") {
             parseColor(msg, &r, &g, &b);
             color(r, g, b);
+            lastTicker = ticker;
         } else if (topic.startsWith(leader)) {
             String sub = topic.substring(leader.length());
             int pi = sub.indexOf('/');
