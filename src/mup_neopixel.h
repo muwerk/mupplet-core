@@ -16,6 +16,8 @@ class NeoPixel {
     uint8_t pin;
     uint16_t numPixels;
     uint8_t options;
+    uint8_t gr, gg, gb;
+    double gbr;
     Adafruit_NeoPixel *pPixels;
     ustd::array<uint32_t> *phwBuf;
     ustd::array<uint32_t> *phwFrameBuf;
@@ -27,6 +29,7 @@ class NeoPixel {
     }
 
     ~NeoPixel() {
+        // XXX Framebuffers cleanup
     }
 
     void begin(Scheduler *_pSched) {
@@ -47,6 +50,8 @@ class NeoPixel {
         };
         pSched->subscribe(tID, name + "/light/#", fnall);
         publishState();
+        publishColor();
+        publishBrightness();
         bStarted = true;
     }
 
@@ -77,7 +82,6 @@ class NeoPixel {
     void pixel(uint16_t i, uint8_t r, uint8_t g, uint8_t b, bool updateHardware = true) {
         if (i >= numPixels)
             return;
-        pPixels->setPixelColor(i, pPixels->Color(r, g, b));
         (*phwFrameBuf)[i] = RGB32(r, g, b);
         if (updateHardware)
             pixelsUpdate();
@@ -89,17 +93,76 @@ class NeoPixel {
         pixelsUpdate();
     }
 
-    void pixelsUpdate() {
+    void pixelsUpdate(bool notify = true) {
         pPixels->show();
         uint32_t st = 0;
+        uint32_t br = 0;
+        uint8_t dr = 0, dg = 0, db = 0, r, g, b;
         for (uint16_t i = 0; i < numPixels; i++) {
             (*phwBuf)[i] = (*phwFrameBuf)[i];
             st |= (*phwBuf)[i];
+            RGB32Parse((*phwBuf)[i], &r, &g, &b);
+            pPixels->setPixelColor(i, pPixels->Color(r, g, b));
+            br += (r + g + b) / 3;
+            dr += r;
+            dg += g;
+            db += b;
         }
+        gbr = (br / numPixels) / 255.0;
+        gr = dr / numPixels;
+        gg = dg / numPixels;
+        gb = db / numPixels;
         if (st)
             state = true;
         else
             state = false;
+        if (notify) {
+            publishState();
+            publishBrightness();
+            publishColor();
+        }
+    }
+
+    void brightness(double unitBrightness) {
+        if (unitBrightness < 0.0) unitBrightness = 0.0;
+        if (unitBrightness > 1.0) unitBrightness = 1.0;
+        uint8_t br = (uint8_t)(unitBrightness * 255.0);
+        for (uint16_t i = 0; i < numPixels; i++) {
+            pixel(i, br, br, br, false);
+        }
+        pixelsUpdate();
+    }
+
+    void color(uint8_t r, uint8_t g, uint8_t b) {
+        for (uint16_t i = 0; i < numPixels; i++) {
+            pixel(i, r, g, b, false);
+        }
+        pixelsUpdate();
+    }
+
+    void publishBrightness(int16_t index = -1) {
+        char buf[32];
+        if (index == -1) {
+            sprintf(buf, "%5.3f", gbr);
+        } else {
+            uint8_t r, g, b;
+            RGB32Parse((*phwBuf)[index], &r, &g, &b);
+            double br = ((uint16_t)r + (uint16_t)g + (uint16_t)b) / 3.0 / 255.0;
+            sprintf(buf, "%5.3f", br);
+        }
+        pSched->publish(name + "/light/unitbrightness", buf);
+    }
+
+    void publishColor(int16_t index = -1) {
+        char buf[64];
+        if (index == -1) {
+            sprintf(buf, "%d,%d,%d", gr, gg, gb);
+        } else {
+            uint8_t r, g, b;
+            RGB32Parse((*phwBuf)[index], &r, &g, &b);
+            sprintf(buf, "%d,%d,%d", r, g, b);
+        }
+        pSched->publish(name + "light/color", buf);
     }
 
     void publishState() {
@@ -118,8 +181,21 @@ class NeoPixel {
     }
 
     void subsMsg(String topic, String msg, String originator) {
+        uint8_t r, g, b;
         String leader = name + "/light/";
-        if (topic.startsWith(leader)) {
+        if (topic == name + "/light/state/get") {
+            publishState();
+        } else if (topic == name + "light/unitbrightness/get") {
+            publishBrightness(-1);
+        } else if (topic == name + "light/color/get") {
+            publishColor(-1);
+        } else if (topic == name + "light/set" || topic == name + "light/state/set" || topic == name + "light/unitbrightness/set") {
+            double br = parseUnitLevel(msg);
+            brightness(br);
+        } else if (topic == name + "light/color/set") {
+            parseColor(msg, &r, &g, &b);
+            color(r, g, b);
+        } else if (topic.startsWith(leader)) {
             String sub = topic.substring(leader.length());
             int pi = sub.indexOf('/');
             if (pi != -1) {
@@ -127,8 +203,7 @@ class NeoPixel {
                 if (index >= 0 && index < numPixels) {
                     String cmd = sub.substring(pi + 1);
                     if (cmd == "set") {
-                        if (msg.startsWith("#") || msg.startsWith("0x")) {
-                            uint8_t r, g, b;
+                        if (msg.startsWith("#") || msg.startsWith("0x") || msg.indexOf(',') != -1) {
                             if (parseColor(msg, &r, &g, &b)) {
                                 pixel(index, r, g, b);
                             }
@@ -136,6 +211,17 @@ class NeoPixel {
                             bool newState = parseBoolean(msg);
                             set(index, newState);
                         }
+                    }
+                    if (cmd == "color/set") {
+                        if (parseColor(msg, &r, &g, &b)) {
+                            pixel(index, r, g, b);
+                        }
+                    }
+                    if (cmd == "color/get") {
+                        publishColor(index);
+                    }
+                    if (cmd == "brightness/get") {
+                        publishBrightness(index);
                     }
                 }
             }
