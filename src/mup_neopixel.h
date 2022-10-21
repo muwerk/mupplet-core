@@ -41,7 +41,7 @@ class NeoPixel {
         pPixels->begin();
         pixelsUpdate();
         auto ft = [=]() { this->loop(); };
-        tID = pSched->add(ft, name, 100000);
+        tID = pSched->add(ft, name, 50000);
         auto fnall = [=](String topic, String msg, String originator) {
             this->subsMsg(topic, msg, originator);
         };
@@ -81,6 +81,12 @@ class NeoPixel {
         hwFrameBuf[i] = RGB32(r, g, b);
         if (updateHardware)
             pixelsUpdate();
+    }
+
+    bool setFrame(ustd::array<uint32_t> *pFr) {
+        if (!pFr || pFr->length() != hwFrameBuf.length()) return false;
+        hwFrameBuf = *pFr;
+        pixelsUpdate();
     }
 
     void pixelsUpdate() {
