@@ -30,6 +30,7 @@ class NeoPixel {
     NeoPixel(String name, uint8_t pin, uint16_t numPixels = 1,
              uint16_t options = NEO_RGB + NEO_KHZ800)
         : name(name), pin(pin), numPixels(numPixels), options(options) {
+        if (numPixels < 1) numPixels = 1;
     }
 
     ~NeoPixel() {
@@ -61,17 +62,17 @@ class NeoPixel {
     }
 
     uint32_t RGB32(uint8_t r, uint8_t g, uint8_t b) {
-        return (r << 16) + (g << 8) + b;
+        return ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
     }
 
     void RGB32Parse(uint32_t rgb, uint8_t *r = nullptr, uint8_t *g = nullptr,
                     uint8_t *b = nullptr) {
         if (r)
-            *r = (rgb >> 16) & 0xff;
+            *r = (uint8_t)((rgb >> 16) & 0xff);
         if (g)
-            *g = (rgb >> 8) & 0xff;
+            *g = (uint8_t)((rgb >> 8) & 0xff);
         if (b)
-            *b = rgb & 0xff;
+            *b = (uint8_t)(rgb & 0xff);
     }
 
     void pixel(uint16_t i, uint8_t r, uint8_t g, uint8_t b, bool update = true) {
@@ -94,12 +95,13 @@ class NeoPixel {
         pPixels->show();
         uint32_t st = 0;
         double br = 0.0;
-        uint8_t dr = 0, dg = 0, db = 0, r, g, b, rs, gs, bs;
+        uint32_t dr = 0, dg = 0, db = 0;
+        uint8_t r, g, b, rs, gs, bs;
         for (uint16_t i = 0; i < numPixels; i++) {
             (*phwBuf)[i] = (*phwFrameBuf)[i];
             st |= (*phwBuf)[i];
             RGB32Parse((*phwBuf)[i], &r, &g, &b);
-            br += (double)(r + g + b) / 3.0;
+            br += ((double)r + (double)g + (double)b) / 3.0;
             dr += r;
             dg += g;
             db += b;
@@ -145,7 +147,7 @@ class NeoPixel {
         if (update) pixelsUpdate();
     }
 
-    void publishBrightness(int16_t index = -1) {
+    void publishBrightness() {
         char buf[32];
         sprintf(buf, "%5.3f", unitBrightness);
         pSched->publish(name + "/light/unitbrightness", buf);
@@ -155,12 +157,13 @@ class NeoPixel {
         char buf[64];
         if (index == -1) {
             sprintf(buf, "%d,%d,%d", gr, gg, gb);
+            pSched->publish(name + "/light/color", buf);
         } else {
             uint8_t r, g, b;
             RGB32Parse((*phwBuf)[index], &r, &g, &b);
             sprintf(buf, "%d,%d,%d", r, g, b);
+            pSched->publish(name + "/light/" + String(index) + "/color", buf);
         }
-        pSched->publish(name + "/light/color", buf);
     }
 
     void publishState() {
@@ -185,7 +188,7 @@ class NeoPixel {
         if (topic == name + "/light/state/get") {
             publishState();
         } else if (topic == name + "/light/unitbrightness/get") {
-            publishBrightness(-1);
+            publishBrightness();
         } else if (topic == name + "/light/color/get") {
             publishColor(-1);
         } else if (topic == name + "/light/set" || topic == name + "/light/state/set" || topic == name + "/light/unitbrightness/set") {
@@ -207,10 +210,14 @@ class NeoPixel {
         } else if (topic.startsWith(leader)) {
             String sub = topic.substring(leader.length());
             int pi = sub.indexOf('/');
+
+            pSched->publish("debug", "sub: " + sub);
             if (pi != -1) {
                 int index = (int)strtol(sub.substring(0, pi).c_str(), 0, 10);
                 if (index >= 0 && index < numPixels) {
                     String cmd = sub.substring(pi + 1);
+
+                    pSched->publish("debug", "got: " + cmd);
                     if (cmd == "set") {
                         if (msg.startsWith("#") || msg.startsWith("0x") || msg.indexOf(',') != -1) {
                             if (parseColor(msg, &r, &g, &b)) {
@@ -232,9 +239,6 @@ class NeoPixel {
                     }
                     if (cmd == "color/get") {
                         publishColor(index);
-                    }
-                    if (cmd == "brightness/get") {
-                        publishBrightness(index);
                     }
                 }
             }
