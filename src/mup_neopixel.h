@@ -93,24 +93,28 @@ class NeoPixel {
     void pixelsUpdate(bool notify = true) {
         pPixels->show();
         uint32_t st = 0;
-        uint32_t br = 0;
-        uint8_t dr = 0, dg = 0, db = 0, r, g, b;
+        double br = 0.0;
+        uint8_t dr = 0, dg = 0, db = 0, r, g, b, rs, gs, bs;
         for (uint16_t i = 0; i < numPixels; i++) {
             (*phwBuf)[i] = (*phwFrameBuf)[i];
             st |= (*phwBuf)[i];
             RGB32Parse((*phwBuf)[i], &r, &g, &b);
-            br += (r + g + b) / 3;
+            br += (double)(r + g + b) / 3.0;
             dr += r;
             dg += g;
             db += b;
             if (unitBrightness != 1.0) {
-                r = (uint8_t)(r * unitBrightness);
-                g = (uint8_t)(g * unitBrightness);
-                b = (uint8_t)(b * unitBrightness);
+                rs = (uint8_t)(r * unitBrightness);
+                gs = (uint8_t)(g * unitBrightness);
+                bs = (uint8_t)(b * unitBrightness);
+            } else {
+                rs = r;
+                gs = g;
+                bs = b;
             }
-            pPixels->setPixelColor(i, pPixels->Color(r, g, b));
+            pPixels->setPixelColor(i, pPixels->Color(rs, gs, bs));
         }
-        gbr = (br / numPixels) / 255.0;
+        gbr = (br / (double)numPixels) / 255.0;
         gr = dr / numPixels;
         gg = dg / numPixels;
         gb = db / numPixels;
@@ -143,14 +147,7 @@ class NeoPixel {
 
     void publishBrightness(int16_t index = -1) {
         char buf[32];
-        if (index == -1) {
-            sprintf(buf, "%5.3f", unitBrightness);
-        } else {  // XXX really?
-            uint8_t r, g, b;
-            RGB32Parse((*phwBuf)[index], &r, &g, &b);
-            double br = ((uint16_t)r + (uint16_t)g + (uint16_t)b) / 3.0 / 255.0;
-            sprintf(buf, "%5.3f", br);
-        }
+        sprintf(buf, "%5.3f", unitBrightness);
         pSched->publish(name + "/light/unitbrightness", buf);
     }
 
