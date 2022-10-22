@@ -184,16 +184,29 @@ double parseUnitLevel(String arg) {
                                        : val;
 }
 
-bool parseColor(String arg, uint8_t *r = nullptr, uint8_t *g = nullptr, uint8_t *b = nullptr) {
-    /*! Parse and split a 24-bit hex color value into r,g,b components
+uint16_t countChars(String txt, char c) {
+    /*! Count number of occurences of c in txt */
+    uint16_t n = 0;
+    for (uint16_t i = 0; i < txt.length(); i++) {
+        if (txt[i] == c) ++n;
+    }
+    return n;
+}
 
-    The color value can be either represented as `0x010203` or `#010203` or `1,2,3` in decimal, comma separated. It is split into
-    the components r=1, b=2 and g=3.
+bool parseColor(String arg, uint8_t *r, uint8_t *g, uint8_t *b, uint8_t *w = nullptr) {
+    /*! Parse and split a 24-bit or 32-bit RGB or RGBW color values into r,g,b and optionally w components
 
-    @param arg String to parse, either `0x123456` (hex) or `#123456` (hex) or `18,52,86` (dec)
-    @param r Optional pointer that receives the red-part (first two digits of hex string)
-    @param g Optional pointer that receives the green-part (middle part of hex string)
-    @param b Optional pointer that receives the blue-part (end of hex string)
+    If 24bits are given (RGB), the color value can be either represented as `0x010203` or `#010203` or `1,2,3` in decimal,
+    comma separated. It is split into the components r=1, b=2 and g=3. Input order is RGB.
+
+    If 32bits are given (RGBW), the color value can be either represented as `0x11010203` or `#11010203` or `17,1,2,3` in decimal,
+    comma separated. It is split into the components r=1, b=2, g=3 and w=17. Input order is WRGB.
+
+    @param arg String to parse, order [W]RGB, either `0x[78]123456` (hex) or `#[78]123456` (hex) or `[120,]18,52,86` (dec)
+    @param r pointer that receives the red-part (2nd two digits of hex string)
+    @param g pointer that receives the green-part (3rd two digits of hex string)
+    @param b pointer that receives the blue-part (end of hex string)
+    @param w Optional pointer that received the white-part (start of string) for 32bit values.
     @return true: sucessful conversion, false: wrong format.
     */
     String hex;
@@ -203,24 +216,51 @@ bool parseColor(String arg, uint8_t *r = nullptr, uint8_t *g = nullptr, uint8_t 
     } else if (arg.startsWith("0x")) {
         hex = arg.substring(2);
     } else if (arg.indexOf(',') != -1) {
-        uint16_t ind = arg.indexOf(',');
-        String r1 = arg.substring(0, ind);
-        String r2 = arg.substring(ind + 1);
-        if (r) *r = (uint8_t)strtol(r1.c_str(), 0, 10);
-        uint16_t ind2 = r2.indexOf(',');
-        if (ind2 == -1) return false;
-        r1 = r2.substring(0, ind2);
-        r2 = r2.substring(ind2 + 1);
-        if (g) *g = (uint8_t)strtol(r1.c_str(), 0, 10);
-        if (b) *b = (uint8_t)strtol(r2.c_str(), 0, 10);
+        uint16_t n = countChars(arg, ',');
+        if (n == 2) {  // RGB
+            uint16_t ind = arg.indexOf(',');
+            String r1 = arg.substring(0, ind);
+            String r2 = arg.substring(ind + 1);
+            if (r) *r = (uint8_t)strtol(r1.c_str(), 0, 10);
+            uint16_t ind2 = r2.indexOf(',');
+            if (ind2 == -1) return false;
+            r1 = r2.substring(0, ind2);
+            r2 = r2.substring(ind2 + 1);
+            if (g) *g = (uint8_t)strtol(r1.c_str(), 0, 10);
+            if (b) *b = (uint8_t)strtol(r2.c_str(), 0, 10);
+        } else if (n == 3) {  // RGBW
+            uint16_t ind = arg.indexOf(',');
+            String r1 = arg.substring(0, ind);
+            String r2 = arg.substring(ind + 1);
+            if (w) *w = (uint8_t)strtol(r1.c_str(), 0, 10);
+            uint16_t ind2 = r2.indexOf(',');
+            if (ind2 == -1) return false;
+            r1 = r2.substring(0, ind2);
+            r2 = r2.substring(ind2 + 1);
+            if (r) *r = (uint8_t)strtol(r1.c_str(), 0, 10);
+            uint16_t ind3 = r2.indexOf(',');
+            if (ind3 == -1) return false;
+            r1 = r2.substring(0, ind3);
+            r2 = r2.substring(ind3 + 1);
+            if (g) *g = (uint8_t)strtol(r1.c_str(), 0, 10);
+            if (b) *b = (uint8_t)strtol(r2.c_str(), 0, 10);
+        } else
+            return false;
         return true;
     } else {
         return false;
     }
-    if (hex.length() != 6) return false;
-    if (r) *r = (uint8_t)strtol(hex.substring(0, 2).c_str(), 0, 16);
-    if (g) *g = (uint8_t)strtol(hex.substring(2, 4).c_str(), 0, 16);
-    if (b) *b = (uint8_t)strtol(hex.substring(4).c_str(), 0, 16);
+    if (hex.length() == 6) {
+        if (r) *r = (uint8_t)strtol(hex.substring(0, 2).c_str(), 0, 16);
+        if (g) *g = (uint8_t)strtol(hex.substring(2, 4).c_str(), 0, 16);
+        if (b) *b = (uint8_t)strtol(hex.substring(4).c_str(), 0, 16);
+    } else if (hex.length() == 8) {
+        if (w) *w = (uint8_t)strtol(hex.substring(0, 2).c_str(), 0, 16);
+        if (r) *r = (uint8_t)strtol(hex.substring(2, 4).c_str(), 0, 16);
+        if (g) *g = (uint8_t)strtol(hex.substring(4, 6).c_str(), 0, 16);
+        if (b) *b = (uint8_t)strtol(hex.substring(6).c_str(), 0, 16);
+    } else
+        return false;
     return true;
 }
 

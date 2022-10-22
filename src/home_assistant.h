@@ -872,7 +872,7 @@ class HomeAssistant {
             msg["bri_val_tpl"] = "{{ value | float * 100 | round(0) }}";
             msg["on_cmd_type"] = "brightness";
         }
-        if (entity.type == LightRGB) {
+        if (entity.type == LightRGB || entity.type == LightRGBW || entity.type == LightRGBWW) {
             // add support for brightness
             msg["bri_cmd_t"] = hostName + "/" + topic + "/set";
             msg["bri_scl"] = "100";
