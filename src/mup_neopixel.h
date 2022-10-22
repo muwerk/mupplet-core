@@ -3,6 +3,7 @@
 #include "ustd_array.h"
 #include "scheduler.h"
 #include "mupplet_core.h"
+#include "helper/mup_astro.h"
 #include "Adafruit_NeoPixel.h"
 
 namespace ustd {
@@ -210,14 +211,10 @@ class NeoPixel {
         } else if (topic.startsWith(leader)) {
             String sub = topic.substring(leader.length());
             int pi = sub.indexOf('/');
-
-            pSched->publish("debug", "sub: " + sub);
             if (pi != -1) {
                 int index = (int)strtol(sub.substring(0, pi).c_str(), 0, 10);
                 if (index >= 0 && index < numPixels) {
                     String cmd = sub.substring(pi + 1);
-
-                    pSched->publish("debug", "got: " + cmd);
                     if (cmd == "set") {
                         if (msg.startsWith("#") || msg.startsWith("0x") || msg.indexOf(',') != -1) {
                             if (parseColor(msg, &r, &g, &b)) {
@@ -248,4 +245,177 @@ class NeoPixel {
         }
     }
 };  // NeoPixel
+
+class SpecialEffects {
+  public:
+    enum EffectType { DefaultLight,
+                      ButterLamp };
+    EffectType type;
+    SpecialEffects(EffectType type)
+        : type(type) {
+    }
+    ~SpecialEffects() {
+    }
+    void setFrame(ustd::array<uint32_t> *pf) {
+    }
+
+    bool bUseModulator = true;
+    time_t manualSet = 0;
+    bool useAutoTimer = false;
+    uint8_t start_hour = 18, start_minute = 0, end_hour = 0, end_minute = 0;
+    bool bUnitBrightness = true;
+    double unitBrightness = 1.0;
+    double amp = 0.0;
+    double oldMx = -1.0;
+
+    double butterLampModulator() {
+        double m1 = 1.0;
+        double m2 = 0.0;
+        time_t now = time(nullptr);
+
+        if (!bUseModulator)
+            return m1;
+        long dt = now - manualSet;
+        if (dt < 3600) {
+            m2 = (3600.0 - (double)dt) / 3600.0;
+        }
+
+        if (useAutoTimer) {
+            struct tm *pTm = localtime(&now);
+
+            if (Astro::inHourMinuteInterval(pTm->tm_hour, pTm->tm_min, start_hour, start_minute, end_hour,
+                                            end_minute)) {
+                int deltaAll = Astro::deltaHourMinuteTime(start_hour, start_minute, end_hour, end_minute);
+                int deltaCur =
+                    Astro::deltaHourMinuteTime(start_hour, start_minute, pTm->tm_hour, pTm->tm_min);
+                if (deltaAll > 0.0)
+                    m1 = (deltaAll - deltaCur) / (double)deltaAll;
+                else
+                    m1 = 0.0;
+            } else {
+                m1 = 0.0;
+            }
+        } else {
+            m1 = 0.0;
+        }
+
+        if (bUnitBrightness) {
+            if (m1 > 0.0 || m2 > 0.0) {
+                m1 = m1 * unitBrightness;
+                m2 = m2 * unitBrightness;
+            }
+        }
+        if (m2 != 0.0) {
+            if (m2 > 0.75)
+                m1 = m2;
+            else
+                m1 = (m1 + m2) / 2.0;
+        }
+        return m1;
+    }
+
+    int f1 = 0, f2 = 0, max_b = 20;
+    double wind = 1;
+    void butterlampFrame(uint16_t numPixels) {
+        int r, c, lc, ce, cr, cg, cb, mf;
+        int flic[] = {4, 7, 8, 9, 10, 12, 16, 20, 32, 30, 32, 20, 24, 16, 8, 6};
+        for (int i = 0; i < numPixels; i++) {
+            r = i / 8;
+            c = i % 8;
+            // l = c / 2;
+            lc = c % 4;
+            if (((r == 1) || (r == 2)) && ((lc == 1) || (lc == 2)))
+                ce = 1;  // two lamps have 2x2 centers: ce=1 -> one of the
+                         // centers
+            else
+                ce = 0;
+
+            if (ce == 1) {  // center of one lamp
+                // pixels.Color takes RGB values, from 0,0,0 up to
+                // 255,255,255
+                cr = 40;
+                cg = 15;
+                cb = 0;
+                mf = flic[f1];
+                f1 += rand() % 3 - 1;
+                if (f1 < 0)
+                    f1 = 15;
+                if (f1 > 15)
+                    f1 = 0;
+                mf = 32 - ((32 - mf) * wind) / 100;
+            } else {  // border
+                cr = 20;
+                cg = 4;
+                cb = 0;
+                mf = flic[f2];
+                f2 += rand() % 3 - 1;
+                if (f2 < 0)
+                    f2 = 15;
+                if (f2 > 15)
+                    f2 = 0;
+                mf = 32 - ((32 - mf) * wind) / 100;
+            }
+
+            cr = cr + rand() % 2;
+            cg = cg + rand() % 2;
+            cb = cb + rand() % 1;
+
+            if (cr > max_b)
+                max_b = cr;
+            if (cg > max_b)
+                max_b = cg;
+            if (cb > max_b)
+                max_b = cb;
+
+            cr = (cr * amp * 4 * mf) / (max_b * 50);
+            cg = (cg * amp * 4 * mf) / (max_b * 50);
+            cb = (cb * amp * 4 * mf) / (max_b * 50);
+
+            if (cr > 255)
+                cr = 255;
+            if (cr < 0)
+                cr = 0;
+            if (cg > 255)
+                cg = 255;
+            if (cg < 0)
+                cg = 0;
+            if (cb > 255)
+                cb = 255;
+            if (cb < 0)
+                cb = 0;
+
+            if (bUseModulator) {
+                double mx = butterLampModulator();
+                double dx = fabs(oldMx - mx);
+                if (dx > 0.05) {
+                    oldMx = mx;
+                    // char msg[32];
+                    // sprintf(msg, "%6.3f", mx);
+                    // pSched->publish(name + "/light/modulator", msg);
+                }
+                cr = ((double)cr * mx);
+                cg = ((double)cg * mx);
+                cb = ((double)cb * mx);
+            } else {
+                /*
+                if (unitBrightness > 0) {
+                    if (!state) {
+                        state = true;
+                        publishState();
+                    }
+                } else {
+                    if (state) {
+                        state = false;
+                        publishState();
+                    }
+                }
+                */
+            }
+            // pPixels->setPixelColor(i, pPixels->Color(cr, cg, cb));
+        }
+        // pPixels->show();  // This sends the updated pixel color to the
+        //  hardware.
+    }
+
+};  // SpecialEffects
 }  // namespace ustd

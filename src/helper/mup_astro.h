@@ -18,7 +18,7 @@ Warning: WIP!
 */
 class Astro {
   public:
-    double lon, lat, utcOffset;
+    double lat, lon, utcOffset;
 
 #ifdef USTD_FEATURE_FILESYSTEM
     Astro() {
