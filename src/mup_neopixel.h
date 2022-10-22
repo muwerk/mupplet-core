@@ -25,6 +25,7 @@ class NeoPixel {
     bool state;
     unsigned long ticker = 0;
     unsigned long lastTicker = 0;
+    double zeroBrightnessUpperBound = 0.02;
 
     NeoPixel(String name, uint8_t pin, uint16_t numPixels = 1,
              uint16_t options = NEO_RGB + NEO_KHZ800)
@@ -53,6 +54,7 @@ class NeoPixel {
             this->subsMsg(topic, msg, originator);
         };
         pSched->subscribe(tID, name + "/light/#", fnall);
+        pSched->subscribe(tID, "mqtt/state", fnall);
         publishState();
         publishColor();
         bStarted = true;
@@ -113,7 +115,7 @@ class NeoPixel {
         gg = dg / numPixels;
         gb = db / numPixels;
         pPixels->show();
-        if (st && unitBrightness > 0.05)
+        if (st && unitBrightness > zeroBrightnessUpperBound)
             state = true;
         else
             state = false;
@@ -126,7 +128,8 @@ class NeoPixel {
     void brightness(double _unitBrightness, bool update = true) {
         if (_unitBrightness < 0.0) _unitBrightness = 0.0;
         if (_unitBrightness > 1.0) _unitBrightness = 1.0;
-        if (gbr < 0.01 && _unitBrightness == 1.0) color(0xff, 0xff, 0xff, false);
+        if (_unitBrightness == 1.0 && gbr < zeroBrightnessUpperBound) color(0xff, 0xff, 0xff, false);
+        if (_unitBrightness < zeroBrightnessUpperBound) _unitBrightness = 0.0;
         unitBrightness = _unitBrightness;
         if (update) pixelsUpdate();
     }
@@ -192,12 +195,12 @@ class NeoPixel {
             // if (ticker - lastTicker < 6) return;  // ignore anything that follows too "fast" after color-sets.
             bool ab;
             msg.toLowerCase();
-            if (msg == "on" || msg == "off" || msg == "true" || msg == "false")
+            if (msg == "on" || msg == "true")
                 ab = true;
             else
                 ab = false;
             double br = parseUnitLevel(msg);
-            if (ab && unitBrightness > 0.0) br = unitBrightness;
+            if (ab && unitBrightness > zeroBrightnessUpperBound) br = unitBrightness;
             brightness(br);
             lastTicker = ticker;
         } else if (topic == name + "/light/color/set") {
@@ -238,6 +241,9 @@ class NeoPixel {
                     }
                 }
             }
+        } else if (topic == "mqtt/state" && msg == "connected") {
+            publishState();
+            publishColor();
         }
     }
 };  // NeoPixel

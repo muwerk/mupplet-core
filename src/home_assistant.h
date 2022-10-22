@@ -878,7 +878,7 @@ class HomeAssistant {
             msg["bri_scl"] = "100";
             msg["bri_stat_t"] = "~" + topic + "/unitbrightness";
             msg["bri_val_tpl"] = "{{ value | float * 100 | round(0) }}";
-            msg["on_cmd_type"] = "last";
+            msg["on_cmd_type"] = "first";
             // color
             msg["color_mode"] = true;
             msg["supported_color_mode"] = {"rgb"};
