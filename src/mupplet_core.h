@@ -211,7 +211,7 @@ bool getNthInt(String arg, uint8_t ind, uint8_t *pVal) {
             if (n == ind + 1) {
                 p2 = i;
                 if (pVal) {
-                    *pVal = strtol(arg.substring(p1, p2).c_str(), 0, 10);
+                    *pVal = strtol(carg.substring(p1, p2).c_str(), 0, 10);
                     return true;
                 } else
                     return false;
