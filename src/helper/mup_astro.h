@@ -213,6 +213,82 @@ class Astro {
         *pSunTime = UT + localOffset + daylightSavings;
         return true;
     }
+
+    static int cmpHourMinuteTime(uint8_t h1, uint8_t m1, uint8_t h2, uint8_t m2) {
+        /*! compare two hour/minute times h1:m1 and h2:m2
+        @param h1 hour 0-23 of time-1
+        @param m1 minute 0-59 of time-1
+        @param h2 hour of time-2
+        @param m2 minute of time-2
+        @return 1: if h2:m2 is later than h1:m1, -1 if earlier, 0 if equal.
+        */
+        if (h2 > h1)
+            return 1;
+        if (h2 < h1)
+            return -1;
+        if (m2 > m1)
+            return 1;
+        if (m2 < m1)
+            return -1;
+        return 0;
+    }
+
+    static int deltaHourMinuteTime(uint8_t h1, uint8_t m1, uint8_t h2, uint8_t m2) {
+        /*! time difference between h2:m2 and h1:m1 in minutes.
+        @param h1 hour 0-23 of time-1
+        @param m1 minute 0-59 of time-1
+        @param h2 hour of time-2
+        @param m2 minute of time-2
+        @return time difference in minutes.
+        */
+        if (m2 < m1) {
+            m2 += 60;
+            if (h2 > 0)
+                --h2;
+            else
+                h2 = 23;
+        }
+        if (h2 < h1)
+            h2 += 24;
+        return (h2 - h1) * 60 + m2 - m1;
+    }
+
+    static bool inHourMinuteInterval(uint8_t test_hour, uint8_t test_minute, uint8_t start_hour,
+                                     uint8_t start_minute, uint8_t end_hour, uint8_t end_minute) {
+        /*! test if test_hour:test_minute is in interval [start_hour:start_minute, end_hour,
+        end_minute]
+        @returns true if test_hour:test_minute is between start end end time.
+        */
+        if (cmpHourMinuteTime(start_hour, start_minute, end_hour, end_minute) > 0) {
+            if (cmpHourMinuteTime(test_hour, test_minute, start_hour, start_minute) <= 0 &&
+                cmpHourMinuteTime(test_hour, test_minute, end_hour, end_minute) >= 0)
+                return true;
+            else
+                return false;
+        } else {
+            if (cmpHourMinuteTime(test_hour, test_minute, start_hour, start_minute) > 0 &&
+                cmpHourMinuteTime(test_hour, test_minute, end_hour, end_minute) < 0)
+                return false;
+            else
+                return true;
+        }
+        return false;
+    }
+
+    static bool parseHourMinuteString(String hourMinute, int *hour, int *minute) {
+        int ind = hourMinute.indexOf(':');
+        if (ind == -1)
+            return false;
+        int hr = hourMinute.substring(0, ind).toInt();
+        int mn = hourMinute.substring(ind + 1).toInt();
+        if (hr < 0 || hr > 23)
+            return false;
+        if (mn < 0 || mn > 59)
+            return false;
+        *hour = hr;
+        *minute = mn;
+        return true;
+    }
 };
 
 }  // namespace ustd
