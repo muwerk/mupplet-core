@@ -62,12 +62,12 @@ class NeoPixel {
         bStarted = true;
     }
 
-    uint32_t RGB32(uint8_t r, uint8_t g, uint8_t b) {
+    static uint32_t RGB32(uint8_t r, uint8_t g, uint8_t b) {
         return ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
     }
 
-    void RGB32Parse(uint32_t rgb, uint8_t *r = nullptr, uint8_t *g = nullptr,
-                    uint8_t *b = nullptr) {
+    static void RGB32Parse(uint32_t rgb, uint8_t *r = nullptr, uint8_t *g = nullptr,
+                           uint8_t *b = nullptr) {
         if (r)
             *r = (uint8_t)((rgb >> 16) & 0xff);
         if (g)
@@ -316,105 +316,87 @@ class SpecialEffects {
 
     int f1 = 0, f2 = 0, max_b = 20;
     double wind = 1;
-    void butterlampFrame(uint16_t numPixels) {
-        int r, c, lc, ce, cr, cg, cb, mf;
+    bool butterlampFrame(uint16_t rows, uint16_t cols, ustd::array<uint32_t> *pf) {
+        int ce, cr, cg, cb, mf;
         int flic[] = {4, 7, 8, 9, 10, 12, 16, 20, 32, 30, 32, 20, 24, 16, 8, 6};
-        for (int i = 0; i < numPixels; i++) {
-            r = i / 8;
-            c = i % 8;
-            // l = c / 2;
-            lc = c % 4;
-            if (((r == 1) || (r == 2)) && ((lc == 1) || (lc == 2)))
-                ce = 1;  // two lamps have 2x2 centers: ce=1 -> one of the
-                         // centers
-            else
-                ce = 0;
-
-            if (ce == 1) {  // center of one lamp
-                // pixels.Color takes RGB values, from 0,0,0 up to
-                // 255,255,255
-                cr = 40;
-                cg = 15;
-                cb = 0;
-                mf = flic[f1];
-                f1 += rand() % 3 - 1;
-                if (f1 < 0)
-                    f1 = 15;
-                if (f1 > 15)
-                    f1 = 0;
-                mf = 32 - ((32 - mf) * wind) / 100;
-            } else {  // border
-                cr = 20;
-                cg = 4;
-                cb = 0;
-                mf = flic[f2];
-                f2 += rand() % 3 - 1;
-                if (f2 < 0)
-                    f2 = 15;
-                if (f2 > 15)
-                    f2 = 0;
-                mf = 32 - ((32 - mf) * wind) / 100;
-            }
-
-            cr = cr + rand() % 2;
-            cg = cg + rand() % 2;
-            cb = cb + rand() % 1;
-
-            if (cr > max_b)
-                max_b = cr;
-            if (cg > max_b)
-                max_b = cg;
-            if (cb > max_b)
-                max_b = cb;
-
-            cr = (cr * amp * 4 * mf) / (max_b * 50);
-            cg = (cg * amp * 4 * mf) / (max_b * 50);
-            cb = (cb * amp * 4 * mf) / (max_b * 50);
-
-            if (cr > 255)
-                cr = 255;
-            if (cr < 0)
-                cr = 0;
-            if (cg > 255)
-                cg = 255;
-            if (cg < 0)
-                cg = 0;
-            if (cb > 255)
-                cb = 255;
-            if (cb < 0)
-                cb = 0;
-
-            if (bUseModulator) {
-                double mx = butterLampModulator();
-                double dx = fabs(oldMx - mx);
-                if (dx > 0.05) {
-                    oldMx = mx;
-                    // char msg[32];
-                    // sprintf(msg, "%6.3f", mx);
-                    // pSched->publish(name + "/light/modulator", msg);
-                }
-                cr = ((double)cr * mx);
-                cg = ((double)cg * mx);
-                cb = ((double)cb * mx);
-            } else {
-                /*
-                if (unitBrightness > 0) {
-                    if (!state) {
-                        state = true;
-                        publishState();
-                    }
+        uint16_t x, y, index, cx, cy;
+        if (pf->length() != rows * cols) return false;
+        for (y = 0; y < rows; y++) {
+            for (x = 0; x < cols; x++) {
+                index = y * cols + x;
+                cx = x % 4;
+                cy = y % 4;
+                if ((cx == 1 || cx == 2 || cols < 4) && (cy == 1 || cy == 2 || rows < 4)) {
+                    ce = 1;  // centre
                 } else {
-                    if (state) {
-                        state = false;
-                        publishState();
-                    }
+                    ce = 0;
                 }
-                */
+                if (ce == 1) {  // center of one lamp
+                    cr = 40;
+                    cg = 15;
+                    cb = 0;
+                    mf = flic[f1];
+                    f1 += rand() % 3 - 1;
+                    if (f1 < 0)
+                        f1 = 15;
+                    if (f1 > 15)
+                        f1 = 0;
+                    mf = 32 - ((32 - mf) * wind) / 100;
+                } else {  // border
+                    cr = 20;
+                    cg = 4;
+                    cb = 0;
+                    mf = flic[f2];
+                    f2 += rand() % 3 - 1;
+                    if (f2 < 0)
+                        f2 = 15;
+                    if (f2 > 15)
+                        f2 = 0;
+                    mf = 32 - ((32 - mf) * wind) / 100;
+                }
+
+                cr = cr + rand() % 2;
+                cg = cg + rand() % 2;
+                cb = cb + rand() % 1;
+
+                if (cr > max_b)
+                    max_b = cr;
+                if (cg > max_b)
+                    max_b = cg;
+                if (cb > max_b)
+                    max_b = cb;
+
+                cr = (cr * amp * 4 * mf) / (max_b * 50);
+                cg = (cg * amp * 4 * mf) / (max_b * 50);
+                cb = (cb * amp * 4 * mf) / (max_b * 50);
+
+                if (cr > 255)
+                    cr = 255;
+                if (cr < 0)
+                    cr = 0;
+                if (cg > 255)
+                    cg = 255;
+                if (cg < 0)
+                    cg = 0;
+                if (cb > 255)
+                    cb = 255;
+                if (cb < 0)
+                    cb = 0;
+
+                if (bUseModulator) {
+                    double mx = butterLampModulator();
+                    double dx = fabs(oldMx - mx);
+                    if (dx > 0.05) {
+                        oldMx = mx;
+                    }
+                    cr = ((double)cr * mx);
+                    cg = ((double)cg * mx);
+                    cb = ((double)cb * mx);
+                }
+                (*pf)[index] = NeoPixel::RGB32(cr, cg, cb);
             }
-            // pPixels->setPixelColor(i, pPixels->Color(cr, cg, cb));
         }
-        // pPixels->show();  // This sends the updated pixel color to the
-        //  hardware.
+        return true;
     }
 
 };  // SpecialEffects
