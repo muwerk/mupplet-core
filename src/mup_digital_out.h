@@ -93,6 +93,8 @@ class DigitalOut {
             this->subsMsg(topic, msg, originator);
         };
         pSched->subscribe(tID, name + "/" + topic + "/#", fnall);
+        pSched->subscribe(tID, "mqtt/state");
+        publishState();
 #endif
     }
 
@@ -153,6 +155,8 @@ class DigitalOut {
         msg.toLowerCase();
         if (topic == name + "/" + topic + "/set") {
             set((msg == "on" || msg == "1"));
+        } else if (topic == "mqtt/state") {
+            publishState();
         }
     }
 #endif
