@@ -18,6 +18,7 @@ class NeoPixel {
     uint8_t options;
     uint8_t gr, gg, gb;
     double gbr;
+    double unitBrightness;
     Adafruit_NeoPixel *pPixels;
     ustd::array<uint32_t> *phwBuf;
     ustd::array<uint32_t> *phwFrameBuf;
@@ -26,7 +27,7 @@ class NeoPixel {
     unsigned long lastTicker = 0;
 
     NeoPixel(String name, uint8_t pin, uint16_t numPixels = 1,
-             uint8_t options = NEO_RGB + NEO_KHZ800)
+             uint16_t options = NEO_RGB + NEO_KHZ800)
         : name(name), pin(pin), numPixels(numPixels), options(options) {
     }
 
@@ -41,8 +42,9 @@ class NeoPixel {
         phwBuf = new ustd::array<uint32_t>(numPixels, numPixels);
         phwFrameBuf = new ustd::array<uint32_t>(numPixels, numPixels);
         for (uint16_t i = 0; i < numPixels; i++) {
-            pixel(i, 0, 0, 0);
+            pixel(i, 0, 0, 0, false);
         }
+        unitBrightness = 1.0;
         pPixels->begin();
         pixelsUpdate();
         auto ft = [=]() { this->loop(); };
@@ -53,7 +55,6 @@ class NeoPixel {
         pSched->subscribe(tID, name + "/light/#", fnall);
         publishState();
         publishColor();
-        publishBrightness();
         bStarted = true;
     }
 
@@ -71,21 +72,11 @@ class NeoPixel {
             *b = rgb & 0xff;
     }
 
-    void set(uint16_t i, bool state) {
-        if (i < numPixels) {
-            if (state) {
-                pixel(i, 0xff, 0xff, 0xff);
-            } else {
-                pixel(i, 0x0, 0x0, 0x0);
-            }
-        }
-    }
-
-    void pixel(uint16_t i, uint8_t r, uint8_t g, uint8_t b, bool updateHardware = true) {
+    void pixel(uint16_t i, uint8_t r, uint8_t g, uint8_t b, bool update = true) {
         if (i >= numPixels)
             return;
         (*phwFrameBuf)[i] = RGB32(r, g, b);
-        if (updateHardware)
+        if (update)
             pixelsUpdate();
     }
 
@@ -106,50 +97,52 @@ class NeoPixel {
             (*phwBuf)[i] = (*phwFrameBuf)[i];
             st |= (*phwBuf)[i];
             RGB32Parse((*phwBuf)[i], &r, &g, &b);
-            pPixels->setPixelColor(i, pPixels->Color(r, g, b));
             br += (r + g + b) / 3;
             dr += r;
             dg += g;
             db += b;
+            if (unitBrightness != 1.0) {
+                r = (uint8_t)(r * unitBrightness);
+                g = (uint8_t)(g * unitBrightness);
+                b = (uint8_t)(b * unitBrightness);
+            }
+            pPixels->setPixelColor(i, pPixels->Color(r, g, b));
         }
         gbr = (br / numPixels) / 255.0;
         gr = dr / numPixels;
         gg = dg / numPixels;
         gb = db / numPixels;
         pPixels->show();
-        if (st)
+        if (st && unitBrightness > 0.05)
             state = true;
         else
             state = false;
         if (notify) {
             publishState();
-            publishBrightness();
             publishColor();
         }
     }
 
-    void brightness(double unitBrightness) {
-        if (unitBrightness < 0.0) unitBrightness = 0.0;
-        if (unitBrightness > 1.0) unitBrightness = 1.0;
-        uint8_t br = (uint8_t)(unitBrightness * 255.0);
-        for (uint16_t i = 0; i < numPixels; i++) {
-            pixel(i, br, br, br, false);
-        }
-        pixelsUpdate();
+    void brightness(double _unitBrightness, bool update = true) {
+        if (_unitBrightness < 0.0) _unitBrightness = 0.0;
+        if (_unitBrightness > 1.0) _unitBrightness = 1.0;
+        if (gbr < 0.01 && _unitBrightness == 1.0) color(0xff, 0xff, 0xff, false);
+        unitBrightness = _unitBrightness;
+        if (update) pixelsUpdate();
     }
 
-    void color(uint8_t r, uint8_t g, uint8_t b) {
+    void color(uint8_t r, uint8_t g, uint8_t b, bool update = true) {
         for (uint16_t i = 0; i < numPixels; i++) {
             pixel(i, r, g, b, false);
         }
-        pixelsUpdate();
+        if (update) pixelsUpdate();
     }
 
     void publishBrightness(int16_t index = -1) {
         char buf[32];
         if (index == -1) {
-            sprintf(buf, "%5.3f", gbr);
-        } else {
+            sprintf(buf, "%5.3f", unitBrightness);
+        } else {  // XXX really?
             uint8_t r, g, b;
             RGB32Parse((*phwBuf)[index], &r, &g, &b);
             double br = ((uint16_t)r + (uint16_t)g + (uint16_t)b) / 3.0 / 255.0;
@@ -178,6 +171,7 @@ class NeoPixel {
             pSched->publish(name + "/light/state", "off");
             this->state = false;
         }
+        publishBrightness();
     }
 
     void loop() {
@@ -195,8 +189,15 @@ class NeoPixel {
         } else if (topic == name + "/light/color/get") {
             publishColor(-1);
         } else if (topic == name + "/light/set" || topic == name + "/light/state/set" || topic == name + "/light/unitbrightness/set") {
-            if (ticker - lastTicker < 6) return;  // ignore anything that follows too "fast" after color-sets.
+            // if (ticker - lastTicker < 6) return;  // ignore anything that follows too "fast" after color-sets.
+            bool ab;
+            msg.toLowerCase();
+            if (msg == "on" || msg == "off" || msg == "true" || msg == "false")
+                ab = true;
+            else
+                ab = false;
             double br = parseUnitLevel(msg);
+            if (ab && unitBrightness > 0.0) br = unitBrightness;
             brightness(br);
             lastTicker = ticker;
         } else if (topic == name + "/light/color/set") {
@@ -217,7 +218,11 @@ class NeoPixel {
                             }
                         } else {
                             bool newState = parseBoolean(msg);
-                            set(index, newState);
+                            if (newState) {
+                                pixel(index, 0xff, 0xff, 0xff);
+                            } else {
+                                pixel(index, 0xff, 0xff, 0xff);
+                            }
                         }
                     }
                     if (cmd == "color/set") {
