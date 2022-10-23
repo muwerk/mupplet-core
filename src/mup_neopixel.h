@@ -281,6 +281,19 @@ class NeoPixel {
         publishEffect();
     }
 
+    String getEffectList() {
+        /*! Generate a single string that contains a comma-separated list of available special effects, as used for HA addLight() */
+        String eff;
+        eff = "";
+        bool first = true;
+        for (int i = 0; i < SpecialEffects::effectCount; i++) {
+            if (!first) eff += ", ";
+            first = false;
+            eff += SpecialEffects::effectName[i];
+        }
+        return eff;
+    }
+
     void pixelsUpdate(bool notify = true) {
         pPixels->show();
         uint32_t st = 0;

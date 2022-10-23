@@ -900,10 +900,10 @@ class HomeAssistant {
             }
             msg["rgb_cmd_t"] = hostName + "/" + topic + "/color/set";
             msg["rgb_stat_t"] = "~" + topic + "/color";
-            if (strcmp(entity.effects, "")) {
+            if (strcmp(entity.effects, "")) {  // Effects are defined:
                 msg["effect_command_topic"] = hostName + "/" + topic + "/effect/set";
                 msg["effect_state_topic"] = "~" + topic + "/effect";
-
+                // entity.effects contains a string with a comma-separated list of effect-names (e.g. "effect 1, effect2 "), make them into a JSON array:
                 JSONVar elst;
                 int ind, n;
                 n = 0;
@@ -920,10 +920,9 @@ class HomeAssistant {
                 String tmp = effs;
                 tmp.trim();
                 elst[n] = tmp;
-                msg["effect_list"] = elst;  //"Butterlamp";  // JSON.parse("[\"Static\",\"Butterlamp\"]");  // XXX needs kind of some API-schnorchel...
+                msg["effect_list"] = elst;  // JSON array, each element contains the name of one effect.
             }
         }
-
         flushDeviceConfig(entity.type, msg);
     }
 
