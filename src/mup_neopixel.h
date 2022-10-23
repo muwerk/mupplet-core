@@ -11,6 +11,15 @@ namespace ustd {
 uint32_t RGB32(uint8_t r, uint8_t g, uint8_t b) {
     return ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
 }
+void RGB32Parse(uint32_t rgb, uint8_t *r = nullptr, uint8_t *g = nullptr,
+                uint8_t *b = nullptr) {
+    if (r)
+        *r = (uint8_t)((rgb >> 16) & 0xff);
+    if (g)
+        *g = (uint8_t)((rgb >> 8) & 0xff);
+    if (b)
+        *b = (uint8_t)(rgb & 0xff);
+}
 
 class SpecialEffects {
   public:
@@ -37,6 +46,10 @@ class SpecialEffects {
             return false;
         case EffectType::ButterLamp:
             return butterLampFrame(pf, rows, cols);
+        case EffectType::Forest:
+            return forestFrame(pf, rows, cols);
+        case EffectType::Waves:
+            return wavesFrame(pf, rows, cols);
         }
         return false;
     }
@@ -190,6 +203,48 @@ class SpecialEffects {
         return true;
     }
 
+    uint8_t varyByte(uint8_t b, uint8_t var, uint8_t min = 0, uint8_t max = 255) {
+        int d = random(2 * var + 1) - var;
+        if ((int)b + d < (int)min) return min;
+        if ((int)b + d > (int)max) return max;
+        return (uint8_t)((int)b + d);
+    }
+
+    bool wavesFrame(ustd::array<uint32_t> *pf, uint16_t rows, uint16_t cols) {
+        uint16_t num, ind;
+        uint8_t r, g, b;
+        uint32_t color;
+        num = rows * cols;
+        for (int i = 0; i < 20; i++) {
+            ind = random(num);
+            color = (*pf)[ind];
+            RGB32Parse(color, &r, &g, &b);
+            b = varyByte(b, 20, 20, 170);
+            g = varyByte(g, 10, 0, 50);
+            r = varyByte(r, 10, 0, 20);
+            color = RGB32(r, g, b);
+            (*pf)[ind] = color;
+        }
+        return true;
+    }
+    bool forestFrame(ustd::array<uint32_t> *pf, uint16_t rows, uint16_t cols) {
+        uint16_t num, ind;
+        uint8_t r, g, b;
+        int d;
+        uint32_t color;
+        num = rows * cols;
+        for (int i = 0; i < 20; i++) {
+            ind = random(num);
+            color = (*pf)[ind];
+            RGB32Parse(color, &r, &g, &b);
+            b = varyByte(b, 10, 0, 70);
+            g = varyByte(g, 20, 20, 200);
+            r = varyByte(r, 10, 0, 30);
+            color = RGB32(r, g, b);
+            (*pf)[ind] = color;
+        }
+        return true;
+    }
 };  // SpecialEffects
 
 class NeoPixel {
@@ -252,16 +307,6 @@ class NeoPixel {
         publishState();
         publishColor();
         bStarted = true;
-    }
-
-    static void RGB32Parse(uint32_t rgb, uint8_t *r = nullptr, uint8_t *g = nullptr,
-                           uint8_t *b = nullptr) {
-        if (r)
-            *r = (uint8_t)((rgb >> 16) & 0xff);
-        if (g)
-            *g = (uint8_t)((rgb >> 8) & 0xff);
-        if (b)
-            *b = (uint8_t)(rgb & 0xff);
     }
 
     void pixel(uint16_t i, uint8_t r, uint8_t g, uint8_t b, bool update = true) {
@@ -357,7 +402,7 @@ class NeoPixel {
     void brightness(double _unitBrightness, bool update = true, bool resetEffect = true) {
         if (_unitBrightness < 0.0) _unitBrightness = 0.0;
         if (_unitBrightness > 1.0) _unitBrightness = 1.0;
-        if (_unitBrightness == 1.0 && gbr < zeroBrightnessUpperBound) color(0xff, 0xff, 0xff, false);
+        // if (_unitBrightness == 1.0 && gbr < zeroBrightnessUpperBound) color(0xff, 0xff, 0xff, false);
         if (_unitBrightness < zeroBrightnessUpperBound) _unitBrightness = 0.0;
         unitBrightness = _unitBrightness;
         if (resetEffect)
@@ -424,34 +469,52 @@ class NeoPixel {
                 }
                 break;
             case SpecialEffects::EffectType::ButterLamp:
-                pEffects->setFrame(effectType, phwFrameBuf);
+                if (ticker % 3 != 0) return;
                 if (isFirstLoop) {
                     brightness(1.0, false, false);
+                    pEffects->setFrame(effectType, phwFrameBuf);
                     pixelsUpdate(true);
                     isFirstLoop = false;
                 } else {
+                    pEffects->setFrame(effectType, phwFrameBuf);
                     pixelsUpdate(false);
                 }
                 break;
             case SpecialEffects::EffectType::Fire:
                 if (isFirstLoop) {
+                    brightness(1.0, false, false);
+                    pEffects->setFrame(SpecialEffects::EffectType::ButterLamp, phwFrameBuf);  // Fire is 'fast' butterlamp
+                    pixelsUpdate(true);
                     isFirstLoop = false;
-                    color(255, 128, 0, false, false);
-                    brightness(0.3, true, false);
+                } else {
+                    pEffects->setFrame(SpecialEffects::EffectType::ButterLamp, phwFrameBuf);  // Fire is 'fast' butterlamp
+                    pixelsUpdate(false);
                 }
                 break;
             case SpecialEffects::EffectType::Waves:
+                if (ticker % 5 != 0) return;
                 if (isFirstLoop) {
+                    color(20, 50, 192, false, false);
+                    brightness(0.1, false, false);
+                    pEffects->setFrame(SpecialEffects::EffectType::Waves, phwFrameBuf);  // Fire is 'fast' butterlamp
+                    pixelsUpdate(true);
                     isFirstLoop = false;
-                    color(50, 50, 128, false, false);
-                    brightness(0.2, true, false);
+                } else {
+                    pEffects->setFrame(SpecialEffects::EffectType::Waves, phwFrameBuf);  // Fire is 'fast' butterlamp
+                    pixelsUpdate(false);
                 }
                 break;
             case SpecialEffects::EffectType::Forest:
+                if (ticker % 10 != 0) return;
                 if (isFirstLoop) {
-                    isFirstLoop = false;
                     color(0, 128, 0, false, false);
-                    brightness(0.2, true, false);
+                    brightness(0.2, false, false);
+                    pEffects->setFrame(SpecialEffects::EffectType::Forest, phwFrameBuf);  // Fire is 'fast' butterlamp
+                    pixelsUpdate(true);
+                    isFirstLoop = false;
+                } else {
+                    pEffects->setFrame(SpecialEffects::EffectType::Forest, phwFrameBuf);  // Fire is 'fast' butterlamp
+                    pixelsUpdate(false);
                 }
                 break;
             case SpecialEffects::EffectType::Evening:
