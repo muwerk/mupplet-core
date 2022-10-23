@@ -14,10 +14,16 @@ uint32_t RGB32(uint8_t r, uint8_t g, uint8_t b) {
 
 class SpecialEffects {
   public:
-    static const int effectCount = 2;
-    enum EffectType : uint16_t { DefaultLight = 0,
-                                 ButterLamp = 1 };
-    static constexpr const char *effectName[2] = {"Static", "Butterlamp"};
+    static const int effectCount = 7;
+    enum EffectType : uint16_t { Default = 0,
+                                 ButterLamp = 1,
+                                 Fire = 2,
+                                 Waves = 3,
+                                 Forest = 4,
+                                 Evening = 5,
+                                 Concentration = 6
+    };
+    static constexpr const char *effectName[effectCount] = {"Static", "Butterlamp", "Fire", "Waves", "Forest", "Evening", "Concentration"};
     uint16_t rows, cols;
     SpecialEffects(uint16_t rows, uint16_t cols)
         : rows(rows), cols(cols) {
@@ -27,7 +33,7 @@ class SpecialEffects {
 
     bool setFrame(EffectType type, ustd::array<uint32_t> *pf) {
         switch (type) {
-        case EffectType::DefaultLight:
+        default:
             return false;
         case EffectType::ButterLamp:
             return butterLampFrame(pf, rows, cols);
@@ -209,6 +215,8 @@ class NeoPixel {
     SpecialEffects::EffectType effectType;
     SpecialEffects *pEffects;
     bool isFirstLoop = true;
+    bool scheduled = false;
+    int startHour, endHour, startMin, endMin;
 
     NeoPixel(String name, uint8_t pin, uint16_t numRows = 1, uint16_t numCols = 1,
              uint16_t options = NEO_RGB + NEO_KHZ800)
@@ -216,7 +224,6 @@ class NeoPixel {
         if (numRows < 1) numRows = 1;
         if (numCols < 1) numCols = 1;
         numPixels = numRows * numCols;
-        effectType = SpecialEffects::EffectType::DefaultLight;
     }
 
     ~NeoPixel() {
@@ -233,9 +240,7 @@ class NeoPixel {
         for (uint16_t i = 0; i < numPixels; i++) {
             pixel(i, 0, 0, 0, false);
         }
-        unitBrightness = 1.0;
         pPixels->begin();
-        pixelsUpdate();
         auto ft = [=]() { this->loop(); };
         tID = pSched->add(ft, name, 50000);
         auto fnall = [=](String topic, String msg, String originator) {
@@ -243,6 +248,7 @@ class NeoPixel {
         };
         pSched->subscribe(tID, name + "/light/#", fnall);
         pSched->subscribe(tID, "mqtt/state", fnall);
+        setEffect(SpecialEffects::EffectType::Default, true);
         publishState();
         publishColor();
         bStarted = true;
@@ -262,7 +268,7 @@ class NeoPixel {
         if (i >= numPixels)
             return;
         (*phwFrameBuf)[i] = RGB32(r, g, b);
-        setEffect(SpecialEffects::EffectType::DefaultLight);
+        // setEffect(SpecialEffects::EffectType::Default);
         if (update)
             pixelsUpdate();
     }
@@ -275,10 +281,12 @@ class NeoPixel {
         pixelsUpdate();
     }
 
-    void setEffect(SpecialEffects::EffectType _type) {
-        effectType = _type;
-        isFirstLoop = true;
-        publishEffect();
+    void setEffect(SpecialEffects::EffectType _type, bool force = false) {
+        if (_type != effectType || force) {
+            effectType = _type;
+            isFirstLoop = true;
+            publishEffect();
+        }
     }
 
     String getEffectList() {
@@ -294,6 +302,18 @@ class NeoPixel {
         return eff;
     }
 
+    bool setSchedule(String startTime, String endTime) {
+        int sh, sm, eh, em;
+        if (!ustd::Astro::parseHourMinuteString(startTime, &sh, &sm))
+            return false;
+        if (!ustd::Astro::parseHourMinuteString(endTime, &eh, &em))
+            return false;
+        startHour = sh;
+        endHour = eh;
+        startMin = sm;
+        endMin = em;
+        return true;
+    }
     void pixelsUpdate(bool notify = true) {
         pPixels->show();
         uint32_t st = 0;
@@ -334,21 +354,23 @@ class NeoPixel {
         }
     }
 
-    void brightness(double _unitBrightness, bool update = true) {
+    void brightness(double _unitBrightness, bool update = true, bool resetEffect = true) {
         if (_unitBrightness < 0.0) _unitBrightness = 0.0;
         if (_unitBrightness > 1.0) _unitBrightness = 1.0;
         if (_unitBrightness == 1.0 && gbr < zeroBrightnessUpperBound) color(0xff, 0xff, 0xff, false);
         if (_unitBrightness < zeroBrightnessUpperBound) _unitBrightness = 0.0;
         unitBrightness = _unitBrightness;
-        setEffect(SpecialEffects::EffectType::DefaultLight);
+        if (resetEffect)
+            setEffect(SpecialEffects::EffectType::Default);
         if (update) pixelsUpdate();
     }
 
-    void color(uint8_t r, uint8_t g, uint8_t b, bool update = true) {
+    void color(uint8_t r, uint8_t g, uint8_t b, bool update = true, bool resetEffect = true) {
         for (uint16_t i = 0; i < numPixels; i++) {
             pixel(i, r, g, b, false);
         }
-        setEffect(SpecialEffects::EffectType::DefaultLight);
+        if (resetEffect)
+            setEffect(SpecialEffects::EffectType::Default);
         if (update) {
             pixelsUpdate();
         }
@@ -394,14 +416,58 @@ class NeoPixel {
         if (bStarted) {
             ++ticker;
             switch (effectType) {
+            case SpecialEffects::EffectType::Default:
+                if (isFirstLoop) {
+                    color(128, 128, 128, false, false);
+                    brightness(0.2, true, false);
+                    isFirstLoop = false;
+                }
+                break;
             case SpecialEffects::EffectType::ButterLamp:
                 pEffects->setFrame(effectType, phwFrameBuf);
                 if (isFirstLoop) {
+                    brightness(1.0, false, false);
                     pixelsUpdate(true);
                     isFirstLoop = false;
                 } else {
                     pixelsUpdate(false);
                 }
+                break;
+            case SpecialEffects::EffectType::Fire:
+                if (isFirstLoop) {
+                    isFirstLoop = false;
+                    color(255, 128, 0, false, false);
+                    brightness(0.3, true, false);
+                }
+                break;
+            case SpecialEffects::EffectType::Waves:
+                if (isFirstLoop) {
+                    isFirstLoop = false;
+                    color(50, 50, 128, false, false);
+                    brightness(0.2, true, false);
+                }
+                break;
+            case SpecialEffects::EffectType::Forest:
+                if (isFirstLoop) {
+                    isFirstLoop = false;
+                    color(0, 128, 0, false, false);
+                    brightness(0.2, true, false);
+                }
+                break;
+            case SpecialEffects::EffectType::Evening:
+                if (isFirstLoop) {
+                    isFirstLoop = false;
+                    color(255, 128, 0, false, false);
+                    brightness(0.1, true, false);
+                }
+                break;
+            case SpecialEffects::EffectType::Concentration:
+                if (isFirstLoop) {
+                    isFirstLoop = false;
+                    color(128, 128, 255, false, false);
+                    brightness(0.8, true, false);
+                }
+                break;
             default:
                 break;
             }
