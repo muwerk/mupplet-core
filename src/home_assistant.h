@@ -119,6 +119,7 @@ class HomeAssistant {
         const char *icon;
         const char *val_tpl;
         const char *attribs;
+        const char *effects;
         const char *dev_cla;
         int channel;
         int off_dly;
@@ -371,11 +372,12 @@ class HomeAssistant {
      * @param icon Optional alternative icon
      * @param attribs Optional alternative attribute group (by default all entities reference the
      * "device" attributes group)
+     * @param effects Optional string containing a comma-separated list of special effect names
      */
     void addLight(String name, String human = "", DeviceType type = LightDim, String icon = "",
-                  String attribs = "") {
+                  String attribs = "", String effects = "") {
         if (type >= Light && type <= LightRGBWW) {
-            addGenericActor(type, name, -1, human, "", icon, attribs);
+            addGenericActor(type, name, -1, human, "", icon, attribs, effects);
         }
     }
 
@@ -393,11 +395,12 @@ class HomeAssistant {
      * @param icon Optional alternative icon
      * @param attribs Optional alternative attribute group (by default all entities reference the
      * "device" attributes group)
+     * @param effects Optional string containing a comma-separated list of special effect names
      */
     void addLight(String name, int channel, String human = "", DeviceType type = LightDim,
-                  String icon = "", String attribs = "") {
+                  String icon = "", String attribs = "", String effects = "") {
         if (channel >= 0 && type >= Light && type <= LightRGBWW) {
-            addGenericActor(type, name, channel, human, "", icon, attribs);
+            addGenericActor(type, name, channel, human, "", icon, attribs, effects);
         }
     }
 
@@ -661,9 +664,9 @@ class HomeAssistant {
     }
 
     void addGenericActor(DeviceType type, String name, int channel, String human = "",
-                         String dev_cla = "", String icon = "", String attribs = "") {
+                         String dev_cla = "", String icon = "", String attribs = "", String effects = "") {
         size_t len = name.length() + human.length() + dev_cla.length() + icon.length() +
-                     attribs.length() + 5;
+                     attribs.length() + effects.length() + 6;
         Entity entity = {};
         entity.name = (const char *)malloc(len);
         if (entity.name) {
@@ -673,7 +676,8 @@ class HomeAssistant {
             entity.dev_cla = copyfieldgetnext(entity.human, human);
             entity.icon = copyfieldgetnext(entity.dev_cla, dev_cla);
             entity.attribs = copyfieldgetnext(entity.icon, icon);
-            copyfieldgetnext(entity.attribs, attribs);
+            entity.effects = copyfieldgetnext(entity.attribs, attribs);
+            copyfieldgetnext(entity.effects, effects);
             if (entityConfigs.add(entity) == -1) {
                 free((void *)entity.name);
             }
@@ -881,9 +885,43 @@ class HomeAssistant {
             msg["on_cmd_type"] = "first";
             // color
             msg["color_mode"] = true;
-            msg["supported_color_mode"] = {"rgb"};
+            switch (entity.type) {
+            case LightRGB:
+                msg["supported_color_modes"] = {"rgb"};
+                break;
+            case LightRGBW:
+                msg["supported_color_modes"] = {"rgbw"};
+                break;
+            case LightRGBWW:
+                msg["supported_color_modes"] = {"rgbww"};
+                break;
+            default:
+                break;  // compiler shutup.
+            }
             msg["rgb_cmd_t"] = hostName + "/" + topic + "/color/set";
             msg["rgb_stat_t"] = "~" + topic + "/color";
+            if (strcmp(entity.effects, "")) {
+                msg["effect_command_topic"] = hostName + "/" + topic + "/effect/set";
+                msg["effect_state_topic"] = "~" + topic + "/effect";
+
+                JSONVar elst;
+                int ind, n;
+                n = 0;
+                String effs = entity.effects;
+                ind = effs.indexOf(',');
+                while (ind != -1) {
+                    String tmp = effs.substring(0, ind);
+                    tmp.trim();
+                    elst[n] = tmp;
+                    n += 1;
+                    effs = effs.substring(ind + 1);
+                    ind = effs.indexOf(',');
+                }
+                String tmp = effs;
+                tmp.trim();
+                elst[n] = tmp;
+                msg["effect_list"] = elst;  //"Butterlamp";  // JSON.parse("[\"Static\",\"Butterlamp\"]");  // XXX needs kind of some API-schnorchel...
+            }
         }
 
         flushDeviceConfig(entity.type, msg);

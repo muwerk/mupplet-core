@@ -14,9 +14,10 @@ uint32_t RGB32(uint8_t r, uint8_t g, uint8_t b) {
 
 class SpecialEffects {
   public:
-    enum EffectType : uint16_t { DefaultLight,
-                                 ButterLamp };
-    EffectType type;
+    static const int effectCount = 2;
+    enum EffectType : uint16_t { DefaultLight = 0,
+                                 ButterLamp = 1 };
+    static constexpr const char *effectName[2] = {"Static", "Butterlamp"};
     uint16_t rows, cols;
     SpecialEffects(uint16_t rows, uint16_t cols)
         : rows(rows), cols(cols) {
@@ -205,7 +206,7 @@ class NeoPixel {
     unsigned long ticker = 0;
     unsigned long lastTicker = 0;
     double zeroBrightnessUpperBound = 0.02;
-    SpecialEffects::EffectType type;
+    SpecialEffects::EffectType effectType;
     SpecialEffects *pEffects;
     bool isFirstLoop = true;
 
@@ -215,7 +216,7 @@ class NeoPixel {
         if (numRows < 1) numRows = 1;
         if (numCols < 1) numCols = 1;
         numPixels = numRows * numCols;
-        type = SpecialEffects::EffectType::DefaultLight;
+        effectType = SpecialEffects::EffectType::DefaultLight;
     }
 
     ~NeoPixel() {
@@ -261,6 +262,7 @@ class NeoPixel {
         if (i >= numPixels)
             return;
         (*phwFrameBuf)[i] = RGB32(r, g, b);
+        setEffect(SpecialEffects::EffectType::DefaultLight);
         if (update)
             pixelsUpdate();
     }
@@ -274,8 +276,9 @@ class NeoPixel {
     }
 
     void setEffect(SpecialEffects::EffectType _type) {
-        type = _type;
+        effectType = _type;
         isFirstLoop = true;
+        publishEffect();
     }
 
     void pixelsUpdate(bool notify = true) {
@@ -324,6 +327,7 @@ class NeoPixel {
         if (_unitBrightness == 1.0 && gbr < zeroBrightnessUpperBound) color(0xff, 0xff, 0xff, false);
         if (_unitBrightness < zeroBrightnessUpperBound) _unitBrightness = 0.0;
         unitBrightness = _unitBrightness;
+        setEffect(SpecialEffects::EffectType::DefaultLight);
         if (update) pixelsUpdate();
     }
 
@@ -331,6 +335,7 @@ class NeoPixel {
         for (uint16_t i = 0; i < numPixels; i++) {
             pixel(i, r, g, b, false);
         }
+        setEffect(SpecialEffects::EffectType::DefaultLight);
         if (update) {
             pixelsUpdate();
         }
@@ -355,6 +360,11 @@ class NeoPixel {
         }
     }
 
+    void publishEffect() {
+        String nameE = SpecialEffects::effectName[(int)effectType];
+        pSched->publish(name + "/light/effect", nameE);
+    }
+
     void publishState() {
         if (state) {
             pSched->publish(name + "/light/state", "on");
@@ -364,14 +374,15 @@ class NeoPixel {
             this->state = false;
         }
         publishBrightness();
+        publishEffect();
     }
 
     void loop() {
         if (bStarted) {
             ++ticker;
-            switch (type) {
+            switch (effectType) {
             case SpecialEffects::EffectType::ButterLamp:
-                pEffects->setFrame(type, phwFrameBuf);
+                pEffects->setFrame(effectType, phwFrameBuf);
                 if (isFirstLoop) {
                     pixelsUpdate(true);
                     isFirstLoop = false;
@@ -409,6 +420,13 @@ class NeoPixel {
             parseColor(msg, &r, &g, &b);
             color(r, g, b);
             lastTicker = ticker;
+        } else if (topic == name + "/light/effect/set") {
+            for (int eff = 0; eff < SpecialEffects::effectCount; eff++) {
+                String thisName = SpecialEffects::effectName[eff];
+                if (thisName == msg) {
+                    setEffect((SpecialEffects::EffectType)eff);
+                }
+            }
         } else if (topic.startsWith(leader)) {
             String sub = topic.substring(leader.length());
             int pi = sub.indexOf('/');
