@@ -207,6 +207,7 @@ class NeoPixel {
     double zeroBrightnessUpperBound = 0.02;
     SpecialEffects::EffectType type;
     SpecialEffects *pEffects;
+    bool isFirstLoop = true;
 
     NeoPixel(String name, uint8_t pin, uint16_t numRows = 1, uint16_t numCols = 1,
              uint16_t options = NEO_RGB + NEO_KHZ800)
@@ -274,6 +275,7 @@ class NeoPixel {
 
     void setEffect(SpecialEffects::EffectType _type) {
         type = _type;
+        isFirstLoop = true;
     }
 
     void pixelsUpdate(bool notify = true) {
@@ -329,7 +331,9 @@ class NeoPixel {
         for (uint16_t i = 0; i < numPixels; i++) {
             pixel(i, r, g, b, false);
         }
-        if (update) pixelsUpdate();
+        if (update) {
+            pixelsUpdate();
+        }
     }
 
     void publishBrightness() {
@@ -368,7 +372,12 @@ class NeoPixel {
             switch (type) {
             case SpecialEffects::EffectType::ButterLamp:
                 pEffects->setFrame(type, phwFrameBuf);
-                pixelsUpdate();
+                if (isFirstLoop) {
+                    pixelsUpdate(true);
+                    isFirstLoop = false;
+                } else {
+                    pixelsUpdate(false);
+                }
             default:
                 break;
             }
