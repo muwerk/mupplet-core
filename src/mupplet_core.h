@@ -184,6 +184,137 @@ double parseUnitLevel(String arg) {
                                        : val;
 }
 
+uint16_t countChars(String txt, char c) {
+    /*! Count number of occurences of c in txt */
+    uint16_t n = 0;
+    for (uint16_t i = 0; i < txt.length(); i++) {
+        if (txt[i] == c) ++n;
+    }
+    return n;
+}
+
+bool getNthHexbyte(String hex, uint8_t ind, uint8_t *pVal) {
+    if (hex.length() < (uint16_t)((ind + 1) * 2)) return false;
+    if (pVal) {
+        *pVal = (uint8_t)strtol(hex.substring(ind * 2, ind * 2 + 2).c_str(), 0, 16);
+        return true;
+    } else
+        return false;
+}
+
+bool getNthInt(String arg, uint8_t ind, uint8_t *pVal) {
+    if (countChars(arg, ',') < ind) return false;
+    uint8_t i = 0, n = 0, p1 = 0, p2 = 0;
+    String carg = "," + arg + ",";
+    while (true) {
+        if (carg[i] == ',') {
+            if (n == ind + 1) {
+                p2 = i;
+                if (pVal) {
+                    *pVal = strtol(carg.substring(p1, p2).c_str(), 0, 10);
+                    return true;
+                } else
+                    return false;
+            } else if (n == ind) {
+                p1 = i + 1;
+            }
+            ++n;
+        }
+        ++i;
+        if (i == carg.length()) return false;
+    }
+}
+
+bool parseColor(String arg, uint8_t *pr, uint8_t *pg, uint8_t *pb, uint8_t *pw = nullptr, uint8_t *pww = nullptr) {
+    /*! Parse and split a 24-bit, 32-bit or 40-bit RGB, RGBW or RGBWW color values into r,g,b and optionally w [,ww] components
+
+    If 24bits are given (RGB), the color value can be either represented as `0x010203` or `#010203` or `1,2,3` in decimal,
+    comma separated. It is split into the components r=1, b=2 and g=3. Input order is RGB.
+
+    If 32bits are given (RGBW), the color value can be either represented as `0x11010203` or `#11010203` or `17,1,2,3` in decimal,
+    comma separated. It is split into the components r=1, b=2, g=3 and w=17. Input order is WRGB.
+
+    If 40bits are given (RGBWW), the color value can be either represented as `0x2211010203` or `#2211010203` or `34,17,1,2,3` in decimal,
+    comma separated. It is split into the components r=1, b=2, g=3, w=17, ww=34. Input order is WW W R G B.
+
+    @param arg String to parse, order [W[W]]RGB, either `0x[22][78]123456` (hex) or `#[22][78]123456` (hex) or `[34,][120,]18,52,86` (dec)
+    @param pr pointer that receives the red-part (1st, 2nd or 3rd two digits of hex string)
+    @param pg pointer that receives the green-part (2,3, or 4th two digits of hex string)
+    @param pb pointer that receives the blue-part (end of hex string)
+    @param pw Optional pointer that received the white-part (start or 2nd part of string) for 32bit values.
+    @param pww Optional pointer that received the warm-white-part (start of string) for 32bit values.
+    @return true: sucessful conversion, false: wrong format.
+    */
+    String hex;
+    if (arg.startsWith("#")) {
+        hex = arg.substring(1);
+    } else if (arg.startsWith("0x")) {
+        hex = arg.substring(2);
+    } else if (arg.indexOf(',') != -1) {
+        uint16_t n = countChars(arg, ',');
+        if (n == 2) {  // RGB
+            if (pr)
+                if (!getNthInt(arg, 0, pr)) return false;
+            if (pg)
+                if (!getNthInt(arg, 1, pg)) return false;
+            if (pb)
+                if (!getNthInt(arg, 2, pb)) return false;
+        } else if (n == 3) {  // RGBW
+            if (pw)
+                if (!getNthInt(arg, 0, pw)) return false;
+            if (pr)
+                if (!getNthInt(arg, 1, pr)) return false;
+            if (pg)
+                if (!getNthInt(arg, 2, pg)) return false;
+            if (pb)
+                if (!getNthInt(arg, 3, pb)) return false;
+        } else if (n == 4) {  // RGBWW
+            if (pww)
+                if (!getNthInt(arg, 0, pww)) return false;
+            if (pw)
+                if (!getNthInt(arg, 1, pw)) return false;
+            if (pr)
+                if (!getNthInt(arg, 2, pr)) return false;
+            if (pg)
+                if (!getNthInt(arg, 3, pg)) return false;
+            if (pb)
+                if (!getNthInt(arg, 4, pb)) return false;
+        } else
+            return false;
+        return true;
+    }
+    if (hex.length() == 6) {
+        if (pr)
+            if (!getNthHexbyte(hex, 0, pr)) return false;
+        if (pg)
+            if (!getNthHexbyte(hex, 1, pg)) return false;
+        if (pb)
+            if (!getNthHexbyte(hex, 2, pb)) return false;
+    } else if (hex.length() == 8) {
+        if (pw)
+            if (!getNthHexbyte(hex, 0, pw)) return false;
+        if (pr)
+            if (!getNthHexbyte(hex, 1, pr)) return false;
+        if (pg)
+            if (!getNthHexbyte(hex, 2, pg)) return false;
+        if (pb)
+            if (!getNthHexbyte(hex, 3, pb)) return false;
+    } else if (hex.length() == 10) {
+        if (pww)
+            if (!getNthHexbyte(hex, 0, pww)) return false;
+        if (pw)
+            if (!getNthHexbyte(hex, 1, pw)) return false;
+        if (pr)
+            if (!getNthHexbyte(hex, 2, pr)) return false;
+        if (pg)
+            if (!getNthHexbyte(hex, 3, pg)) return false;
+        if (pb)
+            if (!getNthHexbyte(hex, 4, pb)) return false;
+    } else
+        return false;
+    return true;
+}
+
 // clang-format off
 /*! \brief mupplet-core string encoding utilities
 
