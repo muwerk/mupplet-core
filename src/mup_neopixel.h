@@ -230,7 +230,6 @@ class SpecialEffects {
     bool forestFrame(ustd::array<uint32_t> *pf, uint16_t rows, uint16_t cols) {
         uint16_t num, ind;
         uint8_t r, g, b;
-        int d;
         uint32_t color;
         num = rows * cols;
         for (int i = 0; i < 20; i++) {
