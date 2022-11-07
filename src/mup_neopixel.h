@@ -63,15 +63,19 @@ class SpecialEffects {
     double amp = 20.0;
     double oldMx = -1.0;
 
-    void configButterLampModulator(bool _bUseModulator, bool _bUseAutoTimer, uint8_t _start_hour, uint8_t _start_minute, uint8_t _end_hour, uint8_t _end_minute, bool _bUnitBrightness = true, double _unitBrightness = 1.0) {
+    void configButterLampModulator(bool _bUseModulator, bool _bUseAutoTimer, uint8_t _start_hour, uint8_t _start_minute, uint8_t _end_hour, uint8_t _end_minute) {
         bUseModulator = _bUseModulator;
         useAutoTimer = _bUseAutoTimer;
         start_hour = _start_hour;
         start_minute = _start_minute;
         end_hour = _end_hour;
         end_minute = _end_minute;
+    }
+
+    void configButterLampState(bool _bUnitBrightness = true, double _unitBrightness = 1.0) {
         bUnitBrightness = _bUnitBrightness;
         unitBrightness = _unitBrightness;
+        manualSet = time(nullptr);
     }
 
     double butterLampModulator() {
