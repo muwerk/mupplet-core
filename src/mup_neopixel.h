@@ -63,6 +63,17 @@ class SpecialEffects {
     double amp = 20.0;
     double oldMx = -1.0;
 
+    void configButterLampModulator(bool _bUseModulator, bool _bUseAutoTimer, uint8_t _start_hour, uint8_t _start_minute, uint8_t _end_hour, uint8_t _end_minute, bool _bUnitBrightness = true, double _unitBrightness = 1.0) {
+        bUseModulator = _bUseModulator;
+        useAutoTimer = _bUseAutoTimer;
+        start_hour = _start_hour;
+        start_minute = _start_minute;
+        end_hour = _end_hour;
+        end_minute = _end_minute;
+        bUnitBrightness = _bUnitBrightness;
+        unitBrightness = _unitBrightness;
+    }
+
     double butterLampModulator() {
         double m1 = 1.0;
         double m2 = 0.0;
@@ -267,7 +278,7 @@ class NeoPixel {
     unsigned long lastTicker = 0;
     double zeroBrightnessUpperBound = 0.02;
     SpecialEffects::EffectType effectType;
-    SpecialEffects *pEffects;
+    SpecialEffects *pEffects = nullptr;
     bool isFirstLoop = true;
     bool scheduled = false;
     int startHour, endHour, startMin, endMin;
@@ -348,6 +359,7 @@ class NeoPixel {
 
     bool setSchedule(String startTime, String endTime) {
         int sh, sm, eh, em;
+        if (pEffects == nullptr) return false;
         if (!ustd::Astro::parseHourMinuteString(startTime, &sh, &sm))
             return false;
         if (!ustd::Astro::parseHourMinuteString(endTime, &eh, &em))
@@ -356,6 +368,9 @@ class NeoPixel {
         endHour = eh;
         startMin = sm;
         endMin = em;
+        if (effectType == SpecialEffects::EffectType::ButterLamp) {
+            pEffects->configButterLampModulator(true, true, sh, sm, eh, em);
+        }
         return true;
     }
     void pixelsUpdate(bool notify = true) {
