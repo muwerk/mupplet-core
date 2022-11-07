@@ -91,6 +91,7 @@ $(function() {
 <ul>
 <li><a href="https://muwerk.github.io/mupplet-core/docs/classustd_1_1FrequencyCounter.html"><code>FrequencyCounter</code></a> The frequency counter mupplet measures impulse frequencies on a GPIO using interrupts. An ESP32 can reliably measure up to about 80kHz. See <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/frequency-counter-notes.md">FrequencyCounter application notes</a> for a Geiger counter sample.</li>
 <li><a href="https://muwerk.github.io/mupplet-core/docs/classustd_1_1LightsPCA9685.html"><code>LightsPCA9685</code></a> The PCA 9685 16 Channels Light Mupplet allows to control up to 16 led or light states, brightness using modes such as user-controlled, blink, soft-wave, one-time pulse and automatic pattern playback. See <a href="https://github.com/muwerk/mupplet-core/blob/master/extras/pca9685-notes.md">PCA9685 Application Notes</a> for an example and more information.</li>
+<li>NeoPixel supports neopixels with help of Adafruit's Neopixel library.</li>
 <li><a href="https://muwerk.github.io/mupplet-core/docs/classustd_1_1HomeAssistant.html"><code>Home Assistant</code></a>. Almost any mupplet can be integrated easily into home-assistant, supported are Home Assistant MQTT Switch, Binary Sensor, Sensor, and Light. The <code>home_assistant</code> mupplet handles the entire discovery- and synchronization process. For examples see <a href="https://github.com/muwerk/examples/tree/master/switchLedHomeassistant">leds and switches with home-assistant</a> or <a href="https://github.com/muwerk/examples/tree/master/binaryAndAnalogSimpleSensors">simple binary- and analog sensors</a> or <a href="https://github.com/muwerk/examples/tree/master/enviroMaster">multi-sensor environment monitoring</a>.</li>
 </ul>
 <p >Additional mupplet implementations can be found:</p>
@@ -182,6 +183,7 @@ $(function() {
 <div class="line">} // ustd</div>
 </div><!-- fragment --><h2>History </h2>
 <ul>
+<li>0.5.2 (2022-11-07) Preliminary Neopixel support including some effects like a butterlamp simulation.</li>
 <li>0.5.1 (2022-09-23)<ul>
 <li>Bugfix: <a class="el" href="mup__switch_8h_source.html">mup_switch.h</a> used time_t, which isn't available on Arduino, replaced with muwerk timestamps.</li>
 </ul>

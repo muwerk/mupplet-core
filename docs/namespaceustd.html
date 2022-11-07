@@ -118,6 +118,10 @@ Functions</h2></td></tr>
 <tr class="separator:a21a1acc15a645aa4dde7d3cea06e7e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97e0fc5390e0fe632b7aa6ff362ab211"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#a97e0fc5390e0fe632b7aa6ff362ab211">parseUnitLevel</a> (String arg)</td></tr>
 <tr class="separator:a97e0fc5390e0fe632b7aa6ff362ab211"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbb583f0a65d37813ffd2f8d03945f45"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#adbb583f0a65d37813ffd2f8d03945f45">countChars</a> (String txt, char c)</td></tr>
+<tr class="separator:adbb583f0a65d37813ffd2f8d03945f45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af99e3cddda5f12f3a550b00cd6f78c38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#af99e3cddda5f12f3a550b00cd6f78c38">parseColor</a> (String arg, uint8_t *pr, uint8_t *pg, uint8_t *pb, uint8_t *pw=nullptr, uint8_t *pww=nullptr)</td></tr>
+<tr class="separator:af99e3cddda5f12f3a550b00cd6f78c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeaa0501406c152ef7bab2753e0dd8bea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea">isAscii</a> (String utf8string)</td></tr>
 <tr class="memdesc:aeaa0501406c152ef7bab2753e0dd8bea"><td class="mdescLeft">&#160;</td><td class="mdescRight">mupplet-core string encoding utilities  <a href="namespaceustd.html#aeaa0501406c152ef7bab2753e0dd8bea">More...</a><br /></td></tr>
 <tr class="separator:aeaa0501406c152ef7bab2753e0dd8bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,6 +168,35 @@ const double&#160;</td><td class="memItemRight" valign="bottom"><b>C_MJD</b> = 2
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >The muwerk namespace. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="adbb583f0a65d37813ffd2f8d03945f45" name="adbb583f0a65d37813ffd2f8d03945f45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbb583f0a65d37813ffd2f8d03945f45">&#9670;&#160;</a></span>countChars()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t ustd::countChars </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>txt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Count number of occurences of c in txt</p>
+
+</div>
+</div>
 <a id="aeaa0501406c152ef7bab2753e0dd8bea" name="aeaa0501406c152ef7bab2753e0dd8bea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeaa0501406c152ef7bab2753e0dd8bea">&#9670;&#160;</a></span>isAscii()</h2>
 
@@ -321,6 +354,74 @@ const double&#160;</td><td class="memItemRight" valign="bottom"><b>C_MJD</b> = 2
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>0</code> if <code>false</code>, <code>1</code> if <code>true</code>, <code>-1</code> if invalid</dd></dl>
+
+</div>
+</div>
+<a id="af99e3cddda5f12f3a550b00cd6f78c38" name="af99e3cddda5f12f3a550b00cd6f78c38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af99e3cddda5f12f3a550b00cd6f78c38">&#9670;&#160;</a></span>parseColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ustd::parseColor </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>arg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>pr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>pg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>pb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>pw</em> = <code>nullptr</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>pww</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Parse and split a 24-bit, 32-bit or 40-bit RGB, RGBW or RGBWW color values into r,g,b and optionally w [,ww] components</p>
+<p >If 24bits are given (RGB), the color value can be either represented as <code>0x010203</code> or <code>#010203</code> or <code>1,2,3</code> in decimal, comma separated. It is split into the components r=1, b=2 and g=3. Input order is RGB.</p>
+<p >If 32bits are given (RGBW), the color value can be either represented as <code>0x11010203</code> or <code>#11010203</code> or <code>17,1,2,3</code> in decimal, comma separated. It is split into the components r=1, b=2, g=3 and w=17. Input order is WRGB.</p>
+<p >If 40bits are given (RGBWW), the color value can be either represented as <code>0x2211010203</code> or <code>#2211010203</code> or <code>34,17,1,2,3</code> in decimal, comma separated. It is split into the components r=1, b=2, g=3, w=17, ww=34. Input order is WW W R G B.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>String to parse, order [W[W]]RGB, either <code>0x[22][78]123456</code> (hex) or <code>#[22][78]123456</code> (hex) or <code>[34,][120,]18,52,86</code> (dec) </td></tr>
+    <tr><td class="paramname">pr</td><td>pointer that receives the red-part (1st, 2nd or 3rd two digits of hex string) </td></tr>
+    <tr><td class="paramname">pg</td><td>pointer that receives the green-part (2,3, or 4th two digits of hex string) </td></tr>
+    <tr><td class="paramname">pb</td><td>pointer that receives the blue-part (end of hex string) </td></tr>
+    <tr><td class="paramname">pw</td><td>Optional pointer that received the white-part (start or 2nd part of string) for 32bit values. </td></tr>
+    <tr><td class="paramname">pww</td><td>Optional pointer that received the warm-white-part (start of string) for 32bit values. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true: sucessful conversion, false: wrong format.</dd></dl>
 
 </div>
 </div>

@@ -8,5 +8,7 @@ var searchData=
   ['c_5fpi_5',['C_PI',['../namespaceustd.html#aaf44abf2804ab1e0549abd16b9abcc56',1,'ustd']]],
   ['c_5fr2d_6',['C_R2D',['../namespaceustd.html#aface0ea1e5f90a6f5f93579b1e6e475a',1,'ustd']]],
   ['calculatesunriseset_7',['calculateSunRiseSet',['../classustd_1_1Astro.html#abe2b4ed674c4a3222ae67f27138164d2',1,'ustd::Astro']]],
-  ['commandparser_8',['commandParser',['../classustd_1_1LightController.html#a6e66391fd440438d289cb375f646865b',1,'ustd::LightController']]]
+  ['cmphourminutetime_8',['cmpHourMinuteTime',['../classustd_1_1Astro.html#a6ca4ed998cc26c528ed4e1cf2241db67',1,'ustd::Astro']]],
+  ['commandparser_9',['commandParser',['../classustd_1_1LightController.html#a6e66391fd440438d289cb375f646865b',1,'ustd::LightController']]],
+  ['countchars_10',['countChars',['../namespaceustd.html#adbb583f0a65d37813ffd2f8d03945f45',1,'ustd']]]
 ];

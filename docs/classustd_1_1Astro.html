@@ -104,6 +104,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a67c12dcafb9a471f7a87cd0dcf4360ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe2b4ed674c4a3222ae67f27138164d2"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Astro.html#abe2b4ed674c4a3222ae67f27138164d2">calculateSunRiseSet</a> (int year, int month, int day, double lat, double lon, int localOffset, int daylightSavings, bool bRising, double *pSunTime)</td></tr>
 <tr class="separator:abe2b4ed674c4a3222ae67f27138164d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ca4ed998cc26c528ed4e1cf2241db67"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Astro.html#a6ca4ed998cc26c528ed4e1cf2241db67">cmpHourMinuteTime</a> (uint8_t h1, uint8_t m1, uint8_t h2, uint8_t m2)</td></tr>
+<tr class="separator:a6ca4ed998cc26c528ed4e1cf2241db67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae836e12d57dd7b346fba48a3a242df05"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Astro.html#ae836e12d57dd7b346fba48a3a242df05">deltaHourMinuteTime</a> (uint8_t h1, uint8_t m1, uint8_t h2, uint8_t m2)</td></tr>
+<tr class="separator:ae836e12d57dd7b346fba48a3a242df05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a792925d2bd6f04eb4855180d0a5516bd"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classustd_1_1Astro.html#a792925d2bd6f04eb4855180d0a5516bd">inHourMinuteInterval</a> (uint8_t test_hour, uint8_t test_minute, uint8_t start_hour, uint8_t start_minute, uint8_t end_hour, uint8_t end_minute)</td></tr>
+<tr class="separator:a792925d2bd6f04eb4855180d0a5516bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >mupplet helper for some astronomical calculations: sunrise and sunset </p>
@@ -243,6 +249,122 @@ Static Public Member Functions</h2></td></tr>
 </pre>
 </div>
 </div>
+<a id="a6ca4ed998cc26c528ed4e1cf2241db67" name="a6ca4ed998cc26c528ed4e1cf2241db67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ca4ed998cc26c528ed4e1cf2241db67">&#9670;&#160;</a></span>cmpHourMinuteTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int ustd::Astro::cmpHourMinuteTime </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>h1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>m1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>h2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>m2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >compare two hour/minute times h1:m1 and h2:m2 </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">h1</td><td>hour 0-23 of time-1 </td></tr>
+    <tr><td class="paramname">m1</td><td>minute 0-59 of time-1 </td></tr>
+    <tr><td class="paramname">h2</td><td>hour of time-2 </td></tr>
+    <tr><td class="paramname">m2</td><td>minute of time-2 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1: if h2:m2 is later than h1:m1, -1 if earlier, 0 if equal.</dd></dl>
+
+</div>
+</div>
+<a id="ae836e12d57dd7b346fba48a3a242df05" name="ae836e12d57dd7b346fba48a3a242df05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae836e12d57dd7b346fba48a3a242df05">&#9670;&#160;</a></span>deltaHourMinuteTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int ustd::Astro::deltaHourMinuteTime </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>h1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>m1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>h2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>m2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >time difference between h2:m2 and h1:m1 in minutes. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">h1</td><td>hour 0-23 of time-1 </td></tr>
+    <tr><td class="paramname">m1</td><td>minute 0-59 of time-1 </td></tr>
+    <tr><td class="paramname">h2</td><td>hour of time-2 </td></tr>
+    <tr><td class="paramname">m2</td><td>minute of time-2 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>time difference in minutes.</dd></dl>
+
+</div>
+</div>
 <a id="a68a608723da14ec5e80faadae5e0d478" name="a68a608723da14ec5e80faadae5e0d478"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a68a608723da14ec5e80faadae5e0d478">&#9670;&#160;</a></span>fracDay()</h2>
 
@@ -291,6 +413,67 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>fractional day [0(midnight) .. 0.9999..(23:59:59.999)]</dd></dl>
+
+</div>
+</div>
+<a id="a792925d2bd6f04eb4855180d0a5516bd" name="a792925d2bd6f04eb4855180d0a5516bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a792925d2bd6f04eb4855180d0a5516bd">&#9670;&#160;</a></span>inHourMinuteInterval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool ustd::Astro::inHourMinuteInterval </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>test_hour</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>test_minute</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>start_hour</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>start_minute</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>end_hour</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>end_minute</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >test if test_hour:test_minute is in interval [start_hour:start_minute, end_hour, end_minute] </p><dl class="section return"><dt>Returns</dt><dd>true if test_hour:test_minute is between start end end time.</dd></dl>
 
 </div>
 </div>
