@@ -23,7 +23,7 @@ volatile int currentBitPtr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile uint8_t currentBit[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile unsigned long pRngBeginIrqTimer[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-void G_INT_ATTR ustd_fq_pirq_master(uint8_t irqno) {
+void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
     unsigned long curr = micros();
     noInterrupts();  // TBD: is this safe on ESP32?
     if (pRngBeginIrqTimer[irqno] == 0)
@@ -45,40 +45,40 @@ void G_INT_ATTR ustd_fq_pirq_master(uint8_t irqno) {
     interrupts();
 }
 
-void G_INT_ATTR ustd_fq_pirq0() {
-    ustd_fq_pirq_master(0);
+void G_INT_ATTR ustd_rng_pirq0() {
+    ustd_rng_pirq_master(0);
 }
-void G_INT_ATTR ustd_fq_pirq1() {
-    ustd_fq_pirq_master(1);
+void G_INT_ATTR ustd_rng_pirq1() {
+    ustd_rng_pirq_master(1);
 }
-void G_INT_ATTR ustd_fq_pirq2() {
-    ustd_fq_pirq_master(2);
+void G_INT_ATTR ustd_rng_pirq2() {
+    ustd_rng_pirq_master(2);
 }
-void G_INT_ATTR ustd_fq_pirq3() {
-    ustd_fq_pirq_master(3);
+void G_INT_ATTR ustd_rng_pirq3() {
+    ustd_rng_pirq_master(3);
 }
-void G_INT_ATTR ustd_fq_pirq4() {
-    ustd_fq_pirq_master(4);
+void G_INT_ATTR ustd_rng_pirq4() {
+    ustd_rng_pirq_master(4);
 }
-void G_INT_ATTR ustd_fq_pirq5() {
-    ustd_fq_pirq_master(5);
+void G_INT_ATTR ustd_rng_pirq5() {
+    ustd_rng_pirq_master(5);
 }
-void G_INT_ATTR ustd_fq_pirq6() {
-    ustd_fq_pirq_master(6);
+void G_INT_ATTR ustd_rng_pirq6() {
+    ustd_rng_pirq_master(6);
 }
-void G_INT_ATTR ustd_fq_pirq7() {
-    ustd_fq_pirq_master(7);
+void G_INT_ATTR ustd_rng_pirq7() {
+    ustd_rng_pirq_master(7);
 }
-void G_INT_ATTR ustd_fq_pirq8() {
-    ustd_fq_pirq_master(8);
+void G_INT_ATTR ustd_rng_pirq8() {
+    ustd_rng_pirq_master(8);
 }
-void G_INT_ATTR ustd_fq_pirq9() {
-    ustd_fq_pirq_master(9);
+void G_INT_ATTR ustd_rng_pirq9() {
+    ustd_rng_pirq_master(9);
 }
 
-void (*ustd_fq_pirq_table[USTD_MAX_RNG_PIRQS])() = {ustd_fq_pirq0, ustd_fq_pirq1, ustd_fq_pirq2, ustd_fq_pirq3,
-                                                    ustd_fq_pirq4, ustd_fq_pirq5, ustd_fq_pirq6, ustd_fq_pirq7,
-                                                    ustd_fq_pirq8, ustd_fq_pirq9};
+void (*ustd_rng_pirq_table[USTD_MAX_RNG_PIRQS])() = {ustd_rng_pirq0, ustd_rng_pirq1, ustd_rng_pirq2, ustd_rng_pirq3,
+                                                     ustd_rng_pirq4, ustd_rng_pirq5, ustd_rng_pirq6, ustd_rng_pirq7,
+                                                     ustd_rng_pirq8, ustd_rng_pirq9};
 
 unsigned long getRandomData(uint8_t irqNo, uint8_t *pBuf, unsigned long len) {
     if (len > USTD_ENTROPY_POOL_SIZE)
@@ -170,13 +170,13 @@ class Rng {
             irqno_input = digitalPinToInterrupt(pin_input);
             switch (irqMode) {
             case IM_FALLING:
-                attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], FALLING);
+                attachInterrupt(irqno_input, ustd_rng_pirq_table[interruptIndex_input], FALLING);
                 break;
             case IM_RISING:
-                attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], RISING);
+                attachInterrupt(irqno_input, ustd_rng_pirq_table[interruptIndex_input], RISING);
                 break;
             case IM_CHANGE:
-                attachInterrupt(irqno_input, ustd_fq_pirq_table[interruptIndex_input], CHANGE);
+                attachInterrupt(irqno_input, ustd_rng_pirq_table[interruptIndex_input], CHANGE);
                 break;
             }
             irqsAttached = true;
