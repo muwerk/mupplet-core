@@ -14,7 +14,7 @@ namespace ustd {
 #define USTD_MAX_RNG_PIRQS (10)
 
 #define USTD_ENTROPY_POOL_SIZE (512)
-// TBD: is is almost always a huge waste, since mostly only one instance is used.
+// TBD: is is almost always a huge waste, since mostly only one instance is used, but we allocate for all (10).
 volatile uint8_t entropy_pool[USTD_MAX_RNG_PIRQS][USTD_ENTROPY_POOL_SIZE];
 volatile int entropy_pool_read_ptr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile int entropy_pool_write_ptr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
