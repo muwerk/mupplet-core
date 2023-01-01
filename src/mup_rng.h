@@ -33,6 +33,7 @@ void G_INT_ATTR ustd_fq_pirq_master(uint8_t irqno) {
     else {
         unsigned long delta = timeDiff(pFqBeginIrqTimer[irqno], curr);
         currentBit = delta % 2;
+        // TBD: option for von Neumann entropy extractor, depending on circuit used.
         currentByte = (currentByte << 1) | currentBit;
         currentBitPtr++;
         if (currentBitPtr == 8) {
