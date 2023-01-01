@@ -11,38 +11,36 @@ namespace ustd {
 #define G_INT_ATTR
 #endif
 
-#define USTD_MAX_FQ_PIRQS (10)
+#define USTD_MAX_RNG_PIRQS (10)
 
-#define USTD_ENTROPY_POOL_SIZE (4096)
-uint8_t entropy_pool[USTD_ENTROPY_POOL_SIZE];
-int entropy_pool_read_ptr = 0;
-int entropy_pool_write_ptr = 0;
-uint8_t currentByte = 0;
-int currentBitPtr = 0;
-uint8_t currentBit = 0;
-
-// volatile unsigned long pFqIrqCounter[USTD_MAX_FQ_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-// volatile unsigned long pFqLastIrqTimer[USTD_MAX_FQ_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-volatile unsigned long pFqBeginIrqTimer[USTD_MAX_FQ_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+#define USTD_ENTROPY_POOL_SIZE (512)
+// TBD: is is almost always a huge waste, since mostly only one instance is used.
+volatile uint8_t entropy_pool[USTD_MAX_RNG_PIRQS][USTD_ENTROPY_POOL_SIZE];
+volatile int entropy_pool_read_ptr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile int entropy_pool_write_ptr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile uint8_t currentByte[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile int currentBitPtr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile uint8_t currentBit[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile unsigned long pRngBeginIrqTimer[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 void G_INT_ATTR ustd_fq_pirq_master(uint8_t irqno) {
     unsigned long curr = micros();
     noInterrupts();  // TBD: is this safe on ESP32?
-    if (pFqBeginIrqTimer[irqno] == 0)
-        pFqBeginIrqTimer[irqno] = curr;
+    if (pRngBeginIrqTimer[irqno] == 0)
+        pRngBeginIrqTimer[irqno] = curr;
     else {
-        unsigned long delta = timeDiff(pFqBeginIrqTimer[irqno], curr);
-        currentBit = delta % 2;
+        unsigned long delta = timeDiff(pRngBeginIrqTimer[irqno], curr);
+        currentBit[irqno] = delta % 2;
         // TBD: option for von Neumann entropy extractor, depending on circuit used.
-        currentByte = (currentByte << 1) | currentBit;
-        currentBitPtr++;
-        if (currentBitPtr == 8) {
-            entropy_pool[entropy_pool_write_ptr] = currentByte;
-            entropy_pool_write_ptr = (entropy_pool_write_ptr + 1) % USTD_ENTROPY_POOL_SIZE;
-            currentBitPtr = 0;
-            currentByte = 0;
+        currentByte[irqno] = (currentByte[irqno] << 1) | currentBit[irqno];
+        currentBitPtr[irqno]++;
+        if (currentBitPtr[irqno] == 8) {
+            entropy_pool[irqno][entropy_pool_write_ptr[irqno]] = currentByte[irqno];
+            entropy_pool_write_ptr[irqno] = (entropy_pool_write_ptr[irqno] + 1) % USTD_ENTROPY_POOL_SIZE;
+            currentBitPtr[irqno] = 0;
+            currentByte[irqno] = 0;
         }
-        pFqBeginIrqTimer[irqno] = curr;
+        pRngBeginIrqTimer[irqno] = curr;
     }
     interrupts();
 }
@@ -78,9 +76,9 @@ void G_INT_ATTR ustd_fq_pirq9() {
     ustd_fq_pirq_master(9);
 }
 
-void (*ustd_fq_pirq_table[USTD_MAX_FQ_PIRQS])() = {ustd_fq_pirq0, ustd_fq_pirq1, ustd_fq_pirq2, ustd_fq_pirq3,
-                                                   ustd_fq_pirq4, ustd_fq_pirq5, ustd_fq_pirq6, ustd_fq_pirq7,
-                                                   ustd_fq_pirq8, ustd_fq_pirq9};
+void (*ustd_fq_pirq_table[USTD_MAX_RNG_PIRQS])() = {ustd_fq_pirq0, ustd_fq_pirq1, ustd_fq_pirq2, ustd_fq_pirq3,
+                                                    ustd_fq_pirq4, ustd_fq_pirq5, ustd_fq_pirq6, ustd_fq_pirq7,
+                                                    ustd_fq_pirq8, ustd_fq_pirq9};
 
 unsigned long getRandomData(uint8_t irqNo, uint8_t *pBuf, unsigned long len) {
     if (len > USTD_ENTROPY_POOL_SIZE)
@@ -88,9 +86,9 @@ unsigned long getRandomData(uint8_t irqNo, uint8_t *pBuf, unsigned long len) {
     noInterrupts();
     unsigned long n = 0;
     for (unsigned long i = 0; i < len; i++) {
-        pBuf[i] = entropy_pool[entropy_pool_read_ptr];
+        pBuf[i] = entropy_pool[irqNo][entropy_pool_read_ptr[irqNo]];
         ++n;
-        entropy_pool_read_ptr = (entropy_pool_read_ptr + 1) % USTD_ENTROPY_POOL_SIZE;
+        entropy_pool_read_ptr[irqNo] = (entropy_pool_read_ptr[irqNo] + 1) % USTD_ENTROPY_POOL_SIZE;
     }
     interrupts();
     return n;
@@ -168,7 +166,7 @@ class Rng {
 
         pinMode(pin_input, INPUT_PULLUP);
 
-        if (interruptIndex_input >= 0 && interruptIndex_input < USTD_MAX_FQ_PIRQS) {
+        if (interruptIndex_input >= 0 && interruptIndex_input < USTD_MAX_RNG_PIRQS) {
             irqno_input = digitalPinToInterrupt(pin_input);
             switch (irqMode) {
             case IM_FALLING:
