@@ -26,7 +26,7 @@ volatile unsigned long pRngBeginIrqTimer[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0
 
 void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
     unsigned long curr = micros();
-    noInterrupts();  // TBD: is this safe on ESP32?
+    //noInterrupts();  // TBD: is this safe on ESP32?
     if (entropy_pool_size[irqno] < USTD_ENTROPY_POOL_SIZE) {
         if (pRngBeginIrqTimer[irqno] == 0)
             pRngBeginIrqTimer[irqno] = curr;
@@ -46,7 +46,7 @@ void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
             pRngBeginIrqTimer[irqno] = curr;
         }
     }
-    interrupts();
+    //interrupts();
 }
 
 void G_INT_ATTR ustd_rng_pirq0() {
@@ -148,7 +148,7 @@ class Rng {
   public:
 
     Rng(String name, uint8_t pin_input, int8_t interruptIndex_input,
-                     InterruptMode irqMode = InterruptMode::IM_FALLING)
+                     InterruptMode irqMode = InterruptMode::IM_CHANGE)
         : name(name), pin_input(pin_input), interruptIndex_input(interruptIndex_input),
           irqMode(irqMode) {
               /*! Create a RNG generator
