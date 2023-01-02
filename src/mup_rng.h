@@ -22,24 +22,25 @@ volatile int entropy_pool_size[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0,
 volatile uint8_t currentByte[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile int currentBitPtr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile unsigned long pRngBeginIrqTimer[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile uint8_t bit_cnt[USTD_MAX_RNG_PIRQS] = {0,0,0,0,0,0,0,0,0,0};
+volatile uint8_t last_bit[USTD_MAX_RNG_PIRQS] = {0,0,0,0,0,0,0,0,0,0};
 
 volatile unsigned long irq_count_total = 0;
 
 void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
     unsigned long curr = micros();
-    uint8_t bit_cnt = 0;
-    uint8_t last_bit = 0;
     irq_count_total++;
     if (entropy_pool_size[irqno] < USTD_ENTROPY_POOL_SIZE) {
         if (pRngBeginIrqTimer[irqno] == 0)
             pRngBeginIrqTimer[irqno] = curr;
         else {
             unsigned long delta = timeDiff(pRngBeginIrqTimer[irqno], curr);
-            if (bit_cnt == 0)
-                last_bit = delta % 2;
-            else {
-                if (last_bit != (delta % 2)) {
-                    currentByte[irqno] = (currentByte[irqno] << 1) | last_bit;
+            if (bit_cnt[irqno] == 0) {
+                last_bit[irqno] = delta % 2;
+                bit_cnt[irqno]++;
+            } else {
+                if (last_bit[irqno] != (delta % 2)) {
+                    currentByte[irqno] = (currentByte[irqno] << 1) | last_bit[irqno];
                     currentBitPtr[irqno]++;
                     if (currentBitPtr[irqno] == 8) {
                         entropy_pool[irqno][entropy_pool_write_ptr[irqno]] = currentByte[irqno];
@@ -50,7 +51,7 @@ void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
                     }
                     pRngBeginIrqTimer[irqno] = curr;
                 }
-                bit_cnt = 0;
+                bit_cnt[irqno] = 0;
             }
         }
     }
