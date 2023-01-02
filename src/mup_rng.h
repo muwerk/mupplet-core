@@ -257,7 +257,7 @@ class Rng {
             break;
         case RST_RUNNING:
             if (samples < sampleCount) {
-                unsigned long byteCount = getRandomData(irqno_input, rngBuf, rngBufSize);
+                unsigned long byteCount = getRandomData(interruptIndex_input, rngBuf, rngBufSize);
                 for (int i = 0; i < byteCount; i++) {
                     rngHistogram[rngBuf[i]]++;
                     samples++;
