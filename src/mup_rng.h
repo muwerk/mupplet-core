@@ -156,7 +156,7 @@ class Rng {
   public:
 
     Rng(String name, uint8_t pin_input, int8_t interruptIndex_input,
-                     InterruptMode irqMode = InterruptMode::IM_CHANGE)
+                     InterruptMode irqMode = InterruptMode::IM_RISING)
         : name(name), pin_input(pin_input), interruptIndex_input(interruptIndex_input),
           irqMode(irqMode) {
               /*! Create a RNG generator
