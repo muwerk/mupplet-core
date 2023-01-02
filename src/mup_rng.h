@@ -134,6 +134,9 @@ class Rng {
     Scheduler *pSched;
     int tID;
 
+    enum RngSampleMode {RSM_NONE, RSM_SELF_TEST, RSM_NORMAL};
+    RngSampleMode rngSampleMode = RSM_NONE;
+
     String name;
     uint8_t pin_input;
     uint8_t irqno_input;
@@ -162,7 +165,7 @@ class Rng {
         }
     }
 
-    bool begin(Scheduler *_pSched, uint32_t scheduleUs=2000000L) {
+    bool begin(Scheduler *_pSched, uint32_t scheduleUs=1000L) {
         /*! Enable interrupts and start counter
             
         @param _pSched Pointer to scheduler
@@ -198,6 +201,7 @@ class Rng {
             this->subsMsg(topic, msg, originator);
         };
         pSched->subscribe(tID, name + "/#", fnall);
+        startSelfTest();
         return true;
     }
 
@@ -213,7 +217,92 @@ class Rng {
         publish_rng_data();
     }
 
+    void startSelfTest() {
+        rngSampleMode = RSM_SELF_TEST;
+        rngSelfTestState = RST_INIT;
+    }
+
+    enum RngSelfTestState {RST_NONE, RST_INIT, RST_RUNNING, RST_SAMPLE_DONE, RST_FAILED, RST_OK};
+    unsigned long rngHistogram[256];
+    unsigned long samples;
+    const unsigned long sampleCount = 1000000;
+    const static unsigned long rngBufSize = 512;
+    uint8_t rngBuf[rngBufSize];
+    RngSelfTestState rngSelfTestState = RST_NONE;
+    time_t testTimer;
+
+    bool evalRngSelfTest() {
+        unsigned long exp = sampleCount / 256;
+        float fugde = 2.0;
+        unsigned long min = (unsigned long)((float)sampleCount / 256.0 / fugde);
+        unsigned long max = (unsigned long)((float)sampleCount / 256.0 * fugde);
+        for (int i = 0; i < 256; i++) {
+            if (rngHistogram[i] < min || rngHistogram[i] > max) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void rngSelfTest() {
+        switch (rngSelfTestState) {
+        case RST_INIT:
+            testTimer = time(nullptr);
+            for (int i = 0; i < 256; i++) {
+                rngHistogram[i] = 0;
+            }
+            samples = 0;
+            rngSelfTestState = RST_RUNNING;
+            break;
+        case RST_RUNNING:
+            if (samples < sampleCount) {
+                unsigned long byteCount = getRandomData(irqno_input, rngBuf, rngBufSize);
+                for (int i = 0; i < byteCount; i++) {
+                    rngHistogram[rngBuf[i]]++;
+                    samples++;
+                }
+                if (byteCount==0) {
+                    if (time(nullptr) - testTimer > 10) {
+                        Serial.print("RNG Self Test failed, no data received, check hardware connection to pin ");
+                        Serial.println(pin_input);
+                        rngSelfTestState = RST_FAILED;
+                    }
+                } else {
+                    testTimer = time(nullptr);
+                }
+            } else {
+                rngSelfTestState = RST_SAMPLE_DONE;
+            }
+            break;
+        case RST_SAMPLE_DONE:
+            if (evalRngSelfTest()) {
+                rngSelfTestState = RST_OK;
+            } else {
+                rngSelfTestState = RST_FAILED;
+            }
+            break;
+        }
+    }
+
     void loop() {
+        switch (rngSampleMode) {
+        case RSM_SELF_TEST:
+            rngSelfTest();
+            if (rngSelfTestState == RST_OK) {
+                Serial.println("RNG Self Test OK");
+                rngSampleMode = RSM_NORMAL;
+            }
+            if (rngSelfTestState == RST_FAILED) {
+                Serial.println("RNG Self Test failed, repeating test");
+                rngSelfTestState = RST_INIT;
+                rngSampleMode = RSM_SELF_TEST;
+            }
+            break;
+        case RSM_NORMAL:
+            // TBD
+            break;
+
+        }
        // TBD 
     }
 
