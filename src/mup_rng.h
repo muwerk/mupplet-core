@@ -34,6 +34,7 @@ void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
             pRngBeginIrqTimer[irqno] = curr;
         else {
             unsigned long delta = timeDiff(pRngBeginIrqTimer[irqno], curr);
+            if (delta > 3) {
             currentBit[irqno] = delta % 2;
             // TBD: option for von Neumann entropy extractor, depending on circuit used.
             currentByte[irqno] = (currentByte[irqno] << 1) | currentBit[irqno];
@@ -46,6 +47,7 @@ void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
                 currentByte[irqno] = 0;
             }
             pRngBeginIrqTimer[irqno] = curr;
+            }
         }
     }
 }
@@ -226,7 +228,7 @@ class Rng {
     enum RngSelfTestState {RST_NONE, RST_INIT, RST_RUNNING, RST_SAMPLE_DONE, RST_FAILED, RST_OK};
     unsigned long rngHistogram[256];
     unsigned long samples;
-    const unsigned long sampleCount = 1000000;
+    const unsigned long sampleCount = 100000;
     const static unsigned long rngBufSize = 512;
     uint8_t rngBuf[rngBufSize];
     RngSelfTestState rngSelfTestState = RST_NONE;
@@ -237,12 +239,26 @@ class Rng {
         float fugde = 2.0;
         unsigned long min = (unsigned long)((float)sampleCount / 256.0 / fugde);
         unsigned long max = (unsigned long)((float)sampleCount / 256.0 * fugde);
+        bool ok = true;
         for (int i = 0; i < 256; i++) {
             if (rngHistogram[i] < min || rngHistogram[i] > max) {
-                return false;
+                ok = false;
+                Serial.print(i);
+                Serial.print(": ");
+                Serial.print(rngHistogram[i]);
+                Serial.print(" FAIL! ");
+            } else {
+                Serial.print(i);
+                Serial.print(": ");
+                Serial.print(rngHistogram[i]);
+                Serial.print(" OK! ");
+            }
+            if (((i+1) % 8) == 0) {
+                Serial.println();
             }
         }
-        return true;
+        Serial.println();
+        return ok;
     }
 
     void rngSelfTest() {
