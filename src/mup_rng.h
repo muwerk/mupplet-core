@@ -24,9 +24,11 @@ volatile int currentBitPtr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile uint8_t currentBit[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile unsigned long pRngBeginIrqTimer[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
+volatile unsigned long irq_count_total = 0;
+
 void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
     unsigned long curr = micros();
-    noInterrupts();  // TBD: is this safe on ESP32?
+    irq_count_total++;
     if (entropy_pool_size[irqno] < USTD_ENTROPY_POOL_SIZE) {
         if (pRngBeginIrqTimer[irqno] == 0)
             pRngBeginIrqTimer[irqno] = curr;
@@ -46,7 +48,6 @@ void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
             pRngBeginIrqTimer[irqno] = curr;
         }
     }
-    interrupts();
 }
 
 void G_INT_ATTR ustd_rng_pirq0() {
@@ -264,7 +265,9 @@ class Rng {
                 if (byteCount==0) {
                     if (time(nullptr) - testTimer > 10) {
                         Serial.print("RNG Self Test failed, no data received, check hardware connection to pin ");
-                        Serial.println(pin_input);
+                        Serial.print(pin_input);
+                        Serial.print(", total interrupts on pin: ");
+                        Serial.println(irq_count_total);
                         rngSelfTestState = RST_FAILED;
                     }
                 } else {
