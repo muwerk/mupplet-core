@@ -22,10 +22,12 @@ volatile int entropy_pool_size[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0,
 volatile uint8_t currentByte[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile int currentBitPtr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile unsigned long pRngBeginIrqTimer[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-volatile uint8_t bit_cnt[USTD_MAX_RNG_PIRQS] = {0,0,0,0,0,0,0,0,0,0};
-volatile uint8_t last_bit[USTD_MAX_RNG_PIRQS] = {0,0,0,0,0,0,0,0,0,0};
+volatile uint8_t bit_cnt[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile uint8_t last_bit[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 volatile unsigned long irq_count_total = 0;
+
+unsigned long d_hist[256];
 
 void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
     unsigned long curr = micros();
@@ -35,23 +37,29 @@ void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
             pRngBeginIrqTimer[irqno] = curr;
         else {
             unsigned long delta = timeDiff(pRngBeginIrqTimer[irqno], curr);
-            if (bit_cnt[irqno] == 0) {
-                last_bit[irqno] = delta % 2;
-                bit_cnt[irqno]++;
-            } else {
-                if (last_bit[irqno] != (delta % 2)) {
-                    currentByte[irqno] = (currentByte[irqno] << 1) | last_bit[irqno];
-                    currentBitPtr[irqno]++;
-                    if (currentBitPtr[irqno] == 8) {
-                        entropy_pool[irqno][entropy_pool_write_ptr[irqno]] = currentByte[irqno];
-                        entropy_pool_write_ptr[irqno] = (entropy_pool_write_ptr[irqno] + 1) % USTD_ENTROPY_POOL_SIZE;
-                        entropy_pool_size[irqno]++;
-                        currentBitPtr[irqno] = 0;
-                        currentByte[irqno] = 0;
+            if (delta > 4) {
+                if (delta < 256)
+                    d_hist[delta]++;
+                else
+                    d_hist[255]++;
+                if (bit_cnt[irqno] == 0) {
+                    last_bit[irqno] = delta % 2;
+                    bit_cnt[irqno]++;
+                } else {
+                    if (last_bit[irqno] != (delta % 2)) {
+                        currentByte[irqno] = (currentByte[irqno] << 1) | last_bit[irqno];
+                        currentBitPtr[irqno]++;
+                        if (currentBitPtr[irqno] == 8) {
+                            entropy_pool[irqno][entropy_pool_write_ptr[irqno]] = currentByte[irqno];
+                            entropy_pool_write_ptr[irqno] = (entropy_pool_write_ptr[irqno] + 1) % USTD_ENTROPY_POOL_SIZE;
+                            entropy_pool_size[irqno]++;
+                            currentBitPtr[irqno] = 0;
+                            currentByte[irqno] = 0;
+                        }
+                        pRngBeginIrqTimer[irqno] = curr;
                     }
-                    pRngBeginIrqTimer[irqno] = curr;
+                    bit_cnt[irqno] = 0;
                 }
-                bit_cnt[irqno] = 0;
             }
         }
     }
@@ -107,6 +115,15 @@ unsigned long getRandomData(uint8_t irqNo, uint8_t *pBuf, unsigned long len) {
     }
     interrupts();
     return n;
+}
+
+void get_d_hist(unsigned long *pHistBuf) {
+    noInterrupts();
+    for (int i = 0; i < 256; i++) {
+        pHistBuf[i] = d_hist[i];
+        d_hist[i] = 0;
+    }
+    interrupts();
 }
 
 // clang-format off
@@ -233,9 +250,10 @@ class Rng {
     enum RngSelfTestState {RST_NONE, RST_INIT, RST_RUNNING, RST_SAMPLE_DONE, RST_FAILED, RST_OK};
     unsigned long rngHistogram[256];
     unsigned long samples;
-    const unsigned long sampleCount = 100000;
+    const unsigned long sampleCount = 200000;
     const static unsigned long rngBufSize = 512;
     uint8_t rngBuf[rngBufSize];
+    unsigned long dBuf[256];
     RngSelfTestState rngSelfTestState = RST_NONE;
     time_t testTimer;
 
@@ -259,6 +277,17 @@ class Rng {
                 Serial.print(" OK! ");
             }
             if (((i+1) % 8) == 0) {
+                Serial.println();
+            }
+        }
+        Serial.println();
+        get_d_hist(dBuf);
+        for (int i=0; i<256; i++) {
+            Serial.print(i);
+            Serial.print(": ");
+            Serial.print(dBuf[i]);
+            Serial.print(", ");
+            if ((i+1) %8==0) {
                 Serial.println();
             }
         }
@@ -312,14 +341,18 @@ class Rng {
         switch (rngSampleMode) {
         case RSM_SELF_TEST:
             rngSelfTest();
-            if (rngSelfTestState == RST_OK) {
-                Serial.println("RNG Self Test OK");
-                rngSampleMode = RSM_NORMAL;
-            }
-            if (rngSelfTestState == RST_FAILED) {
-                Serial.println("RNG Self Test failed, repeating test");
-                rngSelfTestState = RST_INIT;
-                rngSampleMode = RSM_SELF_TEST;
+            switch (rngSelfTestState) {
+                case RST_OK:
+                    Serial.println("RNG Self Test OK");
+                    //rngSampleMode = RSM_NORMAL;
+                    rngSelfTestState = RST_INIT;
+                    rngSampleMode = RSM_SELF_TEST;
+                    break;
+                case RST_FAILED:
+                    Serial.println("RNG Self Test failed, repeating test");
+                    rngSelfTestState = RST_INIT;
+                    rngSampleMode = RSM_SELF_TEST;
+                break;
             }
             break;
         case RSM_NORMAL:
