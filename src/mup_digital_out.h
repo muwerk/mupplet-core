@@ -93,7 +93,7 @@ class DigitalOut {
             this->subsMsg(topic, msg, originator);
         };
         pSched->subscribe(tID, name + "/" + topic + "/#", fnall);
-        pSched->subscribe(tID, "mqtt/state");
+        pSched->subscribe(tID, "mqtt/state", fnall);
         publishState();
 #endif
     }

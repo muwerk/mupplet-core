@@ -168,6 +168,7 @@ class MyMupplet {
 
 History
 -------
+- 0.5.3 (2023-03-20) Fix mup_digital_out.h, missing callback in mqtt/state subscription.
 - 0.5.2 (2022-11-07) Preliminary Neopixel support including some effects like a butterlamp simulation.
 - 0.5.1 (2022-09-23)
   * Bugfix: mup_switch.h used time_t, which isn't available on Arduino, replaced with muwerk timestamps.
