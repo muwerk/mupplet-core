@@ -168,6 +168,7 @@ class MyMupplet {
 
 History
 -------
+- 0.5.4 (2023-07-29) Use less mem in lightcontroller for low-memory devices.
 - 0.5.3 (2023-03-20) Fix mup_digital_out.h, missing callback in mqtt/state subscription.
 - 0.5.2 (2022-11-07) Preliminary Neopixel support including some effects like a butterlamp simulation.
 - 0.5.1 (2022-09-23)

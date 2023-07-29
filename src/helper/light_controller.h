@@ -200,9 +200,15 @@ class LightController {
             return true;
         }
         if (command == "mode/set") {
+#if USTD_FEATURE_MEMORY < USTD_FEATURE_MEM_8K
+            char msgbuf[20];
+            memset(msgbuf, 0, 20);
+            strncpy(msgbuf, args.c_str(), 19);
+#else
             char msgbuf[128];
             memset(msgbuf, 0, 128);
             strncpy(msgbuf, args.c_str(), 127);
+#endif
             char *p = strchr(msgbuf, ' ');
             char *p2 = nullptr;
             char *p3 = nullptr;
