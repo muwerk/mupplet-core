@@ -71,9 +71,10 @@ class Light {
     bool activeLogic = false;
     uint16_t pwmrange;
     uint8_t channel;
-    LightController light;
 
   public:
+    LightController light;
+    
     Light(String name, uint8_t port, bool activeLogic = false, uint8_t channel = 0)
         : name(name), port(port), activeLogic(activeLogic), channel(channel) {
         /*! Instantiate a GPIO Led object at a given hardware port.
