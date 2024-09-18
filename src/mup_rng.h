@@ -24,35 +24,58 @@ volatile int currentBitPtr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile unsigned long pRngBeginIrqTimer[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile uint8_t bit_cnt[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile uint8_t last_bit[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile uint16_t crc[USTD_MAX_RNG_PIRQS] = {0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff};
 
 volatile unsigned long irq_count_total = 0;
 
-unsigned long d_hist[256];
+volatile unsigned long d_hist[256];
+volatile const int maxBits = 3;
 
 void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
     unsigned long curr = micros();
     irq_count_total++;
+    uint8_t i;
+    uint8_t delta;
     if (entropy_pool_size[irqno] < USTD_ENTROPY_POOL_SIZE) {
         if (pRngBeginIrqTimer[irqno] == 0)
             pRngBeginIrqTimer[irqno] = curr;
         else {
-            unsigned long delta = timeDiff(pRngBeginIrqTimer[irqno], curr);
-            if (delta > 4) {
-                if (delta < 256)
-                    d_hist[delta]++;
-                else
-                    d_hist[255]++;
+            uint16_t dw = ((uint16_t)(curr & 0xffff));
+            uint8_t *data_p = (uint8_t *)&dw;
+            uint8_t length = 2;
+            uint16_t data;
+            do {
+                for (i = 0, data = (unsigned int)0xff & *data_p++; i < 8; i++, data >>= 1) {
+                    if ((crc[irqno] & 0x0001) ^ (data & 0x0001)) {
+                        crc[irqno] = (crc[irqno] >> 1) ^ 0x8408;  // IA_CRC16_CCITT_POLY;
+                    } else {
+                        crc[irqno] >>= 1;
+                    }
+                }
+            } while (--length);
+
+            crc[irqno] = ~crc[irqno];
+            data = crc[irqno];
+            crc[irqno] = (crc[irqno] << 8) | (data >> 8 & 0xff);
+
+            delta = crc[irqno] & 0xff;
+            d_hist[delta]++;
+            for (int i = 0; i < maxBits; i++) {
+                uint8_t curBit = (delta >> i) & 0x01;
+                // von Neumann extractor
                 if (bit_cnt[irqno] == 0) {
-                    last_bit[irqno] = delta % 2;
+                    last_bit[irqno] = curBit;
                     bit_cnt[irqno]++;
                 } else {
-                    if (last_bit[irqno] != (delta % 2)) {
+                    if (last_bit[irqno] != (curBit)) {
                         currentByte[irqno] = (currentByte[irqno] << 1) | last_bit[irqno];
                         currentBitPtr[irqno]++;
                         if (currentBitPtr[irqno] == 8) {
                             entropy_pool[irqno][entropy_pool_write_ptr[irqno]] = currentByte[irqno];
                             entropy_pool_write_ptr[irqno] = (entropy_pool_write_ptr[irqno] + 1) % USTD_ENTROPY_POOL_SIZE;
-                            entropy_pool_size[irqno]++;
+                            entropy_pool_size[irqno] = (entropy_pool_size[irqno] + 1);
+                            if (entropy_pool_size[irqno] > USTD_ENTROPY_POOL_SIZE)
+                                entropy_pool_size[irqno] = USTD_ENTROPY_POOL_SIZE;
                             currentBitPtr[irqno] = 0;
                             currentByte[irqno] = 0;
                         }
@@ -154,7 +177,7 @@ class Rng {
                          IM_FALLING, /*!< trigger on falling signal */
                          IM_CHANGE  /*!< trigger on both rising and falling signal */
                          };
-    String RNG_VERSION = "0.1.0";
+    String RNG_VERSION = "0.1.1";
   private:
     Scheduler *pSched;
     int tID;
@@ -169,12 +192,13 @@ class Rng {
     InterruptMode irqMode;
     uint8_t ipin = 255;
     bool irqsAttached = false;
+    unsigned long selfTestSampleSize;
 
   public:
 
     Rng(String name, uint8_t pin_input, int8_t interruptIndex_input,
-                     InterruptMode irqMode = InterruptMode::IM_RISING)
-        : name(name), pin_input(pin_input), interruptIndex_input(interruptIndex_input),
+                     InterruptMode irqMode = InterruptMode::IM_RISING, unsigned long selfTestSampleSize = 200000)
+        : name(name), pin_input(pin_input), interruptIndex_input(interruptIndex_input), selfTestSampleSize(selfTestSampleSize),
           irqMode(irqMode) {
               /*! Create a RNG generator
                 @param name Name of mupplet, used in message topics
@@ -230,6 +254,8 @@ class Rng {
         return true;
     }
 
+    unsigned long samples;
+
   private:
     void publish_rng_data() {
         // TBD
@@ -249,8 +275,6 @@ class Rng {
 
     enum RngSelfTestState {RST_NONE, RST_INIT, RST_RUNNING, RST_SAMPLE_DONE, RST_FAILED, RST_OK};
     unsigned long rngHistogram[256];
-    unsigned long samples;
-    const unsigned long sampleCount = 200000;
     const static unsigned long rngBufSize = 512;
     uint8_t rngBuf[rngBufSize];
     unsigned long dBuf[256];
@@ -258,11 +282,12 @@ class Rng {
     time_t testTimer;
 
     bool evalRngSelfTest() {
-        unsigned long exp = sampleCount / 256;
+        unsigned long exp = selfTestSampleSize / 256;
         float fugde = 2.0;
-        unsigned long min = (unsigned long)((float)sampleCount / 256.0 / fugde);
-        unsigned long max = (unsigned long)((float)sampleCount / 256.0 * fugde);
+        unsigned long min = (unsigned long)((float)selfTestSampleSize / 256.0 / fugde);
+        unsigned long max = (unsigned long)((float)selfTestSampleSize / 256.0 * fugde);
         bool ok = true;
+        Serial.println();
         for (int i = 0; i < 256; i++) {
             if (rngHistogram[i] < min || rngHistogram[i] > max) {
                 ok = false;
@@ -306,7 +331,7 @@ class Rng {
             rngSelfTestState = RST_RUNNING;
             break;
         case RST_RUNNING:
-            if (samples < sampleCount) {
+            if (samples < selfTestSampleSize) {
                 unsigned long byteCount = getRandomData(interruptIndex_input, rngBuf, rngBufSize);
                 for (int i = 0; i < byteCount; i++) {
                     rngHistogram[rngBuf[i]]++;
