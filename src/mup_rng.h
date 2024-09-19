@@ -239,10 +239,17 @@ class Rng {
         }
     }
 
-    bool begin(Scheduler *_pSched, bool _publishViaSerial, bool _publishViaMqtt=false, bool throttleData=false, unsigned long throttleOutputPeriodMs = 1000, unsigned long throttleOutputMaxBytes=16, uint32_t scheduleUs=1000L) {
+    bool begin(Scheduler *_pSched, bool _publishViaSerial, bool _publishViaMqtt=false, 
+               bool throttleData=false, unsigned long throttleOutputPeriodMs = 1000, 
+               unsigned long throttleOutputMaxBytes=16, uint32_t scheduleUs=1000L) {
         /*! Enable interrupts and start counter
             
         @param _pSched Pointer to scheduler
+        @param _publishViaSerial true if data should be published via Serial. Start of data stream is marked by "===RNG-START===\n", end (due to malfunction) by "===RNG-STOP===\n", restart again by "===RNG-START===\n"
+        @param _publishViaMqtt true if data should be published via MQTT
+        @param throttleData true if data should be throttled according to throttleOutputPeriodMs and throttleOutputMaxBytes
+        @param throttleOutputPeriodMs Period in milliseconds for throttling: data is published at most every throttleOutputPeriodMs milliseconds
+        @param throttleOutputMaxBytes Maximum number of bytes to be published in one throttling period
         @param scheduleUs Measurement schedule in microseconds
         @return true if successful
         */
