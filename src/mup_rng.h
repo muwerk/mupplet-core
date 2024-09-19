@@ -21,7 +21,6 @@ volatile int entropy_pool_write_ptr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 
 volatile int entropy_pool_size[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile uint8_t currentByte[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile int currentBitPtr[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-volatile unsigned long pRngBeginIrqTimer[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile uint8_t bit_cnt[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile uint8_t last_bit[USTD_MAX_RNG_PIRQS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 volatile uint16_t crc[USTD_MAX_RNG_PIRQS] = {0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff};
@@ -31,58 +30,62 @@ volatile unsigned long irq_count_total = 0;
 volatile unsigned long d_hist[256];
 volatile const int maxBits = 3;
 
+// This interrupt is triggered by the random device connected to the MCU at random time intervals.
 void G_INT_ATTR ustd_rng_pirq_master(uint8_t irqno) {
-    unsigned long curr = micros();
+    unsigned long curr = micros();  // the value of micros() is determined by the random device
+                                    // that generates the interrupt.
     irq_count_total++;
     uint8_t i;
     uint8_t delta;
     if (entropy_pool_size[irqno] < USTD_ENTROPY_POOL_SIZE) {
-        if (pRngBeginIrqTimer[irqno] == 0)
-            pRngBeginIrqTimer[irqno] = curr;
-        else {
-            uint16_t dw = ((uint16_t)(curr & 0xffff));
-            uint8_t *data_p = (uint8_t *)&dw;
-            uint8_t length = 2;
-            uint16_t data;
-            do {
-                for (i = 0, data = (unsigned int)0xff & *data_p++; i < 8; i++, data >>= 1) {
-                    if ((crc[irqno] & 0x0001) ^ (data & 0x0001)) {
-                        crc[irqno] = (crc[irqno] >> 1) ^ 0x8408;  // IA_CRC16_CCITT_POLY;
-                    } else {
-                        crc[irqno] >>= 1;
-                    }
-                }
-            } while (--length);
-
-            crc[irqno] = ~crc[irqno];
-            data = crc[irqno];
-            crc[irqno] = (crc[irqno] << 8) | (data >> 8 & 0xff);
-
-            delta = crc[irqno] & 0xff;
-            d_hist[delta]++;
-            for (int i = 0; i < maxBits; i++) {
-                uint8_t curBit = (delta >> i) & 0x01;
-                // von Neumann extractor
-                if (bit_cnt[irqno] == 0) {
-                    last_bit[irqno] = curBit;
-                    bit_cnt[irqno]++;
+        // CRC16 CCITT bit shuffle, input is 16 bits of micros() timer,
+        // current time is determined by the chaotic behavior of the random
+        // device that generates the interrupt.
+        uint16_t dw = ((uint16_t)(curr & 0xffff));
+        uint8_t *data_p = (uint8_t *)&dw;
+        uint8_t length = 2;
+        uint16_t data;
+        do {
+            for (i = 0, data = (unsigned int)0xff & *data_p++; i < 8; i++, data >>= 1) {
+                if ((crc[irqno] & 0x0001) ^ (data & 0x0001)) {
+                    crc[irqno] = (crc[irqno] >> 1) ^ 0x8408;  // 0x8408: CRC16 CCITT polynomial;
                 } else {
-                    if (last_bit[irqno] != (curBit)) {
-                        currentByte[irqno] = (currentByte[irqno] << 1) | last_bit[irqno];
-                        currentBitPtr[irqno]++;
-                        if (currentBitPtr[irqno] == 8) {
-                            entropy_pool[irqno][entropy_pool_write_ptr[irqno]] = currentByte[irqno];
-                            entropy_pool_write_ptr[irqno] = (entropy_pool_write_ptr[irqno] + 1) % USTD_ENTROPY_POOL_SIZE;
-                            entropy_pool_size[irqno] = (entropy_pool_size[irqno] + 1);
-                            if (entropy_pool_size[irqno] > USTD_ENTROPY_POOL_SIZE)
-                                entropy_pool_size[irqno] = USTD_ENTROPY_POOL_SIZE;
-                            currentBitPtr[irqno] = 0;
-                            currentByte[irqno] = 0;
-                        }
-                        pRngBeginIrqTimer[irqno] = curr;
-                    }
-                    bit_cnt[irqno] = 0;
+                    crc[irqno] >>= 1;
                 }
+            }
+        } while (--length);
+
+        crc[irqno] = ~crc[irqno];
+        data = crc[irqno];
+        crc[irqno] = (crc[irqno] << 8) | (data >> 8 & 0xff);
+
+        delta = crc[irqno] & 0xff;
+        // check for delta distribution via histogram
+        d_hist[delta]++;
+        // only use maxBits bits of delta, the value of maxBits is determined by the
+        // by the 'speed' of the random device that generates the interrupt and the
+        // mcu speed. Slower devices should use less bits, faster devices can use more.
+        for (int i = 0; i < maxBits; i++) {
+            uint8_t curBit = (delta >> i) & 0x01;
+            // von Neumann extractor
+            if (bit_cnt[irqno] == 0) {
+                last_bit[irqno] = curBit;
+                bit_cnt[irqno]++;
+            } else {
+                if (last_bit[irqno] != (curBit)) {
+                    currentByte[irqno] = (currentByte[irqno] << 1) | last_bit[irqno];
+                    currentBitPtr[irqno]++;
+                    if (currentBitPtr[irqno] == 8) {
+                        entropy_pool[irqno][entropy_pool_write_ptr[irqno]] = currentByte[irqno];
+                        entropy_pool_write_ptr[irqno] = (entropy_pool_write_ptr[irqno] + 1) % USTD_ENTROPY_POOL_SIZE;
+                        entropy_pool_size[irqno] = (entropy_pool_size[irqno] + 1);
+                        if (entropy_pool_size[irqno] > USTD_ENTROPY_POOL_SIZE)
+                            entropy_pool_size[irqno] = USTD_ENTROPY_POOL_SIZE;
+                        currentBitPtr[irqno] = 0;
+                        currentByte[irqno] = 0;
+                    }
+                }
+                bit_cnt[irqno] = 0;
             }
         }
     }
@@ -149,6 +152,13 @@ void get_d_hist(unsigned long *pHistBuf) {
     interrupts();
 }
 
+unsigned long getTotalIrqCount() {
+    noInterrupts();
+    unsigned long irqs = irq_count_total;
+    interrupts();
+    return irqs;
+}
+
 // clang-format off
 /*! Interrupt driven random noise to random bytes converter
 
@@ -182,7 +192,7 @@ class Rng {
     Scheduler *pSched;
     int tID;
 
-    enum RngSampleMode {RSM_NONE, RSM_SELF_TEST, RSM_NORMAL};
+    enum RngSampleMode {RSM_NONE, RSM_SELF_TEST, RSM_OK, RSM_FAILED};
     RngSampleMode rngSampleMode = RSM_NONE;
 
     String name;
@@ -193,19 +203,34 @@ class Rng {
     uint8_t ipin = 255;
     bool irqsAttached = false;
     unsigned long selfTestSampleSize;
-
+    bool isFirstFailure = true;
+    int8_t rngStateLedPin;
+    bool rngStateLedActiveHigh;
+    unsigned long rngStateBlinkTimer = 0;
+    bool rngStateLedCurrentState = false;
+    unsigned long lastOkMillis = 0;
+    unsigned long lastIrqCount = 0;
+    bool publishViaSerial = false;
+    bool publishViaMqtt = false;
   public:
 
     Rng(String name, uint8_t pin_input, int8_t interruptIndex_input,
-                     InterruptMode irqMode = InterruptMode::IM_RISING, unsigned long selfTestSampleSize = 200000)
-        : name(name), pin_input(pin_input), interruptIndex_input(interruptIndex_input), selfTestSampleSize(selfTestSampleSize),
+                     InterruptMode irqMode = InterruptMode::IM_RISING, int8_t rngStateLedPin=-1, bool rngStateLedActiveHigh=false, unsigned long selfTestSampleSize = 25600)
+        : name(name), pin_input(pin_input), interruptIndex_input(interruptIndex_input), rngStateLedPin(rngStateLedPin), rngStateLedActiveHigh(rngStateLedActiveHigh), selfTestSampleSize(selfTestSampleSize),
           irqMode(irqMode) {
               /*! Create a RNG generator
                 @param name Name of mupplet, used in message topics
                 @param pin_input GPIO of input signal
                 @param interruptIndex_input a system wide unique index for the interrupt to be used [0...9]
                 @param irqMode \ref InterruptMode, e.g. IM_RISING.
+                @param rngStateLedPin GPIO of LED to indicate RNG state, -1 if no LED is used. Fast blink: self-test running, slow blink: self-test failed, on: self-test OK
+                @param rngStateLedActiveHigh true if LED is active high, default is active low
+                @param selfTestSampleSize Number of samples to be used for self test
               */
+        if (rngStateLedPin >= 0) {
+            pinMode(rngStateLedPin, OUTPUT);
+            digitalWrite(rngStateLedPin, !rngStateLedActiveHigh);
+        }
     }
 
     ~Rng() {
@@ -214,7 +239,7 @@ class Rng {
         }
     }
 
-    bool begin(Scheduler *_pSched, uint32_t scheduleUs=1000L) {
+    bool begin(Scheduler *_pSched, bool _publishViaSerial, bool _publishViaMqtt=false, bool throttleData=false, unsigned long throttleOutputPeriodMs = 1000, unsigned long throttleOutputMaxBytes=16, uint32_t scheduleUs=1000L) {
         /*! Enable interrupts and start counter
             
         @param _pSched Pointer to scheduler
@@ -222,7 +247,11 @@ class Rng {
         @return true if successful
         */
         pSched = _pSched;
-
+        publishViaSerial = _publishViaSerial;
+        publishViaMqtt = _publishViaMqtt;
+        if (rngStateLedPin >= 0) {
+            rngStateBlinkTimer = millis();
+        }
         pinMode(pin_input, INPUT_PULLUP);
 
         if (interruptIndex_input >= 0 && interruptIndex_input < USTD_MAX_RNG_PIRQS) {
@@ -254,7 +283,12 @@ class Rng {
         return true;
     }
 
-    unsigned long samples;
+    unsigned long getIrqCount() {
+        return getTotalIrqCount();
+    }
+    unsigned long getSampleCount() {
+        return samples;
+    }
 
   private:
     void publish_rng_data() {
@@ -280,6 +314,7 @@ class Rng {
     unsigned long dBuf[256];
     RngSelfTestState rngSelfTestState = RST_NONE;
     time_t testTimer;
+    unsigned long samples;
 
     bool evalRngSelfTest() {
         unsigned long exp = selfTestSampleSize / 256;
@@ -287,24 +322,33 @@ class Rng {
         unsigned long min = (unsigned long)((float)selfTestSampleSize / 256.0 / fugde);
         unsigned long max = (unsigned long)((float)selfTestSampleSize / 256.0 * fugde);
         bool ok = true;
+        #ifdef __USE_SERIAL_DBG__
         Serial.println();
+        #endif
         for (int i = 0; i < 256; i++) {
             if (rngHistogram[i] < min || rngHistogram[i] > max) {
                 ok = false;
+                #ifdef __USE_SERIAL_DBG__
                 Serial.print(i);
                 Serial.print(": ");
                 Serial.print(rngHistogram[i]);
                 Serial.print(" FAIL! ");
+                #endif
             } else {
+                #ifdef __USE_SERIAL_DBG__
                 Serial.print(i);
                 Serial.print(": ");
                 Serial.print(rngHistogram[i]);
                 Serial.print(" OK! ");
+                #endif
             }
+            #ifdef __USE_SERIAL_DBG__
             if (((i+1) % 8) == 0) {
                 Serial.println();
             }
+            #endif
         }
+        #ifdef __USE_SERIAL_DBG__
         Serial.println();
         get_d_hist(dBuf);
         for (int i=0; i<256; i++) {
@@ -317,7 +361,36 @@ class Rng {
             }
         }
         Serial.println();
+        #endif
         return ok;
+    }
+
+    void rngStateLedUpdate() {
+        if (rngStateLedPin >= 0) {
+            switch (rngSampleMode) {
+            case RSM_SELF_TEST:
+                if (millis() - rngStateBlinkTimer > 100) {
+                    rngStateBlinkTimer = millis();
+                    rngStateLedCurrentState = !rngStateLedCurrentState;
+                    digitalWrite(rngStateLedPin, rngStateLedCurrentState);
+                }
+                break;
+            case RSM_FAILED:
+                if (millis() - rngStateBlinkTimer > 1000) {
+                    rngStateBlinkTimer = millis();
+                    rngStateLedCurrentState = !rngStateLedCurrentState;
+                    digitalWrite(rngStateLedPin, rngStateLedCurrentState);
+                }
+                break;
+            
+            case RSM_NONE:
+                digitalWrite(rngStateLedPin, !rngStateLedActiveHigh);
+                break;
+            case RSM_OK:
+                digitalWrite(rngStateLedPin, rngStateLedActiveHigh);
+                break;
+            }
+        }
     }
 
     void rngSelfTest() {
@@ -339,10 +412,13 @@ class Rng {
                 }
                 if (byteCount==0) {
                     if (time(nullptr) - testTimer > 10) {
-                        Serial.print("RNG Self Test failed, no data received, check hardware connection to pin ");
-                        Serial.print(pin_input);
-                        Serial.print(", total interrupts on pin: ");
-                        Serial.println(irq_count_total);
+                        if (isFirstFailure) {
+                            Serial.print("RNG Self Test failed, no data received, check hardware connection to pin ");
+                            Serial.print(pin_input);
+                            Serial.print(", total interrupts on pin: ");
+                            Serial.println(irq_count_total);
+                            isFirstFailure = false;
+                        }
                         rngSelfTestState = RST_FAILED;
                     }
                 } else {
@@ -362,30 +438,62 @@ class Rng {
         }
     }
 
+    bool sampleRandomAndDistribute() {
+        unsigned long byteCount = getRandomData(interruptIndex_input, rngBuf, rngBufSize);
+        if (byteCount == 0) {
+            return false;
+        }
+        if (publishViaSerial) {
+            for (int i = 0; i < byteCount; i++) {
+                Serial.print(rngBuf[i]);
+                Serial.print(" ");
+            }
+        }
+        return true;
+    }
+
     void loop() {
+        rngStateLedUpdate();
         switch (rngSampleMode) {
         case RSM_SELF_TEST:
             rngSelfTest();
             switch (rngSelfTestState) {
                 case RST_OK:
+                    #ifdef __USE_SERIAL_DBG__
                     Serial.println("RNG Self Test OK");
-                    //rngSampleMode = RSM_NORMAL;
-                    rngSelfTestState = RST_INIT;
-                    rngSampleMode = RSM_SELF_TEST;
+                    #endif
+                    if (publishViaSerial) {
+                        Serial.println();
+                        Serial.println("===RNG-START===");
+                    }
+                    rngSampleMode = RSM_OK;
                     break;
                 case RST_FAILED:
-                    Serial.println("RNG Self Test failed, repeating test");
-                    rngSelfTestState = RST_INIT;
-                    rngSampleMode = RSM_SELF_TEST;
+                    #ifdef __USE_SERIAL_DBG__
+                    Serial.println("RNG Self Test failed");
+                    #endif
+                    rngSampleMode = RSM_FAILED;
                 break;
             }
             break;
-        case RSM_NORMAL:
+        case RSM_OK:
+            lastOkMillis = millis();
+            if (!sampleRandomAndDistribute()) {
+                rngSampleMode = RSM_FAILED;
+                if (publishViaSerial) {
+                    Serial.println();
+                    Serial.println("===RNG-STOP===");
+                }
+            }
             // TBD
             break;
-
+        case RSM_FAILED:
+            if (getIrqCount() - lastIrqCount > 4) {
+                startSelfTest();
+            }
+            break;
         }
-       // TBD 
+       lastIrqCount = getIrqCount();
     }
 
     void subsMsg(String topic, String msg, String originator) {
