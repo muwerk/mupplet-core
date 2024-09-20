@@ -170,14 +170,14 @@ TBD.
 
 | topic | message body | comment
 | ----- | ------------ | -------
-| `<mupplet-name>/sensor/rng/data` | `TBD` | Some data format
-
+| `<mupplet-name>/rng/data` | up to 128 bytes encoded as hex (256 chars) of random data | If no random data is available, no message is sent. It not enough data is available, the message is sent with the available data. |
+| `<mupplet-name>/rng/state` | `none`, `self-test`, `ok`, `failed` | State of the RNG. `none` means rng is not started, `self-test` means the RNG is in self-test mode, `ok` means the RNG is operational, `failed` means the RNG failed the self-test, indicating a hardware problem with the RNG. |
 ### Message received by the switch mupplet:
 
 | topic | message body | comment
 | ----- | ------------ | -------
-| `<mupplet-name>/sensor/rng/data/get` | `<count>` | Request `count` bytes of random data
-
+| `<mupplet-name>/rng/data/get` |  | Request a block of hex random data |
+| `<mupplet-name>/rng/state/get` |  | Request the state of the RNG |
 */
 
 class Rng {
@@ -211,7 +211,6 @@ class Rng {
     unsigned long lastOkMillis = 0;
     unsigned long lastIrqCount = 0;
     bool publishViaSerial = false;
-    bool publishViaMqtt = false;
   public:
 
     Rng(String name, uint8_t pin_input, int8_t interruptIndex_input,
@@ -239,23 +238,19 @@ class Rng {
         }
     }
 
-    bool begin(Scheduler *_pSched, bool _publishViaSerial, bool _publishViaMqtt=false, 
-               bool throttleData=false, unsigned long throttleOutputPeriodMs = 1000, 
-               unsigned long throttleOutputMaxBytes=16, uint32_t scheduleUs=1000L) {
-        /*! Enable interrupts and start counter
-            
+    bool begin(Scheduler *_pSched, bool _publishViaSerial, uint32_t scheduleUs=1000L) {
+        /*! Start random number generation
+
+        Random numbers can optionally be published via Serial (USB) in blocks of 40 bytes, hex encoded, with a linefeed after each 40 bytes (80 characters).
+        The start of a data stream is marked by "\n===RNG-START===\n", the end (due to malfunction) by "\n===RNG-STOP===\n", and a restart again by "\n===RNG-START===\n".
+
         @param _pSched Pointer to scheduler
-        @param _publishViaSerial true if data should be published via Serial. Start of data stream is marked by "===RNG-START===\n", end (due to malfunction) by "===RNG-STOP===\n", restart again by "===RNG-START===\n"
-        @param _publishViaMqtt true if data should be published via MQTT
-        @param throttleData true if data should be throttled according to throttleOutputPeriodMs and throttleOutputMaxBytes
-        @param throttleOutputPeriodMs Period in milliseconds for throttling: data is published at most every throttleOutputPeriodMs milliseconds
-        @param throttleOutputMaxBytes Maximum number of bytes to be published in one throttling period
+        @param _publishViaSerial true if data should be published via Serial. Start of data stream is marked by "\n===RNG-START===\n", end (due to malfunction) by "\n===RNG-STOP===\n", restart again by "\n===RNG-START===\n"
         @param scheduleUs Measurement schedule in microseconds
         @return true if successful
         */
         pSched = _pSched;
         publishViaSerial = _publishViaSerial;
-        publishViaMqtt = _publishViaMqtt;
         if (rngStateLedPin >= 0) {
             rngStateBlinkTimer = millis();
         }
@@ -285,7 +280,7 @@ class Rng {
         auto fnall = [=](String topic, String msg, String originator) {
             this->subsMsg(topic, msg, originator);
         };
-        pSched->subscribe(tID, name + "/#", fnall);
+        pSched->subscribe(tID, name + "/rng/#", fnall);
         startSelfTest();
         return true;
     }
@@ -298,15 +293,53 @@ class Rng {
     }
 
   private:
+    void byteToHex(uint8_t byte, char *buf) {
+        uint8_t hc = byte >> 4;
+        uint8_t lc = byte & 0x0f;
+        if (hc < 10) {
+            buf[0] = '0' + hc;
+        } else {
+            buf[0] = 'A' + hc - 10;
+        }
+        if (lc < 10) {
+            buf[1] = '0' + lc;
+        } else {
+            buf[1] = 'A' + lc - 10;
+        }
+        buf[2] = 0;
+    }
+
+    const static int publishMax = 128;
+    char buf[publishMax+1];
+    char publishBuf[publishMax];
+    int publishBufPtr = 0;
+
     void publish_rng_data() {
-        // TBD
-        char buf[32];
-        sprintf(buf, "RNG Data here");
-        pSched->publish(name + "/sensor/rng/data", buf);
+        if (publishBufPtr > 0) {
+            for (int i = 0; i < publishBufPtr; i++) {
+                byteToHex(publishBuf[i], buf + i * 2);
+            }
+            publishBufPtr = 0;
+            pSched->publish(name + "/rng/data", buf);
+
+        }
     }
 
     void publish() {
-        publish_rng_data();
+        switch (rngSampleMode) {
+        case RSM_NONE:
+            pSched->publish(name + "/rng/state", "none");
+            break;
+        case RSM_SELF_TEST:
+            pSched->publish(name + "/rng/state", "self-test");
+            break;
+        case RSM_OK:
+            pSched->publish(name + "/rng/state", "ok");
+            break;
+        case RSM_FAILED:
+            pSched->publish(name + "/rng/state", "failed");
+            break;
+        }
     }
 
     void startSelfTest() {
@@ -445,15 +478,35 @@ class Rng {
         }
     }
 
+    unsigned int print_cnt=0;
     bool sampleRandomAndDistribute() {
+        uint8_t byte;
         unsigned long byteCount = getRandomData(interruptIndex_input, rngBuf, rngBufSize);
         if (byteCount == 0) {
             return false;
         }
+        if (publishBufPtr < publishMax) {
+            for (int i = 0; i < byteCount; i++) {
+                publishBuf[publishBufPtr] = rngBuf[i];
+                publishBufPtr++;
+                if (publishBufPtr >= publishMax) {
+                    break;
+                }
+            }
+        }
         if (publishViaSerial) {
             for (int i = 0; i < byteCount; i++) {
-                Serial.print(rngBuf[i]);
-                Serial.print(" ");
+                byte = rngBuf[i];
+                if (byte < 16) {
+                    Serial.print("0");
+                }
+                Serial.print(byte, HEX);
+
+                print_cnt++;
+                if (print_cnt > 40) {
+                    Serial.println();
+                    print_cnt = 0;
+                }
             }
         }
         return true;
@@ -504,9 +557,9 @@ class Rng {
     }
 
     void subsMsg(String topic, String msg, String originator) {
-        if (topic == name + "/sensor/rng/state/get") {
+        if (topic == name + "/rng/state/get") {
             publish();
-        } else if (topic == name + "/sensor/rng/data/get") {
+        } else if (topic == name + "/rng/data/get") {
             publish_rng_data();
         } 
     };
